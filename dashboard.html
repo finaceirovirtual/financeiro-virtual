@@ -264,8 +264,8 @@
 
             <!-- Gráficos -->
             <div class="graficos-container">
-                <canvas id="grafico-despesas"></canvas>
-                <canvas id="grafico-investimentos"></canvas>
+                <canvas id="grafico-pizza"></canvas>
+                <canvas id="grafico-coluna"></canvas>
             </div>
         </section>
 
@@ -288,18 +288,12 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Biblioteca Chart.js -->
     <script>
-        // Dados de exemplo (substitua pelos dados reais do localStorage)
-        const despesas = [
-            { valor: 100, data: '2023-10-01', categoria: 'Alimentação' },
-            { valor: 50, data: '2023-10-02', categoria: 'Transporte' },
-            { valor: 200, data: '2023-10-03', categoria: 'Lazer' },
-        ];
-
-        const investimentos = [
-            { valor: 500, data: '2023-10-01', tipo: 'Ações' },
-            { valor: 300, data: '2023-10-02', tipo: 'Poupança' },
-            { valor: 1000, data: '2023-10-03', tipo: 'Fundos' },
-        ];
+        // Função para carregar dados do localStorage
+        function carregarDados() {
+            const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
+            const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
+            return { despesas, investimentos };
+        }
 
         // Função para filtrar os dados por período
         function filtrarPorPeriodo(dados, periodo) {
@@ -328,6 +322,7 @@
             const periodo = document.getElementById('filtro-periodo').value;
             const tipo = document.getElementById('filtro-tipo').value;
 
+            const { despesas, investimentos } = carregarDados();
             const despesasFiltradas = filtrarPorPeriodo(despesas, periodo);
             const investimentosFiltrados = filtrarPorPeriodo(investimentos, periodo);
 
@@ -350,42 +345,64 @@
                 return total;
             });
 
-            const ctxDespesas = document.getElementById('grafico-despesas').getContext('2d');
-            const ctxInvestimentos = document.getElementById('grafico-investimentos').getContext('2d');
+            const ctxPizza = document.getElementById('grafico-pizza').getContext('2d');
+            const ctxColuna = document.getElementById('grafico-coluna').getContext('2d');
 
-            if (window.graficoDespesas) window.graficoDespesas.destroy();
-            if (window.graficoInvestimentos) window.graficoInvestimentos.destroy();
+            if (window.graficoPizza) window.graficoPizza.destroy();
+            if (window.graficoColuna) window.graficoColuna.destroy();
 
+            // Gráfico de Pizza (Gastos por Categoria)
             if (tipo === 'ambos' || tipo === 'gastos') {
-                window.graficoDespesas = new Chart(ctxDespesas, {
-                    type: 'bar',
+                const categorias = {};
+                despesasFiltradas.forEach(d => {
+                    if (categorias[d.categoria]) {
+                        categorias[d.categoria] += d.valor;
+                    } else {
+                        categorias[d.categoria] = d.valor;
+                    }
+                });
+
+                window.graficoPizza = new Chart(ctxPizza, {
+                    type: 'pie',
                     data: {
-                        labels: labels,
+                        labels: Object.keys(categorias),
                         datasets: [{
-                            label: 'Gastos',
-                            data: dadosDespesas,
-                            backgroundColor: '#FF6384',
+                            label: 'Gastos por Categoria',
+                            data: Object.values(categorias),
+                            backgroundColor: [
+                                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'
+                            ],
                         }]
                     },
                     options: {
                         responsive: true,
-                        scales: {
-                            y: {
-                                beginAtZero: true
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
                             }
                         }
                     }
                 });
             }
 
+            // Gráfico de Coluna (Investimentos por Tipo)
             if (tipo === 'ambos' || tipo === 'investimentos') {
-                window.graficoInvestimentos = new Chart(ctxInvestimentos, {
+                const tipos = {};
+                investimentosFiltrados.forEach(i => {
+                    if (tipos[i.tipo]) {
+                        tipos[i.tipo] += i.valor;
+                    } else {
+                        tipos[i.tipo] = i.valor;
+                    }
+                });
+
+                window.graficoColuna = new Chart(ctxColuna, {
                     type: 'bar',
                     data: {
-                        labels: labels,
+                        labels: Object.keys(tipos),
                         datasets: [{
-                            label: 'Investimentos',
-                            data: dadosInvestimentos,
+                            label: 'Investimentos por Tipo',
+                            data: Object.values(tipos),
                             backgroundColor: '#36A2EB',
                         }]
                     },

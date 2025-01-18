@@ -1,4 +1,5 @@
-import { initializeApp } from "firebase/app";
+// Importe o Firebase usando o CDN
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js";
 import { 
     getAuth, 
     createUserWithEmailAndPassword, 
@@ -6,8 +7,8 @@ import {
     updateProfile,
     signOut,
     onAuthStateChanged
-} from "firebase/auth";
-import { getFirestore } from "firebase/firestore"; // Importe o Firestore
+} from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"; // Importe o Firestore
 
 const firebaseConfig = {
     apiKey: "AIzaSyD_K7ESDO4c9ja_mFNF2RGjx7KOxWPzuXo",
