@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Finanças Inteligentes</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome -->
+    <style>
+        /* Estilos para a barra lateral */
+        .sidebar {
+            height: 100%;
+            width: 60px; /* Largura da barra lateral fechada */
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #4CAF50; /* Cor verde */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidebar:hover {
+            width: 250px; /* Largura da barra lateral aberta */
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #45a049; /* Verde mais escuro ao passar o mouse */
+        }
+
+        .sidebar a i {
+            margin-right: 15px; /* Espaço entre o ícone e o texto */
+            min-width: 25px; /* Garante que o ícone não desapareça */
+        }
+
+        .sidebar a span {
+            display: none; /* Esconde o texto inicialmente */
+        }
+
+        .sidebar:hover a span {
+            display: inline; /* Mostra o texto ao passar o mouse */
+        }
+
+        /* Estilos para o ícone de usuário */
+        .user-icon {
+            width: 40px; /* Tamanho do ícone */
+            height: 40px;
+            cursor: pointer;
+            margin-left: 10px; /* Espaçamento à esquerda */
+        }
+
+        /* Estilos para o menu de usuário */
+        .menu-container {
+            position: relative;
+            display: flex;
+            align-items: center; /* Centraliza verticalmente */
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px; /* Posiciona o menu abaixo do ícone de usuário */
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .menu-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Ajustes para o conteúdo principal */
+        .main-content {
+            margin-left: 60px; /* Margem para a barra lateral fechada */
+            transition: margin-left 0.5s;
+        }
+
+        .sidebar:hover + .main-content {
+            margin-left: 250px; /* Margem para a barra lateral aberta */
+        }
+
+        /* Estilos para o cabeçalho */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Centraliza verticalmente */
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Cor verde */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff; /* Cor do texto branco */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff; /* Cor do texto branco */
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            color: #f1f1f1; /* Cor mais clara ao passar o mouse */
+        }
+
+        /* Estilos para os gráficos */
+        .graficos-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .graficos-container canvas {
+            width: 48% !important; /* Define a largura dos gráficos */
+            height: 300px !important; /* Define a altura dos gráficos */
+        }
+
+        /* Estilos para os filtros */
+        .filtros {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filtros select, .filtros button {
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        .filtros button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+        }
+
+        .filtros button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra Lateral -->
+    <div class="sidebar" id="sidebar">
+        <a href="dashboard.html">
+            <i class="fas fa-home"></i> <!-- Ícone de casa -->
+            <span>Dashboard</span>
+        </a>
+        <a href="relatorios.html">
+            <i class="fas fa-chart-line"></i> <!-- Ícone de gráfico -->
+            <span>Relatórios</span>
+        </a>
+        <a href="configuracoes.html">
+            <i class="fas fa-cog"></i> <!-- Ícone de engrenagem -->
+            <span>Configurações</span>
+        </a>
+        <a href="formulario-investimentos.html">
+            <i class="fas fa-coins"></i> <!-- Ícone de moedas -->
+            <span>Investimentos</span>
+        </a>
+        <a href="formulario-ganhos.html">
+            <i class="fas fa-hand-holding-usd"></i> <!-- Ícone de ganhos -->
+            <span>Ganhos</span>
+        </a>
+        <a href="formulario-despesas.html">
+            <i class="fas fa-wallet"></i> <!-- Ícone de carteira -->
+            <span>Gastos</span>
+        </a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Cabeçalho -->
+        <header>
+            <div class="logo">Finanças Inteligentes</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="relatorios.html">Relatórios</a></li>
+                    <li><a href="configuracoes.html">Configurações</a></li>
+                </ul>
+            </nav>
+            <div class="menu-container">
+                <img src="assets/icons/user.png" alt="Ícone de Usuário" class="user-icon" id="user-icon">
+                <div class="menu-content" id="menu-content">
+                    <a href="perfil.html">Perfil</a>
+                    <a href="configuracoes.html">Configurações</a>
+                    <a href="faq.html">Ajuda</a>
+                    <a href="#" id="btn-sair">Sair</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Conteúdo do Dashboard -->
+        <section class="dashboard">
+            <h2>Bem-vindo ao seu Dashboard</h2>
+            <div class="resumo-financeiro">
+                <div class="card">
+                    <h3>Saldo Atual</h3>
+                    <p id="saldo-atual">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Despesas do Mês</h3>
+                    <p id="despesas-mes">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Investimentos</h3>
+                    <p id="investimentos">R$ 0,00</p>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="filtros">
+                <select id="filtro-periodo">
+                    <option value="diario">Diário</option>
+                    <option value="semanal">Semanal</option>
+                    <option value="mensal">Mensal</option>
+                    <option value="anual">Anual</option>
+                </select>
+                <select id="filtro-tipo">
+                    <option value="ambos">Gastos e Investimentos</option>
+                    <option value="gastos">Apenas Gastos</option>
+                    <option value="investimentos">Apenas Investimentos</option>
+                </select>
+                <button id="btn-filtrar">Filtrar</button>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="graficos-container">
+                <canvas id="grafico-despesas"></canvas>
+                <canvas id="grafico-investimentos"></canvas>
+            </div>
+        </section>
+
+        <!-- Rodapé -->
+        <footer>
+            <div class="links">
+                <a href="#">Sobre</a>
+                <a href="#">Contato</a>
+                <a href="#">Termos de Uso</a>
+            </div>
+            <div class="redes-sociais">
+                <a href="#"><img src="assets/icons/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="assets/icons/instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="assets/icons/tiktok.png" alt="TikTok"></a>
+            </div>
+            <p>© 2023 Finanças Inteligentes. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Biblioteca Chart.js -->
+    <script>
+        // Dados de exemplo (substitua pelos dados reais do localStorage)
+        const despesas = [
+            { valor: 100, data: '2023-10-01', categoria: 'Alimentação' },
+            { valor: 50, data: '2023-10-02', categoria: 'Transporte' },
+            { valor: 200, data: '2023-10-03', categoria: 'Lazer' },
+        ];
+
+        const investimentos = [
+            { valor: 500, data: '2023-10-01', tipo: 'Ações' },
+            { valor: 300, data: '2023-10-02', tipo: 'Poupança' },
+            { valor: 1000, data: '2023-10-03', tipo: 'Fundos' },
+        ];
+
+        // Função para filtrar os dados por período
+        function filtrarPorPeriodo(dados, periodo) {
+            const hoje = new Date();
+            return dados.filter(item => {
+                const dataItem = new Date(item.data);
+                switch (periodo) {
+                    case 'diario':
+                        return dataItem.toDateString() === hoje.toDateString();
+                    case 'semanal':
+                        const inicioSemana = new Date(hoje.setDate(hoje.getDate() - hoje.getDay()));
+                        const fimSemana = new Date(hoje.setDate(hoje.getDate() + 6));
+                        return dataItem >= inicioSemana && dataItem <= fimSemana;
+                    case 'mensal':
+                        return dataItem.getMonth() === hoje.getMonth() && dataItem.getFullYear() === hoje.getFullYear();
+                    case 'anual':
+                        return dataItem.getFullYear() === hoje.getFullYear();
+                    default:
+                        return true;
+                }
+            });
+        }
+
+        // Função para atualizar os gráficos
+        function atualizarGraficos() {
+            const periodo = document.getElementById('filtro-periodo').value;
+            const tipo = document.getElementById('filtro-tipo').value;
+
+            const despesasFiltradas = filtrarPorPeriodo(despesas, periodo);
+            const investimentosFiltrados = filtrarPorPeriodo(investimentos, periodo);
+
+            const labels = Array.from(new Set([
+                ...despesasFiltradas.map(d => d.data),
+                ...investimentosFiltrados.map(i => i.data),
+            ])).sort();
+
+            const dadosDespesas = labels.map(data => {
+                const total = despesasFiltradas
+                    .filter(d => d.data === data)
+                    .reduce((sum, d) => sum + d.valor, 0);
+                return total;
+            });
+
+            const dadosInvestimentos = labels.map(data => {
+                const total = investimentosFiltrados
+                    .filter(i => i.data === data)
+                    .reduce((sum, i) => sum + i.valor, 0);
+                return total;
+            });
+
+            const ctxDespesas = document.getElementById('grafico-despesas').getContext('2d');
+            const ctxInvestimentos = document.getElementById('grafico-investimentos').getContext('2d');
+
+            if (window.graficoDespesas) window.graficoDespesas.destroy();
+            if (window.graficoInvestimentos) window.graficoInvestimentos.destroy();
+
+            if (tipo === 'ambos' || tipo === 'gastos') {
+                window.graficoDespesas = new Chart(ctxDespesas, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Gastos',
+                            data: dadosDespesas,
+                            backgroundColor: '#FF6384',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+
+            if (tipo === 'ambos' || tipo === 'investimentos') {
+                window.graficoInvestimentos = new Chart(ctxInvestimentos, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Investimentos',
+                            data: dadosInvestimentos,
+                            backgroundColor: '#36A2EB',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Atualiza os gráficos ao carregar a página
+        window.onload = function () {
+            atualizarGraficos();
+        };
+
+        // Atualiza os gráficos ao clicar no botão de filtrar
+        document.getElementById('btn-filtrar').addEventListener('click', function () {
+            atualizarGraficos();
+        });
+
+        // Script para o menu de usuário (abrir/fechar ao clicar)
+        document.getElementById('user-icon').addEventListener('click', function(event) {
+            event.stopPropagation(); // Impede que o clique se propague para o documento
+            const menuContent = document.getElementById('menu-content');
+            if (menuContent.style.display === 'block') {
+                menuContent.style.display = 'none';
+            } else {
+                menuContent.style.display = 'block';
+            }
+        });
+
+        // Fechar o menu ao clicar fora dele
+        document.addEventListener('click', function(event) {
+            const menuContent = document.getElementById('menu-content');
+            const userIcon = document.getElementById('user-icon');
+            if (event.target !== userIcon && !userIcon.contains(event.target)) {
+                menuContent.style.display = 'none';
+            }
+        });
+
+        // Script para o botão "Sair"
+        document.getElementById('btn-sair').addEventListener('click', function() {
+            localStorage.removeItem('usuarioLogado'); // Remove o usuário logado
+            window.location.href = 'login.html'; // Redireciona para a página de login
+        });
+    </script>
+</body>
+</html>

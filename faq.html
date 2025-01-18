@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Finanças Inteligentes</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">Finanças Inteligentes</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="cadastro.html">Cadastro</a></li>
+            </ul>
+        </nav>
+        <button class="btn-comece-agora" onclick="window.location.href='cadastro.html'">Comece Agora</button>
+    </header>
+
+    <!-- Conteúdo da Página de FAQ -->
+    <section class="faq">
+        <h2>Perguntas Frequentes</h2>
+        <p>Encontre respostas para as perguntas mais comuns sobre nossa plataforma.</p>
+        <div class="lista-faq">
+            <div class="pergunta" onclick="toggleResposta(this)">
+                <h3>Como posso me cadastrar na Finanças Inteligentes?</h3>
+                <p>Para se cadastrar, clique no botão "Cadastro" no menu superior e preencha o formulário com seus dados. É rápido e gratuito!</p>
+            </div>
+            <div class="pergunta" onclick="toggleResposta(this)">
+                <h3>Quais são os benefícios de usar a Finanças Inteligentes?</h3>
+                <p>Nossa plataforma oferece ferramentas para controle de gastos, planejamento financeiro, investimentos e muito mais. Tudo para ajudar você a alcançar seus objetivos financeiros.</p>
+            </div>
+            <div class="pergunta" onclick="toggleResposta(this)">
+                <h3>Posso acessar a plataforma pelo celular?</h3>
+                <p>Sim, a Finanças Inteligentes é totalmente responsiva e pode ser acessada de qualquer dispositivo, incluindo smartphones e tablets.</p>
+            </div>
+            <div class="pergunta" onclick="toggleResposta(this)">
+                <h3>Como posso entrar em contato com o suporte?</h3>
+                <p>Você pode enviar um e-mail para <a href="mailto:finanirovirtualsuporte@gmail.com">finanirovirtualsuporte@gmail.com</a> ou usar o formulário de contato em nossa página.</p>
+            </div>
+            <div class="pergunta" onclick="toggleResposta(this)">
+                <h3>É seguro usar a Finanças Inteligentes?</h3>
+                <p>Sim, utilizamos tecnologias avançadas de criptografia para garantir a segurança dos seus dados. Sua privacidade é nossa prioridade.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="links">
+            <a href="#">Sobre</a>
+            <a href="#">Contato</a>
+            <a href="#">Termos de Uso</a>
+        </div>
+        <div class="redes-sociais">
+            <a href="#"><img src="assets/icons/facebook.png" alt="Facebook"></a>
+            <a href="#"><img src="assets/icons/instagram.png" alt="Instagram"></a>
+            <a href="#"><img src="assets/icons/tiktok.png" alt="TikTok"></a>
+        </div>
+        <p>© 2023 Finanças Inteligentes. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script para Alternar Respostas -->
+    <script>
+        function toggleResposta(pergunta) {
+            pergunta.classList.toggle('ativa');
+        }
+    </script>
+</body>
+</html>

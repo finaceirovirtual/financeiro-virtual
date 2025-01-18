@@ -1,0 +1,1782 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos globais */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #FFFFFF;
+    color: #000000;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Cabeçalho */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+}
+
+header .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: #FFFFFF;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #FFD700;
+}
+
+header .btn-comece-agora {
+    background-color: #FFD700;
+    color: #000000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+header .btn-comece-agora:hover {
+    background-color: #e6c200;
+}
+
+/* Formulário de Cadastro */
+.formulario-cadastro {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-cadastro h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #4CAF50;
+}
+
+.formulario-cadastro .campo {
+    margin-bottom: 20px;
+}
+
+.formulario-cadastro .campo label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.formulario-cadastro .campo input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.formulario-cadastro .campo input:focus {
+    border-color: #4CAF50;
+}
+
+.formulario-cadastro .btn-cadastrar {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-cadastro .btn-cadastrar:hover {
+    background-color: #45a049;
+}
+
+.formulario-cadastro p {
+    text-align: center;
+    margin-top: 20px;
+    color: #333333;
+}
+
+.formulario-cadastro p a {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.formulario-cadastro p a:hover {
+    text-decoration: underline;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    margin-top: 50px;
+}
+
+footer .links {
+    margin-bottom: 10px;
+}
+
+footer .links a {
+    color: #FFFFFF;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+footer .links a:hover {
+    color: #FFD700;
+}
+
+footer .redes-sociais {
+    margin-bottom: 10px;
+}
+
+footer .redes-sociais img {
+    width: 24px;
+    height: 24px;
+    margin: 0 10px;
+    transition: transform 0.3s ease;
+}
+
+footer .redes-sociais img:hover {
+    transform: scale(1.2);
+}
+
+footer p {
+    font-size: 14px;
+    margin-top: 10px;
+}
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 100px 50px;
+    background-color: #F9F9F9;
+}
+
+.hero h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #4CAF50;
+}
+
+.hero p {
+    font-size: 20px;
+    color: #333333;
+    margin-bottom: 40px;
+}
+
+.hero .botoes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.hero .btn-cadastrar,
+.hero .btn-saiba-mais {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.hero .btn-cadastrar {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+}
+
+.hero .btn-cadastrar:hover {
+    background-color: #45a049;
+}
+
+.hero .btn-saiba-mais {
+    background-color: transparent;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+}
+
+.hero .btn-saiba-mais:hover {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+}
+/* Benefícios */
+.beneficios {
+    display: flex;
+    justify-content: space-around;
+    padding: 50px;
+    background-color: #E8F5E9;
+}
+
+.beneficios .card {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 30%;
+}
+
+.beneficios .card img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 20px;
+}
+
+.beneficios .card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #4CAF50;
+}
+
+.beneficios .card p {
+    font-size: 16px;
+    color: #333333;
+}
+/* Formulário de Login */
+.formulario-login {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-login h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #4CAF50;
+}
+
+.formulario-login .campo {
+    margin-bottom: 20px;
+}
+
+.formulario-login .campo label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.formulario-login .campo input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.formulario-login .campo input:focus {
+    border-color: #4CAF50;
+}
+
+.formulario-login .btn-entrar {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-login .btn-entrar:hover {
+    background-color: #45a049;
+}
+
+.formulario-login p {
+    text-align: center;
+    margin-top: 20px;
+    color: #333333;
+}
+
+.formulario-login p a {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.formulario-login p a:hover {
+    text-decoration: underline;
+}
+/* Estilos específicos para o Dashboard */
+.dashboard {
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dashboard h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Resumo Financeiro */
+.resumo-financeiro {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.resumo-financeiro .card {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.resumo-financeiro .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.resumo-financeiro .card h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.resumo-financeiro .card p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* Gráficos */
+.graficos {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.graficos canvas {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1;
+}
+
+/* Botão Sair */
+.btn-sair {
+    background-color: #FF4D4D;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-sair:hover {
+    background-color: #cc0000;
+}
+/* Estilos específicos para a página de Relatórios */
+.relatorios {
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.relatorios h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Filtros */
+.filtros {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.filtros label {
+    font-size: 16px;
+    color: #333333;
+}
+
+.filtros select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.filtros select:focus {
+    border-color: #4CAF50;
+}
+
+.filtros button {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filtros button:hover {
+    background-color: #45a049;
+}
+
+/* Gráficos */
+.graficos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.graficos canvas {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33.333% - 40px); /* 3 gráficos por linha com espaçamento */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .graficos canvas {
+        flex: 1 1 100%; /* 1 gráfico por linha em telas menores */
+    }
+}
+/* Estilos específicos para a página de Configurações */
+.configuracoes {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.configuracoes h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Campos do Formulário */
+.configuracoes .campo {
+    margin-bottom: 20px;
+}
+
+.configuracoes .campo label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.configuracoes .campo input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.configuracoes .campo input:focus {
+    border-color: #4CAF50;
+}
+
+/* Botão Salvar */
+.configuracoes .btn-salvar {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.configuracoes .btn-salvar:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para a página do Blog */
+.blog {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.blog h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.blog p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Artigos do Blog */
+.artigos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.artigo {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artigo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.artigo img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.artigo h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.artigo p {
+    font-size: 16px;
+    color: #333333;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.artigo a {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.artigo a:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para a página de Contato */
+.contato {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contato h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contato p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Formulário de Contato */
+.formulario-contato {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formulario-contato .campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-contato .campo label {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+.formulario-contato .campo input,
+.formulario-contato .campo textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.formulario-contato .campo input:focus,
+.formulario-contato .campo textarea:focus {
+    border-color: #4CAF50;
+}
+
+.formulario-contato .btn-enviar {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-contato .btn-enviar:hover {
+    background-color: #45a049;
+}
+
+/* Informações de Contato */
+.informacoes-contato {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.informacoes-contato p {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.informacoes-contato a {
+    color: #4CAF50;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.informacoes-contato a:hover {
+    text-decoration: underline;
+}
+/* Estilos específicos para a página de Depoimentos */
+.depoimentos {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.depoimentos h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.depoimentos p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Cards de Depoimentos */
+.cards-depoimentos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card-depoimento {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-depoimento:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-depoimento .usuario {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-depoimento .usuario img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.card-depoimento .usuario h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #4CAF50;
+    margin-bottom: 5px;
+}
+
+.card-depoimento .usuario p {
+    font-size: 14px;
+    color: #777777;
+    margin: 0;
+}
+
+.card-depoimento .texto-depoimento {
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.6;
+}
+/* Estilos específicos para a página de FAQ */
+.faq {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.faq h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.faq p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Lista de Perguntas Frequentes */
+.lista-faq {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.lista-faq .pergunta {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lista-faq .pergunta:hover {
+    background-color: #F9F9F9;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.lista-faq .pergunta h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.lista-faq .pergunta p {
+    font-size: 16px;
+    color: #333333;
+    text-align: left;
+    margin: 0;
+    display: none; /* Resposta oculta por padrão */
+}
+
+.lista-faq .pergunta.ativa p {
+    display: block; /* Mostra a resposta quando a pergunta está ativa */
+}
+/* Estilos específicos para o formulário de despesas */
+.formulario-despesa {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-despesa h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formulario-despesa .campo {
+    margin-bottom: 20px;
+}
+
+.formulario-despesa .campo label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.formulario-despesa .campo input,
+.formulario-despesa .campo select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.formulario-despesa .campo input:focus,
+.formulario-despesa .campo select:focus {
+    border-color: #4CAF50;
+}
+
+.formulario-despesa .btn-salvar {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-despesa .btn-salvar:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para o formulário de ganhos */
+.formulario-ganhos {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-ganhos h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formulario-ganhos .campo {
+    margin-bottom: 20px;
+}
+
+.formulario-ganhos .campo label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.formulario-ganhos .campo input,
+.formulario-ganhos .campo select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.formulario-ganhos .campo input:focus,
+.formulario-ganhos .campo select:focus {
+    border-color: #4CAF50;
+}
+
+.formulario-ganhos .btn-salvar {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-ganhos .btn-salvar:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para o formulário de investimentos */
+.formulario-investimentos {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formulario-investimentos h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formulario-investimentos .campo {
+    margin-bottom: 20px;
+}
+
+.formulario-investimentos .campo label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.formulario-investimentos .campo input,
+.formulario-investimentos .campo select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.formulario-investimentos .campo input:focus,
+.formulario-investimentos .campo select:focus {
+    border-color: #4CAF50;
+}
+
+.formulario-investimentos .btn-salvar {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-investimentos .btn-salvar:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para a página de Notícias */
+.noticias {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.noticias h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.noticias p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Cards de Notícias */
+.cards-noticias {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-noticia {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-noticia:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-noticia h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+.card-noticia p {
+    font-size: 16px;
+    color: #333333;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.card-noticia a {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.card-noticia a:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para a página de Planos */
+.planos {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.planos h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.planos p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Cards de Planos */
+.cards-planos {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.card-plano {
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-plano:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-plano h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.card-plano .preco {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.card-plano .preco span {
+    font-size: 16px;
+    color: #777777;
+}
+
+.card-plano ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.card-plano ul li {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.card-plano .btn-assinar {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-plano .btn-assinar:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para a página de Preços */
+.precos {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.precos h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.precos p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Cards de Preços */
+.cards-precos {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.card-preco {
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-preco:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-preco h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.card-preco .preco {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.card-preco .preco span {
+    font-size: 16px;
+    color: #777777;
+}
+
+.card-preco ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.card-preco ul li {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.card-preco .btn-assinar {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-preco .btn-assinar:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para a página de Política de Privacidade */
+.privacidade {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.privacidade h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.privacidade p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Conteúdo da Política de Privacidade */
+.conteudo-privacidade {
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    color: #333333;
+    line-height: 1.6;
+}
+
+.conteudo-privacidade h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.conteudo-privacidade p {
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.conteudo-privacidade ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.conteudo-privacidade ul li {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.conteudo-privacidade a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.conteudo-privacidade a:hover {
+    text-decoration: underline;
+}
+/* Estilos específicos para a página de Recuperar Senha */
+.recuperar-senha {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recuperar-senha h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.recuperar-senha .campo {
+    margin-bottom: 20px;
+}
+
+.recuperar-senha .campo label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.recuperar-senha .campo input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.recuperar-senha .campo input:focus {
+    border-color: #4CAF50;
+}
+
+.recuperar-senha .btn-recuperar {
+    width: 100%;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.recuperar-senha .btn-recuperar:hover {
+    background-color: #45a049;
+}
+
+/* Mensagem de sucesso */
+.mensagem-sucesso {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #D4EDDA;
+    color: #155724;
+    border: 1px solid #C3E6CB;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+}
+/* Estilos específicos para a página de Recursos */
+.recursos {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.recursos h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.recursos p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Cards de Recursos */
+.cards-recursos {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card-recurso {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-recurso:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-recurso img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.card-recurso h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+.card-recurso p {
+    font-size: 16px;
+    color: #333333;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.card-recurso a {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.card-recurso a:hover {
+    background-color: #45a049;
+}
+/* Estilos específicos para a página de Sobre Nós */
+.sobre {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.sobre h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sobre p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Seções de Conteúdo */
+.sobre .missao,
+.sobre .visao,
+.sobre .valores {
+    margin-bottom: 40px;
+}
+
+.sobre .missao h3,
+.sobre .visao h3,
+.sobre .valores h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+.sobre .missao p,
+.sobre .visao p,
+.sobre .valores ul {
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.6;
+}
+
+.sobre .valores ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.sobre .valores ul li {
+    margin-bottom: 10px;
+}
+
+/* Equipe */
+.sobre .equipe {
+    margin-top: 40px;
+}
+
+.sobre .equipe h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sobre .equipe .membros {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.sobre .equipe .membro {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sobre .equipe .membro:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.sobre .equipe .membro img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.sobre .equipe .membro h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: #4CAF50;
+    margin-bottom: 5px;
+}
+
+.sobre .equipe .membro p {
+    font-size: 14px;
+    color: #777777;
+}
+/* Estilos específicos para a página de Suporte */
+.suporte {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.suporte h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.suporte p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Formulário de Contato */
+.formulario-suporte {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formulario-suporte .campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-suporte .campo label {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+.formulario-suporte .campo input,
+.formulario-suporte .campo textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    outline: none;
+}
+
+.formulario-suporte .campo input:focus,
+.formulario-suporte .campo textarea:focus {
+    border-color: #4CAF50;
+}
+
+.formulario-suporte .btn-enviar {
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.formulario-suporte .btn-enviar:hover {
+    background-color: #45a049;
+}
+
+/* Informações de Contato */
+.informacoes-suporte {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.informacoes-suporte p {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.informacoes-suporte a {
+    color: #4CAF50;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.informacoes-suporte a:hover {
+    text-decoration: underline;
+}
+/* Estilos específicos para a página de Termos de Uso */
+.termos {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.termos h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.termos p {
+    font-size: 18px;
+    color: #333333;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Conteúdo dos Termos de Uso */
+.conteudo-termos {
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    color: #333333;
+    line-height: 1.6;
+}
+
+.conteudo-termos h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #4CAF50;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.conteudo-termos p {
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.conteudo-termos ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.conteudo-termos ul li {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.conteudo-termos a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.conteudo-termos a:hover {
+    text-decoration: underline;
+}

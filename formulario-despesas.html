@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Despesa - Finanças Inteligentes</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome -->
+    <style>
+        /* Estilos para a barra lateral */
+        .sidebar {
+            height: 100%;
+            width: 60px; /* Largura da barra lateral fechada */
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #4CAF50; /* Cor verde */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidebar:hover {
+            width: 250px; /* Largura da barra lateral aberta */
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #45a049; /* Verde mais escuro ao passar o mouse */
+        }
+
+        .sidebar a i {
+            margin-right: 15px; /* Espaço entre o ícone e o texto */
+            min-width: 25px; /* Garante que o ícone não desapareça */
+        }
+
+        .sidebar a span {
+            display: none; /* Esconde o texto inicialmente */
+        }
+
+        .sidebar:hover a span {
+            display: inline; /* Mostra o texto ao passar o mouse */
+        }
+
+        /* Estilos para o ícone de usuário */
+        .user-icon {
+            width: 40px; /* Tamanho do ícone */
+            height: 40px;
+            cursor: pointer;
+            margin-left: 10px; /* Espaçamento à esquerda */
+        }
+
+        /* Estilos para o menu de usuário */
+        .menu-container {
+            position: relative;
+            display: flex;
+            align-items: center; /* Centraliza verticalmente */
+        }
+
+        .menu-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px; /* Posiciona o menu abaixo do ícone de usuário */
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .menu-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .menu-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Ajustes para o conteúdo principal */
+        .main-content {
+            margin-left: 60px; /* Margem para a barra lateral fechada */
+            transition: margin-left 0.5s;
+        }
+
+        .sidebar:hover + .main-content {
+            margin-left: 250px; /* Margem para a barra lateral aberta */
+        }
+
+        /* Estilos para o cabeçalho */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Centraliza verticalmente */
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Cor verde */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff; /* Cor do texto branco */
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff; /* Cor do texto branco */
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            color: #f1f1f1; /* Cor mais clara ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra Lateral -->
+    <div class="sidebar" id="sidebar">
+        <a href="dashboard.html">
+            <i class="fas fa-home"></i> <!-- Ícone de casa -->
+            <span>Dashboard</span>
+        </a>
+        <a href="relatorios.html">
+            <i class="fas fa-chart-line"></i> <!-- Ícone de gráfico -->
+            <span>Relatórios</span>
+        </a>
+        <a href="configuracoes.html">
+            <i class="fas fa-cog"></i> <!-- Ícone de engrenagem -->
+            <span>Configurações</span>
+        </a>
+        <a href="formulario-investimentos.html">
+            <i class="fas fa-coins"></i> <!-- Ícone de moedas -->
+            <span>Investimentos</span>
+        </a>
+        <a href="formulario-ganhos.html">
+            <i class="fas fa-hand-holding-usd"></i> <!-- Ícone de ganhos -->
+            <span>Ganhos</span>
+        </a>
+        <a href="formulario-despesas.html">
+            <i class="fas fa-wallet"></i> <!-- Ícone de carteira -->
+            <span>Gastos</span>
+        </a>
+    </div>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Cabeçalho -->
+        <header>
+            <div class="logo">Finanças Inteligentes</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="relatorios.html">Relatórios</a></li>
+                    <li><a href="configuracoes.html">Configurações</a></li>
+                </ul>
+            </nav>
+            <div class="menu-container">
+                <img src="assets/icons/user.png" alt="Ícone de Usuário" class="user-icon" id="user-icon">
+                <div class="menu-content" id="menu-content">
+                    <a href="perfil.html">Perfil</a>
+                    <a href="configuracoes.html">Configurações</a>
+                    <a href="faq.html">Ajuda</a>
+                    <a href="#" id="btn-sair">Sair</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Formulário de Despesas -->
+        <section class="formulario-despesa">
+            <h2>Adicionar Despesa</h2>
+            <form id="form-despesa">
+                <div class="campo">
+                    <label for="descricao">Descrição</label>
+                    <input type="text" id="descricao" name="descricao" required>
+                </div>
+                <div class="campo">
+                    <label for="valor">Valor</label>
+                    <input type="number" id="valor" name="valor" step="0.01" required>
+                </div>
+                <div class="campo">
+                    <label for="data">Data</label>
+                    <input type="date" id="data" name="data" required>
+                </div>
+                <div class="campo">
+                    <label for="categoria">Categoria</label>
+                    <select id="categoria" name="categoria" required>
+                        <option value="alimentacao">Alimentação</option>
+                        <option value="transporte">Transporte</option>
+                        <option value="lazer">Lazer</option>
+                        <option value="saude">Saúde</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-salvar">Salvar Despesa</button>
+            </form>
+        </section>
+
+        <!-- Rodapé -->
+        <footer>
+            <div class="links">
+                <a href="#">Sobre</a>
+                <a href="#">Contato</a>
+                <a href="#">Termos de Uso</a>
+            </div>
+            <div class="redes-sociais">
+                <a href="#"><img src="assets/icons/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="assets/icons/instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="assets/icons/tiktok.png" alt="TikTok"></a>
+            </div>
+            <p>© 2023 Finanças Inteligentes. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Função para salvar a despesa e redirecionar para o Dashboard
+        document.getElementById('form-despesa').addEventListener('submit', function (event) {
+            event.preventDefault(); // Evita o envio do formulário
+
+            // Captura os dados do formulário
+            const descricao = document.getElementById('descricao').value;
+            const valor = parseFloat(document.getElementById('valor').value);
+            const data = document.getElementById('data').value;
+            const categoria = document.getElementById('categoria').value;
+
+            // Cria um objeto com os dados da despesa
+            const despesa = {
+                descricao,
+                valor,
+                data,
+                categoria
+            };
+
+            // Salva a despesa no localStorage
+            let despesas = JSON.parse(localStorage.getItem('despesas')) || [];
+            despesas.push(despesa);
+            localStorage.setItem('despesas', JSON.stringify(despesas));
+
+            // Redireciona para o Dashboard
+            window.location.href = 'dashboard.html';
+        });
+
+        // Script para o menu de usuário (abrir/fechar ao clicar)
+        document.getElementById('user-icon').addEventListener('click', function(event) {
+            event.stopPropagation(); // Impede que o clique se propague para o documento
+            const menuContent = document.getElementById('menu-content');
+            if (menuContent.style.display === 'block') {
+                menuContent.style.display = 'none';
+            } else {
+                menuContent.style.display = 'block';
+            }
+        });
+
+        // Fechar o menu ao clicar fora dele
+        document.addEventListener('click', function(event) {
+            const menuContent = document.getElementById('menu-content');
+            const userIcon = document.getElementById('user-icon');
+            if (event.target !== userIcon && !userIcon.contains(event.target)) {
+                menuContent.style.display = 'none';
+            }
+        });
+
+        // Script para o botão "Sair"
+        document.getElementById('btn-sair').addEventListener('click', function() {
+            localStorage.removeItem('usuarioLogado'); // Remove o usuário logado
+            window.location.href = 'login.html'; // Redireciona para a página de login
+        });
+    </script>
+</body>
+</html>
