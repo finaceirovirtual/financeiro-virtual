@@ -1,4 +1,4 @@
-import { auth, signInWithEmailAndPassword } from './firebase.js';
+import { auth, createUserWithEmailAndPassword, updateProfile } from './firebase.js';
 
 document.getElementById('form-login').addEventListener('submit', function (event) {
     event.preventDefault(); // Impede o envio do formulário

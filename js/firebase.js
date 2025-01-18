@@ -8,7 +8,7 @@ import {
     signOut,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js"; // Importe o Firestore
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyD_K7ESDO4c9ja_mFNF2RGjx7KOxWPzuXo",
@@ -22,9 +22,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app); // Inicializa o Firestore
+const db = getFirestore(app);
 
-// Exporte as funções necessárias
 export { 
     auth, 
     createUserWithEmailAndPassword, 
