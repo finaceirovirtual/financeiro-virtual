@@ -18,7 +18,7 @@ document.getElementById('form-cadastro').addEventListener('submit', function (ev
     // Cadastra o usuário no Firebase
     createUserWithEmailAndPassword(auth, email, senha)
         .then((userCredential) => {
-            // Sucesso
+            // Usuário cadastrado com sucesso
             const user = userCredential.user;
             console.log('Usuário cadastrado:', user);
 
