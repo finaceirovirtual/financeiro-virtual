@@ -9,38 +9,55 @@ onAuthStateChanged(auth, (user) => {
         // Exibe o nome do usuário no dashboard
         document.querySelector('h2').textContent = `Bem-vindo, ${user.displayName || 'Usuário'}!`;
 
-        // Carrega os dados financeiros do usuário (exemplo)
+        // Carrega os dados financeiros do usuário
         carregarDadosFinanceiros();
     }
 });
 
-// Função para carregar dados financeiros (exemplo)
+// Função para carregar dados financeiros
 function carregarDadosFinanceiros() {
-    // Exemplo de dados
-    const saldoAtual = 5000.00;
-    const despesasMes = 1200.00;
-    const investimentos = 3000.00;
+    // Recupera os dados do localStorage
+    const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
+    const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
+    const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
+
+    // Calcula os totais
+    const totalGanhos = ganhos.reduce((total, ganho) => total + ganho.valor, 0);
+    const totalDespesas = despesas.reduce((total, despesa) => total + despesa.valor, 0);
+    const totalInvestimentos = investimentos.reduce((total, investimento) => total + investimento.valor, 0);
+
+    // Calcula o saldo atual
+    const saldoAtual = totalGanhos - totalDespesas;
 
     // Atualiza os valores na página
     document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
-    document.getElementById('despesas-mes').textContent = `R$ ${despesasMes.toFixed(2)}`;
-    document.getElementById('investimentos').textContent = `R$ ${investimentos.toFixed(2)}`;
+    document.getElementById('despesas-mes').textContent = `R$ ${totalDespesas.toFixed(2)}`;
+    document.getElementById('investimentos').textContent = `R$ ${totalInvestimentos.toFixed(2)}`;
 
     // Cria os gráficos
-    criarGraficoDespesas();
-    criarGraficoInvestimentos();
+    criarGraficoDespesas(despesas);
+    criarGraficoInvestimentos(investimentos);
 }
 
 // Função para criar o gráfico de despesas
-function criarGraficoDespesas() {
+function criarGraficoDespesas(despesas) {
+    const categorias = {};
+    despesas.forEach(despesa => {
+        if (categorias[despesa.categoria]) {
+            categorias[despesa.categoria] += despesa.valor;
+        } else {
+            categorias[despesa.categoria] = despesa.valor;
+        }
+    });
+
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Alimentação', 'Transporte', 'Lazer', 'Outros'],
+            labels: Object.keys(categorias),
             datasets: [{
                 label: 'Despesas do Mês',
-                data: [500, 300, 200, 200],
+                data: Object.values(categorias),
                 backgroundColor: ['#4CAF50', '#2196F3', '#FFD700', '#FF5722'],
             }]
         },
@@ -56,15 +73,24 @@ function criarGraficoDespesas() {
 }
 
 // Função para criar o gráfico de investimentos
-function criarGraficoInvestimentos() {
+function criarGraficoInvestimentos(investimentos) {
+    const tipos = {};
+    investimentos.forEach(investimento => {
+        if (tipos[investimento.tipo]) {
+            tipos[investimento.tipo] += investimento.valor;
+        } else {
+            tipos[investimento.tipo] = investimento.valor;
+        }
+    });
+
     const ctx = document.getElementById('grafico-investimentos').getContext('2d');
     new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Ações', 'Poupança', 'Fundos'],
+            labels: Object.keys(tipos),
             datasets: [{
                 label: 'Investimentos',
-                data: [1500, 1000, 500],
+                data: Object.values(tipos),
                 backgroundColor: ['#4CAF50', '#2196F3', '#FFD700'],
             }]
         },

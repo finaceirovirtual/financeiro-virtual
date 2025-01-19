@@ -77,6 +77,12 @@
                     <p id="investimentos">R$ 0,00</p>
                 </div>
             </div>
+
+            <!-- Gráficos -->
+            <div class="graficos">
+                <canvas id="grafico-despesas"></canvas>
+                <canvas id="grafico-investimentos"></canvas>
+            </div>
         </section>
 
         <!-- Rodapé -->
@@ -96,60 +102,6 @@
     </div>
 
     <!-- Scripts -->
-    <script>
-        // Função para calcular e exibir os valores no Dashboard
-        function atualizarDashboard() {
-            // Recupera os dados do localStorage
-            const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
-            const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
-            const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
-
-            // Calcula o total de ganhos
-            const totalGanhos = ganhos.reduce((total, ganho) => total + ganho.valor, 0);
-
-            // Calcula o total de despesas
-            const totalDespesas = despesas.reduce((total, despesa) => total + despesa.valor, 0);
-
-            // Calcula o total de investimentos
-            const totalInvestimentos = investimentos.reduce((total, investimento) => total + investimento.valor, 0);
-
-            // Calcula o saldo atual
-            const saldoAtual = totalGanhos - totalDespesas;
-
-            // Atualiza os valores na tela
-            document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
-            document.getElementById('despesas-mes').textContent = `R$ ${totalDespesas.toFixed(2)}`;
-            document.getElementById('investimentos').textContent = `R$ ${totalInvestimentos.toFixed(2)}`;
-        }
-
-        // Atualiza o Dashboard ao carregar a página
-        window.onload = atualizarDashboard;
-
-        // Script para o menu de usuário (abrir/fechar ao clicar)
-        document.getElementById('user-icon').addEventListener('click', function(event) {
-            event.stopPropagation();
-            const menuContent = document.getElementById('menu-content');
-            if (menuContent.style.display === 'block') {
-                menuContent.style.display = 'none';
-            } else {
-                menuContent.style.display = 'block';
-            }
-        });
-
-        // Fechar o menu ao clicar fora dele
-        document.addEventListener('click', function(event) {
-            const menuContent = document.getElementById('menu-content');
-            const userIcon = document.getElementById('user-icon');
-            if (event.target !== userIcon && !userIcon.contains(event.target)) {
-                menuContent.style.display = 'none';
-            }
-        });
-
-        // Script para o botão "Sair"
-        document.getElementById('btn-sair').addEventListener('click', function() {
-            localStorage.removeItem('usuarioLogado');
-            window.location.href = 'login.html';
-        });
-    </script>
+    <script type="module" src="dashboard.js"></script>
 </body>
 </html>
