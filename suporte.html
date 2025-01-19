@@ -6,67 +6,134 @@
     <title>Suporte - Finanças Inteligentes</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome -->
 </head>
 <body>
-    <!-- Cabeçalho -->
-    <header>
-        <div class="logo">Finanças Inteligentes</div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Início</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="recursos.html">Recursos</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="cadastro.html">Cadastro</a></li>
-            </ul>
-        </nav>
-        <button class="btn-comece-agora" onclick="window.location.href='cadastro.html'">Comece Agora</button>
-    </header>
+    <!-- Barra Lateral -->
+    <div class="sidebar" id="sidebar">
+        <a href="dashboard.html">
+            <i class="fas fa-home"></i> <!-- Ícone de casa -->
+            <span>Dashboard</span>
+        </a>
+        <a href="relatorios.html">
+            <i class="fas fa-chart-line"></i> <!-- Ícone de gráfico -->
+            <span>Relatórios</span>
+        </a>
+        <a href="configuracoes.html">
+            <i class="fas fa-cog"></i> <!-- Ícone de engrenagem -->
+            <span>Configurações</span>
+        </a>
+        <a href="formulario-investimentos.html">
+            <i class="fas fa-coins"></i> <!-- Ícone de moedas -->
+            <span>Investimentos</span>
+        </a>
+        <a href="formulario-ganhos.html">
+            <i class="fas fa-hand-holding-usd"></i> <!-- Ícone de ganhos -->
+            <span>Ganhos</span>
+        </a>
+        <a href="formulario-despesas.html">
+            <i class="fas fa-wallet"></i> <!-- Ícone de carteira -->
+            <span>Gastos</span>
+        </a>
+    </div>
 
-    <!-- Conteúdo da Página de Suporte -->
-    <section class="suporte">
-        <h2>Suporte</h2>
-        <p>Precisa de ajuda? Entre em contato com nossa equipe de suporte.</p>
-
-        <!-- Formulário de Contato -->
-        <form class="formulario-suporte">
-            <div class="campo">
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome" required>
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        <!-- Cabeçalho -->
+        <header>
+            <div class="logo">Finanças Inteligentes</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="relatorios.html">Relatórios</a></li>
+                    <li><a href="configuracoes.html">Configurações</a></li>
+                </ul>
+            </nav>
+            <div class="menu-container">
+                <img src="assets/icons/user.png" alt="Ícone de Usuário" class="user-icon" id="user-icon">
+                <div class="menu-content" id="menu-content">
+                    <a href="perfil.html">Perfil</a>
+                    <a href="configuracoes.html">Configurações</a>
+                    <a href="faq.html">Ajuda</a>
+                    <a href="#" id="btn-sair">Sair</a>
+                </div>
             </div>
-            <div class="campo">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="campo">
-                <label for="mensagem">Mensagem</label>
-                <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn-enviar">Enviar Mensagem</button>
-        </form>
+        </header>
 
-        <!-- Informações de Contato -->
-        <div class="informacoes-suporte">
-            <p>Ou envie um e-mail diretamente para:</p>
-            <p>
-                <a href="mailto:finanirovirtualsuporte@gmail.com">finanirovirtualsuporte@gmail.com</a>
-            </p>
-        </div>
-    </section>
+        <!-- Conteúdo da Página de Suporte -->
+        <section class="suporte">
+            <h2>Suporte</h2>
+            <p>Precisa de ajuda? Entre em contato com nossa equipe de suporte.</p>
 
-    <!-- Rodapé -->
-    <footer>
-        <div class="links">
-            <a href="#">Sobre</a>
-            <a href="#">Contato</a>
-            <a href="#">Termos de Uso</a>
-        </div>
-        <div class="redes-sociais">
-            <a href="#"><img src="assets/icons/facebook.png" alt="Facebook"></a>
-            <a href="#"><img src="assets/icons/instagram.png" alt="Instagram"></a>
-            <a href="#"><img src="assets/icons/tiktok.png" alt="TikTok"></a>
-        </div>
-        <p>© 2023 Finanças Inteligentes. Todos os direitos reservados.</p>
-    </footer>
+            <!-- Formulário de Contato -->
+            <form class="formulario-suporte">
+                <div class="campo">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" required>
+                </div>
+                <div class="campo">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="campo">
+                    <label for="mensagem">Mensagem</label>
+                    <textarea id="mensagem" name="mensagem" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn-enviar">Enviar Mensagem</button>
+            </form>
+
+            <!-- Informações de Contato -->
+            <div class="informacoes-suporte">
+                <p>Ou envie um e-mail diretamente para:</p>
+                <p>
+                    <a href="mailto:finanirovirtualsuporte@gmail.com">finanirovirtualsuporte@gmail.com</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Rodapé -->
+        <footer>
+            <div class="links">
+                <a href="#">Sobre</a>
+                <a href="#">Contato</a>
+                <a href="#">Termos de Uso</a>
+            </div>
+            <div class="redes-sociais">
+                <a href="#"><img src="assets/icons/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="assets/icons/instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="assets/icons/tiktok.png" alt="TikTok"></a>
+            </div>
+            <p>© 2023 Finanças Inteligentes. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Script para o menu de usuário (abrir/fechar ao clicar)
+        document.getElementById('user-icon').addEventListener('click', function(event) {
+            event.stopPropagation(); // Impede que o clique se propague para o documento
+            const menuContent = document.getElementById('menu-content');
+            if (menuContent.style.display === 'block') {
+                menuContent.style.display = 'none';
+            } else {
+                menuContent.style.display = 'block';
+            }
+        });
+
+        // Fechar o menu ao clicar fora dele
+        document.addEventListener('click', function(event) {
+            const menuContent = document.getElementById('menu-content');
+            const userIcon = document.getElementById('user-icon');
+            if (event.target !== userIcon && !userIcon.contains(event.target)) {
+                menuContent.style.display = 'none';
+            }
+        });
+
+        // Script para o botão "Sair"
+        document.getElementById('btn-sair').addEventListener('click', function() {
+            localStorage.removeItem('usuarioLogado'); // Remove o usuário logado
+            window.location.href = 'login.html'; // Redireciona para a página de login
+        });
+    </script>
 </body>
 </html>
