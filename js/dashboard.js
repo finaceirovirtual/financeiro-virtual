@@ -34,51 +34,112 @@ function carregarDadosFinanceiros() {
     document.getElementById('investimentos').textContent = `R$ ${totalInvestimentos.toFixed(2)}`;
 
     // Cria os gráficos
-    criarGraficoDespesas(despesas);
+    criarGraficoDespesas(ganhos, despesas, investimentos);
     criarGraficoInvestimentos(investimentos);
 }
 
 // Função para criar o gráfico de despesas
-function criarGraficoDespesas(despesas) {
-    const categorias = {};
-    despesas.forEach(despesa => {
-        if (categorias[despesa.categoria]) {
-            categorias[despesa.categoria] += despesa.valor;
-        } else {
-            categorias[despesa.categoria] = despesa.valor;
+function criarGraficoDespesas(ganhos, despesas, investimentos) {
+    // Agrupa os dados por mês
+    const meses = {};
+    const mesesUnicos = new Set();
+
+    // Processa ganhos, despesas e investimentos
+    ganhos.forEach(ganho => {
+        const data = new Date(ganho.data);
+        const mesAno = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
+        mesesUnicos.add(mesAno);
+
+        if (!meses[mesAno]) {
+            meses[mesAno] = { ganhos: 0, despesas: 0, investimentos: 0 };
         }
+        meses[mesAno].ganhos += ganho.valor;
     });
+
+    despesas.forEach(despesa => {
+        const data = new Date(despesa.data);
+        const mesAno = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
+        mesesUnicos.add(mesAno);
+
+        if (!meses[mesAno]) {
+            meses[mesAno] = { ganhos: 0, despesas: 0, investimentos: 0 };
+        }
+        meses[mesAno].despesas += despesa.valor;
+    });
+
+    investimentos.forEach(investimento => {
+        const data = new Date(investimento.data);
+        const mesAno = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
+        mesesUnicos.add(mesAno);
+
+        if (!meses[mesAno]) {
+            meses[mesAno] = { ganhos: 0, despesas: 0, investimentos: 0 };
+        }
+        meses[mesAno].investimentos += investimento.valor;
+    });
+
+    // Ordena os meses
+    const mesesOrdenados = Array.from(mesesUnicos).sort();
+
+    // Prepara os dados para o gráfico
+    const labels = mesesOrdenados;
+    const dadosGastos = mesesOrdenados.map(mes => meses[mes].despesas);
+    const dadosSaldo = mesesOrdenados.map(mes => meses[mes].ganhos - meses[mes].despesas);
+    const dadosInvestimentos = mesesOrdenados.map(mes => meses[mes].investimentos);
 
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
     new window.Chart(ctx, {
         type: 'bar',
         data: {
-            labels: Object.keys(categorias),
-            datasets: [{
-                label: 'Despesas do Mês',
-                data: Object.values(categorias),
-                backgroundColor: ['#4CAF50', '#2196F3', '#FFD700', '#FF5722'],
-            }]
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Gastos',
+                    data: dadosGastos,
+                    backgroundColor: '#FF5722', // Vermelho
+                },
+                {
+                    label: 'Saldo Final',
+                    data: dadosSaldo,
+                    backgroundColor: '#4CAF50', // Verde
+                },
+                {
+                    label: 'Investimentos',
+                    data: dadosInvestimentos,
+                    backgroundColor: '#FFD700', // Dourado
+                }
+            ]
         },
         options: {
             responsive: true,
+            aspectRatio: 2,
             plugins: {
                 legend: {
-                    display: false,
+                    display: true,
+                    position: 'top',
                 },
             },
+            scales: {
+                x: {
+                    stacked: false, // Barras não empilhadas
+                },
+                y: {
+                    stacked: false,
+                    beginAtZero: true,
+                }
+            }
         },
     });
 }
 
 // Função para criar o gráfico de investimentos
 function criarGraficoInvestimentos(investimentos) {
-    const tipos = {};
+    const categorias = {};
     investimentos.forEach(investimento => {
-        if (tipos[investimento.tipo]) {
-            tipos[investimento.tipo] += investimento.valor;
+        if (categorias[investimento.tipo]) {
+            categorias[investimento.tipo] += investimento.valor;
         } else {
-            tipos[investimento.tipo] = investimento.valor;
+            categorias[investimento.tipo] = investimento.valor;
         }
     });
 
@@ -86,15 +147,16 @@ function criarGraficoInvestimentos(investimentos) {
     new window.Chart(ctx, {
         type: 'pie',
         data: {
-            labels: Object.keys(tipos),
+            labels: Object.keys(categorias),
             datasets: [{
                 label: 'Investimentos',
-                data: Object.values(tipos),
-                backgroundColor: ['#4CAF50', '#2196F3', '#FFD700'],
+                data: Object.values(categorias),
+                backgroundColor: ['#4CAF50', '#2196F3', '#FFD700', '#FF5722', '#9C27B0'],
             }]
         },
         options: {
             responsive: true,
+            aspectRatio: 2,
             plugins: {
                 legend: {
                     position: 'bottom',
