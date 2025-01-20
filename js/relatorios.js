@@ -175,7 +175,8 @@ document.getElementById('btn-investimentos').addEventListener('click', () => {
 });
 
 // Evento para filtrar os dados
-document.getElementById('btn-filtrar').addEventListener('click', () => {
+document.getElementById('btn-filtrar').addEventListener('click', (e) => {
+    e.preventDefault(); // Evita o comportamento padrão do botão
     const tipoAtivo = document.querySelector('.toggle-graficos button.active').id.replace('btn-', '');
     alternarGrafico(tipoAtivo); // Atualiza o gráfico ativo com o novo filtro
 });
