@@ -10,17 +10,47 @@ function destruirGrafico(grafico) {
     }
 }
 
+// Função para carregar os dados do localStorage
+function carregarDados() {
+    const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
+    const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
+    const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
+    return { ganhos, despesas, investimentos };
+}
+
+// Função para filtrar os dados com base no período
+function filtrarDadosPorPeriodo(dados, periodo) {
+    const hoje = new Date();
+    return dados.filter(item => {
+        const dataItem = new Date(item.data || hoje); // Se não houver data, assume a data atual
+        switch (periodo) {
+            case 'diario':
+                return dataItem.toDateString() === hoje.toDateString();
+            case 'semanal':
+                const inicioSemana = new Date(hoje.setDate(hoje.getDate() - hoje.getDay()));
+                const fimSemana = new Date(hoje.setDate(hoje.getDate() - hoje.getDay() + 6));
+                return dataItem >= inicioSemana && dataItem <= fimSemana;
+            case 'mensal':
+                return dataItem.getMonth() === hoje.getMonth() && dataItem.getFullYear() === hoje.getFullYear();
+            case 'anual':
+                return dataItem.getFullYear() === hoje.getFullYear();
+            default:
+                return true;
+        }
+    });
+}
+
 // Função para criar o gráfico de ganhos
-function criarGraficoGanhos() {
+function criarGraficoGanhos(dados) {
     const ctx = document.getElementById('grafico-ganhos').getContext('2d');
     destruirGrafico(graficoGanhos); // Destrói o gráfico anterior, se existir
     graficoGanhos = new window.Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ganhos.map(g => g.descricao),
+            labels: dados.map(g => g.descricao),
             datasets: [{
                 label: 'Ganhos',
-                data: ganhos.map(g => g.valor),
+                data: dados.map(g => g.valor),
                 backgroundColor: '#4CAF50',
             }]
         },
@@ -36,16 +66,16 @@ function criarGraficoGanhos() {
 }
 
 // Função para criar o gráfico de despesas
-function criarGraficoDespesas() {
+function criarGraficoDespesas(dados) {
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
     destruirGrafico(graficoDespesas); // Destrói o gráfico anterior, se existir
     graficoDespesas = new window.Chart(ctx, {
         type: 'pie',
         data: {
-            labels: despesas.map(d => d.categoria),
+            labels: dados.map(d => d.categoria),
             datasets: [{
                 label: 'Despesas',
-                data: despesas.map(d => d.valor),
+                data: dados.map(d => d.valor),
                 backgroundColor: ['#FF5722', '#2196F3', '#FFD700', '#9C27B0'],
             }]
         },
@@ -61,16 +91,16 @@ function criarGraficoDespesas() {
 }
 
 // Função para criar o gráfico de investimentos
-function criarGraficoInvestimentos() {
+function criarGraficoInvestimentos(dados) {
     const ctx = document.getElementById('grafico-investimentos').getContext('2d');
     destruirGrafico(graficoInvestimentos); // Destrói o gráfico anterior, se existir
     graficoInvestimentos = new window.Chart(ctx, {
         type: 'line',
         data: {
-            labels: investimentos.map(i => i.data),
+            labels: dados.map(i => i.data),
             datasets: [{
                 label: 'Investimentos',
-                data: investimentos.map(i => i.valor),
+                data: dados.map(i => i.valor),
                 borderColor: '#4CAF50',
                 fill: false,
             }]
@@ -92,15 +122,21 @@ function alternarGrafico(tipo) {
         canvas.style.display = 'none';
     });
 
+    const periodo = document.getElementById('periodo').value;
+    const { ganhos, despesas, investimentos } = carregarDados();
+
     if (tipo === 'ganhos') {
+        const ganhosFiltrados = filtrarDadosPorPeriodo(ganhos, periodo);
         document.getElementById('grafico-ganhos').style.display = 'block';
-        criarGraficoGanhos();
+        criarGraficoGanhos(ganhosFiltrados);
     } else if (tipo === 'despesas') {
+        const despesasFiltradas = filtrarDadosPorPeriodo(despesas, periodo);
         document.getElementById('grafico-despesas').style.display = 'block';
-        criarGraficoDespesas();
+        criarGraficoDespesas(despesasFiltradas);
     } else if (tipo === 'investimentos') {
+        const investimentosFiltrados = filtrarDadosPorPeriodo(investimentos, periodo);
         document.getElementById('grafico-investimentos').style.display = 'block';
-        criarGraficoInvestimentos();
+        criarGraficoInvestimentos(investimentosFiltrados);
     }
 }
 
@@ -125,9 +161,8 @@ document.getElementById('btn-investimentos').addEventListener('click', () => {
 
 // Evento para filtrar os dados
 document.getElementById('btn-filtrar').addEventListener('click', () => {
-    const periodo = document.getElementById('periodo').value;
-    console.log(`Filtrando para o período: ${periodo}`);
-    // Aqui você pode adicionar a lógica para filtrar os dados reais
+    const tipoAtivo = document.querySelector('.toggle-graficos button.active').id.replace('btn-', '');
+    alternarGrafico(tipoAtivo); // Atualiza o gráfico ativo com o novo filtro
 });
 
 // Inicializa a página
