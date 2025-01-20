@@ -264,31 +264,91 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Dados de exemplo (substitua pelos dados reais do localStorage)
-        let ganhos = [
-            { descricao: "Salário", valor: 5000 },
-            { descricao: "Freelance", valor: 2000 },
-        ];
-        let despesas = [
-            { categoria: "Alimentação", valor: 1000 },
-            { categoria: "Transporte", valor: 500 },
-        ];
-        let investimentos = [
-            { data: "2023-10-01", valor: 1000 },
-            { data: "2023-10-15", valor: 1500 },
-        ];
+        // Variáveis globais para armazenar as instâncias dos gráficos
+        let graficoGanhos = null;
+        let graficoDespesas = null;
+        let graficoInvestimentos = null;
 
-        // Função para criar um gráfico
-        function criarGrafico(ctx, tipo, labels, dataset, backgroundColor, borderColor) {
-            return new window.Chart(ctx, {
-                type: tipo,
+        // Função para destruir um gráfico existente
+        function destruirGrafico(grafico) {
+            if (grafico) {
+                grafico.destroy();
+            }
+        }
+
+        // Função para carregar os dados do localStorage
+        function carregarDados() {
+            const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
+            const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
+            const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
+            return { ganhos, despesas, investimentos };
+        }
+
+        // Função para criar o gráfico de ganhos
+        function criarGraficoGanhos() {
+            const { ganhos } = carregarDados();
+            const ctx = document.getElementById('grafico-ganhos').getContext('2d');
+            destruirGrafico(graficoGanhos); // Destrói o gráfico anterior, se existir
+            graficoGanhos = new window.Chart(ctx, {
+                type: 'bar',
                 data: {
-                    labels: labels,
+                    labels: ganhos.map(g => g.descricao),
                     datasets: [{
-                        label: dataset.label,
-                        data: dataset.data,
-                        backgroundColor: backgroundColor,
-                        borderColor: borderColor,
+                        label: 'Ganhos',
+                        data: ganhos.map(g => g.valor),
+                        backgroundColor: '#4CAF50',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                },
+            });
+        }
+
+        // Função para criar o gráfico de despesas
+        function criarGraficoDespesas() {
+            const { despesas } = carregarDados();
+            const ctx = document.getElementById('grafico-despesas').getContext('2d');
+            destruirGrafico(graficoDespesas); // Destrói o gráfico anterior, se existir
+            graficoDespesas = new window.Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: despesas.map(d => d.categoria),
+                    datasets: [{
+                        label: 'Despesas',
+                        data: despesas.map(d => d.valor),
+                        backgroundColor: ['#FF5722', '#2196F3', '#FFD700', '#9C27B0'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Função para criar o gráfico de investimentos
+        function criarGraficoInvestimentos() {
+            const { investimentos } = carregarDados();
+            const ctx = document.getElementById('grafico-investimentos').getContext('2d');
+            destruirGrafico(graficoInvestimentos); // Destrói o gráfico anterior, se existir
+            graficoInvestimentos = new window.Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: investimentos.map(i => i.data),
+                    datasets: [{
+                        label: 'Investimentos',
+                        data: investimentos.map(i => i.valor),
+                        borderColor: '#4CAF50',
                         fill: false,
                     }]
                 },
@@ -303,13 +363,6 @@
             });
         }
 
-        // Função para atualizar os gráficos com base no período selecionado
-        function atualizarGraficos(periodo) {
-            // Filtra os dados com base no período (exemplo básico)
-            console.log(`Filtrando para o período: ${periodo}`);
-            // Aqui você pode adicionar a lógica para filtrar os dados reais
-        }
-
         // Função para alternar entre os gráficos
         function alternarGrafico(tipo) {
             document.querySelectorAll('.grafico').forEach(canvas => {
@@ -318,22 +371,14 @@
 
             if (tipo === 'ganhos') {
                 document.getElementById('grafico-ganhos').style.display = 'block';
+                criarGraficoGanhos();
             } else if (tipo === 'despesas') {
                 document.getElementById('grafico-despesas').style.display = 'block';
+                criarGraficoDespesas();
             } else if (tipo === 'investimentos') {
                 document.getElementById('grafico-investimentos').style.display = 'block';
+                criarGraficoInvestimentos();
             }
-        }
-
-        // Inicializa os gráficos
-        function inicializarGraficos() {
-            const ctxGanhos = document.getElementById('grafico-ganhos').getContext('2d');
-            const ctxDespesas = document.getElementById('grafico-despesas').getContext('2d');
-            const ctxInvestimentos = document.getElementById('grafico-investimentos').getContext('2d');
-
-            criarGrafico(ctxGanhos, 'bar', ganhos.map(g => g.descricao), { label: 'Ganhos', data: ganhos.map(g => g.valor) }, '#4CAF50', '#4CAF50');
-            criarGrafico(ctxDespesas, 'pie', despesas.map(d => d.categoria), { label: 'Despesas', data: despesas.map(d => d.valor) }, ['#FF5722', '#2196F3', '#FFD700', '#9C27B0'], null);
-            criarGrafico(ctxInvestimentos, 'line', investimentos.map(i => i.data), { label: 'Investimentos', data: investimentos.map(i => i.valor) }, null, '#4CAF50');
         }
 
         // Evento para alternar entre os gráficos
@@ -358,11 +403,11 @@
         // Evento para filtrar os dados
         document.getElementById('btn-filtrar').addEventListener('click', () => {
             const periodo = document.getElementById('periodo').value;
-            atualizarGraficos(periodo);
+            console.log(`Filtrando para o período: ${periodo}`);
+            // Aqui você pode adicionar a lógica para filtrar os dados reais
         });
 
         // Inicializa a página
-        inicializarGraficos();
         alternarGrafico('ganhos'); // Exibe o gráfico de ganhos por padrão
     </script>
 </body>
