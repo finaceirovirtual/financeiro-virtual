@@ -9,10 +9,102 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
+        /* Estilos para a barra lateral */
+        .sidebar {
+            height: 100%;
+            width: 60px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #4CAF50;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidebar:hover {
+            width: 250px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #45a049;
+        }
+
+        .sidebar a i {
+            margin-right: 15px;
+            min-width: 25px;
+        }
+
+        .sidebar a span {
+            display: none;
+        }
+
+        .sidebar:hover a span {
+            display: inline;
+        }
+
+        /* Estilos para o conteúdo principal */
+        .main-content {
+            margin-left: 60px;
+            transition: margin-left 0.5s;
+        }
+
+        .sidebar:hover + .main-content {
+            margin-left: 250px;
+        }
+
+        /* Estilos para o cabeçalho */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            color: #f1f1f1;
+        }
+
         /* Estilos para os gráficos */
         .graficos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
             gap: 20px;
             margin-top: 20px;
         }
@@ -134,21 +226,22 @@
             <div class="filtros">
                 <label for="periodo">Período:</label>
                 <select id="periodo">
-                    <option value="mensal">Mensal</option>
+                    <option value="diario">Diário</option>
                     <option value="semanal">Semanal</option>
+                    <option value="mensal">Mensal</option>
                     <option value="anual">Anual</option>
                 </select>
                 <button id="btn-filtrar">Filtrar</button>
             </div>
             <div class="toggle-graficos">
-                <button id="btn-barras" class="active">Barras</button>
-                <button id="btn-linhas">Linhas</button>
-                <button id="btn-pizza">Pizza</button>
+                <button id="btn-ganhos" class="active">Ganhos</button>
+                <button id="btn-despesas">Despesas</button>
+                <button id="btn-investimentos">Investimentos</button>
             </div>
             <div class="graficos">
-                <canvas id="grafico-ganhos"></canvas>
-                <canvas id="grafico-despesas"></canvas>
-                <canvas id="grafico-investimentos"></canvas>
+                <canvas id="grafico-ganhos" class="grafico"></canvas>
+                <canvas id="grafico-despesas" class="grafico" style="display: none;"></canvas>
+                <canvas id="grafico-investimentos" class="grafico" style="display: none;"></canvas>
             </div>
         </section>
 
@@ -170,6 +263,107 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="js/relatorios.js"></script>
+    <script>
+        // Dados de exemplo (substitua pelos dados reais do localStorage)
+        let ganhos = [
+            { descricao: "Salário", valor: 5000 },
+            { descricao: "Freelance", valor: 2000 },
+        ];
+        let despesas = [
+            { categoria: "Alimentação", valor: 1000 },
+            { categoria: "Transporte", valor: 500 },
+        ];
+        let investimentos = [
+            { data: "2023-10-01", valor: 1000 },
+            { data: "2023-10-15", valor: 1500 },
+        ];
+
+        // Função para criar um gráfico
+        function criarGrafico(ctx, tipo, labels, dataset, backgroundColor, borderColor) {
+            return new window.Chart(ctx, {
+                type: tipo,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: dataset.label,
+                        data: dataset.data,
+                        backgroundColor: backgroundColor,
+                        borderColor: borderColor,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                    },
+                },
+            });
+        }
+
+        // Função para atualizar os gráficos com base no período selecionado
+        function atualizarGraficos(periodo) {
+            // Filtra os dados com base no período (exemplo básico)
+            console.log(`Filtrando para o período: ${periodo}`);
+            // Aqui você pode adicionar a lógica para filtrar os dados reais
+        }
+
+        // Função para alternar entre os gráficos
+        function alternarGrafico(tipo) {
+            document.querySelectorAll('.grafico').forEach(canvas => {
+                canvas.style.display = 'none';
+            });
+
+            if (tipo === 'ganhos') {
+                document.getElementById('grafico-ganhos').style.display = 'block';
+            } else if (tipo === 'despesas') {
+                document.getElementById('grafico-despesas').style.display = 'block';
+            } else if (tipo === 'investimentos') {
+                document.getElementById('grafico-investimentos').style.display = 'block';
+            }
+        }
+
+        // Inicializa os gráficos
+        function inicializarGraficos() {
+            const ctxGanhos = document.getElementById('grafico-ganhos').getContext('2d');
+            const ctxDespesas = document.getElementById('grafico-despesas').getContext('2d');
+            const ctxInvestimentos = document.getElementById('grafico-investimentos').getContext('2d');
+
+            criarGrafico(ctxGanhos, 'bar', ganhos.map(g => g.descricao), { label: 'Ganhos', data: ganhos.map(g => g.valor) }, '#4CAF50', '#4CAF50');
+            criarGrafico(ctxDespesas, 'pie', despesas.map(d => d.categoria), { label: 'Despesas', data: despesas.map(d => d.valor) }, ['#FF5722', '#2196F3', '#FFD700', '#9C27B0'], null);
+            criarGrafico(ctxInvestimentos, 'line', investimentos.map(i => i.data), { label: 'Investimentos', data: investimentos.map(i => i.valor) }, null, '#4CAF50');
+        }
+
+        // Evento para alternar entre os gráficos
+        document.getElementById('btn-ganhos').addEventListener('click', () => {
+            alternarGrafico('ganhos');
+            document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-ganhos').classList.add('active');
+        });
+
+        document.getElementById('btn-despesas').addEventListener('click', () => {
+            alternarGrafico('despesas');
+            document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-despesas').classList.add('active');
+        });
+
+        document.getElementById('btn-investimentos').addEventListener('click', () => {
+            alternarGrafico('investimentos');
+            document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-investimentos').classList.add('active');
+        });
+
+        // Evento para filtrar os dados
+        document.getElementById('btn-filtrar').addEventListener('click', () => {
+            const periodo = document.getElementById('periodo').value;
+            atualizarGraficos(periodo);
+        });
+
+        // Inicializa a página
+        inicializarGraficos();
+        alternarGrafico('ganhos'); // Exibe o gráfico de ganhos por padrão
+    </script>
 </body>
 </html>
