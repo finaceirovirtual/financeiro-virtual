@@ -25,8 +25,8 @@ function carregarDadosFinanceiros() {
     const totalDespesas = despesas.reduce((total, despesa) => total + despesa.valor, 0);
     const totalInvestimentos = investimentos.reduce((total, investimento) => total + investimento.valor, 0);
 
-    // Calcula o saldo atual
-    const saldoAtual = totalGanhos - totalDespesas;
+    // Calcula o saldo atual (ganhos - despesas - investimentos)
+    const saldoAtual = totalGanhos - totalDespesas - totalInvestimentos;
 
     // Atualiza os valores na página
     document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
