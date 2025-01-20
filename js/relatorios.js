@@ -1,21 +1,21 @@
-// Função para carregar os relatórios
-function carregarRelatorios() {
-    // Recupera os dados do localStorage
-    const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
-    const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
-    const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
+// Variáveis globais para armazenar as instâncias dos gráficos
+let graficoGanhos = null;
+let graficoDespesas = null;
+let graficoInvestimentos = null;
 
-    // Cria os gráficos
-    criarGraficoGanhos(ganhos);
-    criarGraficoDespesas(despesas);
-    criarGraficoInvestimentos(investimentos);
+// Função para destruir um gráfico existente
+function destruirGrafico(grafico) {
+    if (grafico) {
+        grafico.destroy();
+    }
 }
 
 // Função para criar o gráfico de ganhos
-function criarGraficoGanhos(ganhos, tipo = 'bar') {
+function criarGraficoGanhos() {
     const ctx = document.getElementById('grafico-ganhos').getContext('2d');
-    new window.Chart(ctx, {
-        type: tipo,
+    destruirGrafico(graficoGanhos); // Destrói o gráfico anterior, se existir
+    graficoGanhos = new window.Chart(ctx, {
+        type: 'bar',
         data: {
             labels: ganhos.map(g => g.descricao),
             datasets: [{
@@ -36,10 +36,11 @@ function criarGraficoGanhos(ganhos, tipo = 'bar') {
 }
 
 // Função para criar o gráfico de despesas
-function criarGraficoDespesas(despesas, tipo = 'pie') {
+function criarGraficoDespesas() {
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
-    new window.Chart(ctx, {
-        type: tipo,
+    destruirGrafico(graficoDespesas); // Destrói o gráfico anterior, se existir
+    graficoDespesas = new window.Chart(ctx, {
+        type: 'pie',
         data: {
             labels: despesas.map(d => d.categoria),
             datasets: [{
@@ -60,10 +61,11 @@ function criarGraficoDespesas(despesas, tipo = 'pie') {
 }
 
 // Função para criar o gráfico de investimentos
-function criarGraficoInvestimentos(investimentos, tipo = 'line') {
+function criarGraficoInvestimentos() {
     const ctx = document.getElementById('grafico-investimentos').getContext('2d');
-    new window.Chart(ctx, {
-        type: tipo,
+    destruirGrafico(graficoInvestimentos); // Destrói o gráfico anterior, se existir
+    graficoInvestimentos = new window.Chart(ctx, {
+        type: 'line',
         data: {
             labels: investimentos.map(i => i.data),
             datasets: [{
@@ -84,30 +86,49 @@ function criarGraficoInvestimentos(investimentos, tipo = 'line') {
     });
 }
 
-// Botão de sair
-document.getElementById('btn-sair').addEventListener('click', () => {
-    localStorage.removeItem('usuarioLogado'); // Remove o usuário logado
-    window.location.href = 'login.html'; // Redireciona para a página de login
-});
+// Função para alternar entre os gráficos
+function alternarGrafico(tipo) {
+    document.querySelectorAll('.grafico').forEach(canvas => {
+        canvas.style.display = 'none';
+    });
 
-// Botões para alternar entre tipos de gráficos
-document.getElementById('btn-barras').addEventListener('click', () => {
+    if (tipo === 'ganhos') {
+        document.getElementById('grafico-ganhos').style.display = 'block';
+        criarGraficoGanhos();
+    } else if (tipo === 'despesas') {
+        document.getElementById('grafico-despesas').style.display = 'block';
+        criarGraficoDespesas();
+    } else if (tipo === 'investimentos') {
+        document.getElementById('grafico-investimentos').style.display = 'block';
+        criarGraficoInvestimentos();
+    }
+}
+
+// Evento para alternar entre os gráficos
+document.getElementById('btn-ganhos').addEventListener('click', () => {
+    alternarGrafico('ganhos');
     document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('btn-barras').classList.add('active');
-    carregarRelatorios();
+    document.getElementById('btn-ganhos').classList.add('active');
 });
 
-document.getElementById('btn-linhas').addEventListener('click', () => {
+document.getElementById('btn-despesas').addEventListener('click', () => {
+    alternarGrafico('despesas');
     document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('btn-linhas').classList.add('active');
-    carregarRelatorios();
+    document.getElementById('btn-despesas').classList.add('active');
 });
 
-document.getElementById('btn-pizza').addEventListener('click', () => {
+document.getElementById('btn-investimentos').addEventListener('click', () => {
+    alternarGrafico('investimentos');
     document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('btn-pizza').classList.add('active');
-    carregarRelatorios();
+    document.getElementById('btn-investimentos').classList.add('active');
 });
 
-// Carrega os relatórios ao abrir a página
-carregarRelatorios();
+// Evento para filtrar os dados
+document.getElementById('btn-filtrar').addEventListener('click', () => {
+    const periodo = document.getElementById('periodo').value;
+    console.log(`Filtrando para o período: ${periodo}`);
+    // Aqui você pode adicionar a lógica para filtrar os dados reais
+});
+
+// Inicializa a página
+alternarGrafico('ganhos'); // Exibe o gráfico de ganhos por padrão
