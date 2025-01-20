@@ -2240,3 +2240,26 @@ header .btn-menu-user i {
 .menu-container.active .menu-content {
     display: block;
 }
+
+.btn-adicionar {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn-adicionar:hover {
+    background-color: #45a049; /* Verde mais escuro ao passar o mouse */
+}
+
+.btn-adicionar i {
+    font-size: 12px;
+}

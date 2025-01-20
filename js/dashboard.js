@@ -1,5 +1,4 @@
 import { auth, onAuthStateChanged, signOut } from './firebase.js';
-import Chart from 'chart.js/auto';
 
 // Verifica se o usuário está logado
 onAuthStateChanged(auth, (user) => {
@@ -51,7 +50,7 @@ function criarGraficoDespesas(despesas) {
     });
 
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
-    new Chart(ctx, {
+    new window.Chart(ctx, {
         type: 'bar',
         data: {
             labels: Object.keys(categorias),
@@ -84,7 +83,7 @@ function criarGraficoInvestimentos(investimentos) {
     });
 
     const ctx = document.getElementById('grafico-investimentos').getContext('2d');
-    new Chart(ctx, {
+    new window.Chart(ctx, {
         type: 'pie',
         data: {
             labels: Object.keys(tipos),

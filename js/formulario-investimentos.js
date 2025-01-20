@@ -1,6 +1,5 @@
-// Função para salvar o investimento e redirecionar para o Dashboard
 document.getElementById('form-investimentos').addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita o envio do formulário
+    event.preventDefault();
 
     // Captura os dados do formulário
     const valor = parseFloat(document.getElementById('valor').value);
@@ -8,15 +7,8 @@ document.getElementById('form-investimentos').addEventListener('submit', functio
     const data = document.getElementById('data').value;
     const tipo = document.getElementById('tipo').value;
 
-    // Cria um objeto com os dados do investimento
-    const investimento = {
-        valor,
-        descricao,
-        data,
-        tipo
-    };
-
-    // Salva o investimento no localStorage
+    // Salva no localStorage
+    const investimento = { valor, descricao, data, tipo };
     let investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
     investimentos.push(investimento);
     localStorage.setItem('investimentos', JSON.stringify(investimentos));

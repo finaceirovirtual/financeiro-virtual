@@ -107,52 +107,7 @@
     </div>
 
     <!-- Scripts -->
-    <script>
-        // Função para salvar a despesa e redirecionar para o Dashboard
-        document.getElementById('form-despesa').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            // Captura os dados do formulário
-            const descricao = document.getElementById('descricao').value;
-            const valor = parseFloat(document.getElementById('valor').value);
-            const data = document.getElementById('data').value;
-            const categoria = document.getElementById('categoria').value;
-
-            // Salva no localStorage
-            const despesa = { descricao, valor, data, categoria };
-            let despesas = JSON.parse(localStorage.getItem('despesas')) || [];
-            despesas.push(despesa);
-            localStorage.setItem('despesas', JSON.stringify(despesas));
-
-            // Redireciona para o Dashboard
-            window.location.href = 'dashboard.html';
-        });
-
-        // Script para o menu de usuário (abrir/fechar ao clicar)
-        document.getElementById('user-icon').addEventListener('click', function(event) {
-            event.stopPropagation();
-            const menuContent = document.getElementById('menu-content');
-            if (menuContent.style.display === 'block') {
-                menuContent.style.display = 'none';
-            } else {
-                menuContent.style.display = 'block';
-            }
-        });
-
-        // Fechar o menu ao clicar fora dele
-        document.addEventListener('click', function(event) {
-            const menuContent = document.getElementById('menu-content');
-            const userIcon = document.getElementById('user-icon');
-            if (event.target !== userIcon && !userIcon.contains(event.target)) {
-                menuContent.style.display = 'none';
-            }
-        });
-
-        // Script para o botão "Sair"
-        document.getElementById('btn-sair').addEventListener('click', function() {
-            localStorage.removeItem('usuarioLogado');
-            window.location.href = 'login.html';
-        });
-    </script>
+    <script src="js/common.js"></script>
+    <script src="js/formulario-despesas.js"></script>
 </body>
 </html>
