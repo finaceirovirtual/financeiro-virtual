@@ -12,10 +12,10 @@ function carregarRelatorios() {
 }
 
 // Função para criar o gráfico de ganhos
-function criarGraficoGanhos(ganhos) {
+function criarGraficoGanhos(ganhos, tipo = 'bar') {
     const ctx = document.getElementById('grafico-ganhos').getContext('2d');
     new window.Chart(ctx, {
-        type: 'bar',
+        type: tipo,
         data: {
             labels: ganhos.map(g => g.descricao),
             datasets: [{
@@ -36,10 +36,10 @@ function criarGraficoGanhos(ganhos) {
 }
 
 // Função para criar o gráfico de despesas
-function criarGraficoDespesas(despesas) {
+function criarGraficoDespesas(despesas, tipo = 'pie') {
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
     new window.Chart(ctx, {
-        type: 'pie',
+        type: tipo,
         data: {
             labels: despesas.map(d => d.categoria),
             datasets: [{
@@ -60,10 +60,10 @@ function criarGraficoDespesas(despesas) {
 }
 
 // Função para criar o gráfico de investimentos
-function criarGraficoInvestimentos(investimentos) {
+function criarGraficoInvestimentos(investimentos, tipo = 'line') {
     const ctx = document.getElementById('grafico-investimentos').getContext('2d');
     new window.Chart(ctx, {
-        type: 'line',
+        type: tipo,
         data: {
             labels: investimentos.map(i => i.data),
             datasets: [{
@@ -88,6 +88,25 @@ function criarGraficoInvestimentos(investimentos) {
 document.getElementById('btn-sair').addEventListener('click', () => {
     localStorage.removeItem('usuarioLogado'); // Remove o usuário logado
     window.location.href = 'login.html'; // Redireciona para a página de login
+});
+
+// Botões para alternar entre tipos de gráficos
+document.getElementById('btn-barras').addEventListener('click', () => {
+    document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('btn-barras').classList.add('active');
+    carregarRelatorios();
+});
+
+document.getElementById('btn-linhas').addEventListener('click', () => {
+    document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('btn-linhas').classList.add('active');
+    carregarRelatorios();
+});
+
+document.getElementById('btn-pizza').addEventListener('click', () => {
+    document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('btn-pizza').classList.add('active');
+    carregarRelatorios();
 });
 
 // Carrega os relatórios ao abrir a página
