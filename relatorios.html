@@ -6,24 +6,24 @@
     <title>Relatórios - Finanças Inteligentes</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Estilos para a barra lateral */
         .sidebar {
             height: 100%;
-            width: 60px; /* Largura da barra lateral fechada */
+            width: 60px;
             position: fixed;
             z-index: 1;
             top: 0;
             left: 0;
-            background-color: #4CAF50; /* Cor verde */
+            background-color: #4CAF50;
             overflow-x: hidden;
             transition: 0.5s;
             padding-top: 60px;
         }
 
         .sidebar:hover {
-            width: 250px; /* Largura da barra lateral aberta */
+            width: 250px;
         }
 
         .sidebar a {
@@ -37,42 +37,42 @@
         }
 
         .sidebar a:hover {
-            background-color: #45a049; /* Verde mais escuro ao passar o mouse */
+            background-color: #45a049;
         }
 
         .sidebar a i {
-            margin-right: 15px; /* Espaço entre o ícone e o texto */
-            min-width: 25px; /* Garante que o ícone não desapareça */
+            margin-right: 15px;
+            min-width: 25px;
         }
 
         .sidebar a span {
-            display: none; /* Esconde o texto inicialmente */
+            display: none;
         }
 
         .sidebar:hover a span {
-            display: inline; /* Mostra o texto ao passar o mouse */
+            display: inline;
         }
 
         /* Estilos para o ícone de usuário */
         .user-icon {
-            width: 40px; /* Tamanho do ícone */
+            width: 40px;
             height: 40px;
             cursor: pointer;
-            margin-left: 10px; /* Espaçamento à esquerda */
+            margin-left: 10px;
         }
 
         /* Estilos para o menu de usuário */
         .menu-container {
             position: relative;
             display: flex;
-            align-items: center; /* Centraliza verticalmente */
+            align-items: center;
         }
 
         .menu-content {
             display: none;
             position: absolute;
             right: 0;
-            top: 50px; /* Posiciona o menu abaixo do ícone de usuário */
+            top: 50px;
             background-color: #f9f9f9;
             min-width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -92,28 +92,28 @@
 
         /* Ajustes para o conteúdo principal */
         .main-content {
-            margin-left: 60px; /* Margem para a barra lateral fechada */
+            margin-left: 60px;
             transition: margin-left 0.5s;
         }
 
         .sidebar:hover + .main-content {
-            margin-left: 250px; /* Margem para a barra lateral aberta */
+            margin-left: 250px;
         }
 
         /* Estilos para o cabeçalho */
         header {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Centraliza verticalmente */
+            align-items: center;
             padding: 10px 20px;
-            background-color: #4CAF50; /* Cor verde */
+            background-color: #4CAF50;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
             font-size: 24px;
             font-weight: bold;
-            color: #fff; /* Cor do texto branco */
+            color: #fff;
         }
 
         nav ul {
@@ -129,12 +129,27 @@
 
         nav ul li a {
             text-decoration: none;
-            color: #fff; /* Cor do texto branco */
+            color: #fff;
             font-size: 16px;
         }
 
         nav ul li a:hover {
-            color: #f1f1f1; /* Cor mais clara ao passar o mouse */
+            color: #f1f1f1;
+        }
+
+        /* Estilos para os gráficos */
+        .graficos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .graficos canvas {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
     </style>
 </head>
@@ -142,27 +157,27 @@
     <!-- Barra Lateral -->
     <div class="sidebar" id="sidebar">
         <a href="dashboard.html">
-            <i class="fas fa-home"></i> <!-- Ícone de casa -->
+            <i class="fas fa-home"></i>
             <span>Dashboard</span>
         </a>
         <a href="relatorios.html">
-            <i class="fas fa-chart-line"></i> <!-- Ícone de gráfico -->
+            <i class="fas fa-chart-line"></i>
             <span>Relatórios</span>
         </a>
         <a href="configuracoes.html">
-            <i class="fas fa-cog"></i> <!-- Ícone de engrenagem -->
+            <i class="fas fa-cog"></i>
             <span>Configurações</span>
         </a>
         <a href="formulario-investimentos.html">
-            <i class="fas fa-coins"></i> <!-- Ícone de moedas -->
+            <i class="fas fa-coins"></i>
             <span>Investimentos</span>
         </a>
         <a href="formulario-ganhos.html">
-            <i class="fas fa-hand-holding-usd"></i> <!-- Ícone de ganhos -->
+            <i class="fas fa-hand-holding-usd"></i>
             <span>Ganhos</span>
         </a>
         <a href="formulario-despesas.html">
-            <i class="fas fa-wallet"></i> <!-- Ícone de carteira -->
+            <i class="fas fa-wallet"></i>
             <span>Gastos</span>
         </a>
     </div>
@@ -227,32 +242,6 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Biblioteca Chart.js -->
-    <script>
-        // Script para o menu de usuário (abrir/fechar ao clicar)
-        document.getElementById('user-icon').addEventListener('click', function(event) {
-            event.stopPropagation(); // Impede que o clique se propague para o documento
-            const menuContent = document.getElementById('menu-content');
-            if (menuContent.style.display === 'block') {
-                menuContent.style.display = 'none';
-            } else {
-                menuContent.style.display = 'block';
-            }
-        });
-
-        // Fechar o menu ao clicar fora dele
-        document.addEventListener('click', function(event) {
-            const menuContent = document.getElementById('menu-content');
-            const userIcon = document.getElementById('user-icon');
-            if (event.target !== userIcon && !userIcon.contains(event.target)) {
-                menuContent.style.display = 'none';
-            }
-        });
-
-        // Script para o botão "Sair"
-        document.getElementById('btn-sair').addEventListener('click', function() {
-            localStorage.removeItem('usuarioLogado'); // Remove o usuário logado
-            window.location.href = 'login.html'; // Redireciona para a página de login
-        });
-    </script>
+    <script type="module" src="js/relatorios.js"></script>
 </body>
 </html>
