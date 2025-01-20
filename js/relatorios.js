@@ -21,9 +21,13 @@ function carregarDados() {
 // Função para filtrar os dados com base no período
 function filtrarDadosPorPeriodo(dados, periodo) {
     const hoje = new Date();
-    return dados.filter(item => {
+    console.log(`Filtrando para o período: ${periodo}`);
+    console.log("Dados antes do filtro:", dados);
+
+    const dadosFiltrados = dados.filter(item => {
         // Converte a data do item para um objeto Date
         const dataItem = new Date(item.data);
+        console.log("Data do item:", dataItem);
 
         switch (periodo) {
             case 'diario':
@@ -53,6 +57,9 @@ function filtrarDadosPorPeriodo(dados, periodo) {
                 return true; // Sem filtro
         }
     });
+
+    console.log("Dados filtrados:", dadosFiltrados);
+    return dadosFiltrados;
 }
 
 // Função para criar o gráfico de ganhos
