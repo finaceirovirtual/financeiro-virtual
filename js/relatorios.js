@@ -22,7 +22,8 @@ function carregarDados() {
 function filtrarDadosPorPeriodo(dados, periodo) {
     const hoje = new Date();
     return dados.filter(item => {
-        const dataItem = new Date(item.data || hoje); // Se não houver data, assume a data atual
+        // Se o item não tiver uma data, assume a data atual
+        const dataItem = item.data ? new Date(item.data) : new Date();
         switch (periodo) {
             case 'diario':
                 return dataItem.toDateString() === hoje.toDateString();
@@ -97,7 +98,7 @@ function criarGraficoInvestimentos(dados) {
     graficoInvestimentos = new window.Chart(ctx, {
         type: 'line',
         data: {
-            labels: dados.map(i => i.data),
+            labels: dados.map(i => i.data || new Date().toISOString().split('T')[0]), // Usa a data atual se não houver data
             datasets: [{
                 label: 'Investimentos',
                 data: dados.map(i => i.valor),
