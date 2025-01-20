@@ -22,21 +22,35 @@ function carregarDados() {
 function filtrarDadosPorPeriodo(dados, periodo) {
     const hoje = new Date();
     return dados.filter(item => {
-        // Se o item não tiver uma data, assume a data atual
-        const dataItem = item.data ? new Date(item.data) : new Date();
+        // Converte a data do item para um objeto Date
+        const dataItem = new Date(item.data);
+
         switch (periodo) {
             case 'diario':
-                return dataItem.toDateString() === hoje.toDateString();
+                // Filtra por dia
+                return (
+                    dataItem.getDate() === hoje.getDate() &&
+                    dataItem.getMonth() === hoje.getMonth() &&
+                    dataItem.getFullYear() === hoje.getFullYear()
+                );
             case 'semanal':
-                const inicioSemana = new Date(hoje.setDate(hoje.getDate() - hoje.getDay()));
-                const fimSemana = new Date(hoje.setDate(hoje.getDate() - hoje.getDay() + 6));
+                // Filtra por semana
+                const inicioSemana = new Date(hoje);
+                inicioSemana.setDate(hoje.getDate() - hoje.getDay()); // Domingo da semana atual
+                const fimSemana = new Date(inicioSemana);
+                fimSemana.setDate(inicioSemana.getDate() + 6); // Sábado da semana atual
                 return dataItem >= inicioSemana && dataItem <= fimSemana;
             case 'mensal':
-                return dataItem.getMonth() === hoje.getMonth() && dataItem.getFullYear() === hoje.getFullYear();
+                // Filtra por mês
+                return (
+                    dataItem.getMonth() === hoje.getMonth() &&
+                    dataItem.getFullYear() === hoje.getFullYear()
+                );
             case 'anual':
+                // Filtra por ano
                 return dataItem.getFullYear() === hoje.getFullYear();
             default:
-                return true;
+                return true; // Sem filtro
         }
     });
 }
@@ -98,7 +112,7 @@ function criarGraficoInvestimentos(dados) {
     graficoInvestimentos = new window.Chart(ctx, {
         type: 'line',
         data: {
-            labels: dados.map(i => i.data || new Date().toISOString().split('T')[0]), // Usa a data atual se não houver data
+            labels: dados.map(i => i.data),
             datasets: [{
                 label: 'Investimentos',
                 data: dados.map(i => i.valor),
