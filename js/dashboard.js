@@ -84,7 +84,7 @@ function criarGraficoDespesas(ganhos, despesas, investimentos) {
     // Prepara os dados para o gráfico
     const labels = mesesOrdenados;
     const dadosGastos = mesesOrdenados.map(mes => meses[mes].despesas);
-    const dadosSaldo = mesesOrdenados.map(mes => meses[mes].ganhos - meses[mes].despesas);
+    const dadosSaldo = mesesOrdenados.map(mes => meses[mes].ganhos - meses[mes].despesas - meses[mes].investimentos);
     const dadosInvestimentos = mesesOrdenados.map(mes => meses[mes].investimentos);
 
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
