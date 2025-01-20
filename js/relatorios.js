@@ -1,47 +1,14 @@
-import { auth, onAuthStateChanged, signOut } from './firebase.js';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-
-const db = getFirestore();
-
-// Verifica se o usuário está logado
-onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.href = 'login.html';
-    } else {
-        carregarRelatorios();
-    }
-});
-
 // Função para carregar os relatórios
-async function carregarRelatorios() {
-    const user = auth.currentUser;
+function carregarRelatorios() {
+    // Recupera os dados do localStorage
+    const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
+    const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
+    const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
 
-    if (user) {
-        try {
-            // Consulta os ganhos, despesas e investimentos do usuário
-            const ganhosQuery = query(collection(db, 'ganhos'), where('userId', '==', user.uid));
-            const despesasQuery = query(collection(db, 'despesas'), where('userId', '==', user.uid));
-            const investimentosQuery = query(collection(db, 'investimentos'), where('userId', '==', user.uid));
-
-            const [ganhosSnapshot, despesasSnapshot, investimentosSnapshot] = await Promise.all([
-                getDocs(ganhosQuery),
-                getDocs(despesasQuery),
-                getDocs(investimentosQuery)
-            ]);
-
-            const ganhos = ganhosSnapshot.docs.map(doc => doc.data());
-            const despesas = despesasSnapshot.docs.map(doc => doc.data());
-            const investimentos = investimentosSnapshot.docs.map(doc => doc.data());
-
-            // Cria os gráficos
-            criarGraficoGanhos(ganhos);
-            criarGraficoDespesas(despesas);
-            criarGraficoInvestimentos(investimentos);
-        } catch (error) {
-            console.error('Erro ao carregar relatórios:', error);
-            alert('Erro ao carregar relatórios. Tente novamente.');
-        }
-    }
+    // Cria os gráficos
+    criarGraficoGanhos(ganhos);
+    criarGraficoDespesas(despesas);
+    criarGraficoInvestimentos(investimentos);
 }
 
 // Função para criar o gráfico de ganhos
@@ -119,9 +86,9 @@ function criarGraficoInvestimentos(investimentos) {
 
 // Botão de sair
 document.getElementById('btn-sair').addEventListener('click', () => {
-    signOut(auth).then(() => {
-        window.location.href = 'login.html';
-    }).catch((error) => {
-        console.error('Erro ao sair:', error);
-    });
+    localStorage.removeItem('usuarioLogado'); // Remove o usuário logado
+    window.location.href = 'login.html'; // Redireciona para a página de login
 });
+
+// Carrega os relatórios ao abrir a página
+carregarRelatorios();
