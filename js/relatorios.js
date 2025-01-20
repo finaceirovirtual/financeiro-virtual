@@ -1,6 +1,5 @@
-import { auth, onAuthStateChanged } from './firebase.js';
+import { auth, onAuthStateChanged, signOut } from './firebase.js';
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-import Chart from 'chart.js/auto';
 
 const db = getFirestore();
 
@@ -48,7 +47,7 @@ async function carregarRelatorios() {
 // Função para criar o gráfico de ganhos
 function criarGraficoGanhos(ganhos) {
     const ctx = document.getElementById('grafico-ganhos').getContext('2d');
-    new Chart(ctx, {
+    new window.Chart(ctx, {
         type: 'bar',
         data: {
             labels: ganhos.map(g => g.descricao),
@@ -72,7 +71,7 @@ function criarGraficoGanhos(ganhos) {
 // Função para criar o gráfico de despesas
 function criarGraficoDespesas(despesas) {
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
-    new Chart(ctx, {
+    new window.Chart(ctx, {
         type: 'pie',
         data: {
             labels: despesas.map(d => d.categoria),
@@ -96,7 +95,7 @@ function criarGraficoDespesas(despesas) {
 // Função para criar o gráfico de investimentos
 function criarGraficoInvestimentos(investimentos) {
     const ctx = document.getElementById('grafico-investimentos').getContext('2d');
-    new Chart(ctx, {
+    new window.Chart(ctx, {
         type: 'line',
         data: {
             labels: investimentos.map(i => i.data),
