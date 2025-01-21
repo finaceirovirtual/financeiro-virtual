@@ -1,5 +1,12 @@
-import { auth, createUserWithEmailAndPassword, updateProfile } from './firebase.js';
+import { 
+    auth, 
+    createUserWithEmailAndPassword, 
+    updateProfile, 
+    GoogleAuthProvider, 
+    signInWithPopup 
+} from './firebase.js';
 
+// Cadastro com email e senha
 document.getElementById('form-cadastro').addEventListener('submit', function (event) {
     event.preventDefault(); // Impede o envio do formulário
 
@@ -29,7 +36,7 @@ document.getElementById('form-cadastro').addEventListener('submit', function (ev
         })
         .then(() => {
             alert('Cadastro realizado com sucesso!');
-            window.location.href = 'login.html'; // Redireciona para a página de login
+            window.location.href = 'dashboard.html'; // Redireciona para o dashboard
         })
         .catch((error) => {
             // Trata erros
@@ -42,5 +49,26 @@ document.getElementById('form-cadastro').addEventListener('submit', function (ev
             } else {
                 alert('Erro ao cadastrar: ' + errorMessage);
             }
+        });
+});
+
+// Cadastro com Google
+document.getElementById('google-login').addEventListener('click', function () {
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            // Cadastro/login bem-sucedido
+            const user = result.user;
+            console.log('Usuário cadastrado/logado com Google:', user);
+            alert('Cadastro com Google realizado com sucesso!');
+            window.location.href = 'dashboard.html'; // Redireciona para o dashboard
+        })
+        .catch((error) => {
+            // Trata erros
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error('Erro no cadastro com Google:', errorMessage);
+            alert('Erro ao cadastrar com Google: ' + errorMessage);
         });
 });
