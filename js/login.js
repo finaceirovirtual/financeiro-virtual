@@ -1,4 +1,9 @@
-import { auth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from './firebase.js';
+import { 
+    auth, 
+    signInWithEmailAndPassword, 
+    GoogleAuthProvider, 
+    signInWithPopup 
+} from './firebase.js';
 
 // Login com email e senha
 document.getElementById('form-login').addEventListener('submit', function (event) {
