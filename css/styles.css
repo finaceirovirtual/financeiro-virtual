@@ -2309,3 +2309,27 @@ canvas {
     max-width: 100%;
     height: auto;
 }
+
+.btn-google {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-google:hover {
+    background-color: #357ABD;
+}
+
+.btn-google img {
+    width: 20px;
+    margin-right: 10px;
+}
