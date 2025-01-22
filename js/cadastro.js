@@ -1,18 +1,6 @@
-import {
-  auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  updateProfile,
-  signOut,
-  onAuthStateChanged,
-  firestore,
-  collection,
-  addDoc,
-  doc,
-  setDoc,
-  getDocs
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 } from './firebase.js'; // Caminho relativo
 
 document.getElementById('form-cadastro').addEventListener('submit', function (event) {
