@@ -5,7 +5,6 @@ import {
     signInWithPopup 
 } from './firebase.js';
 
-
 // Login com email e senha
 document.getElementById('form-login').addEventListener('submit', function (event) {
     event.preventDefault(); // Impede o envio do formulário
