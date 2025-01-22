@@ -64,38 +64,38 @@
         <section class="dashboard">
             <h2>Dashboard</h2>
             <div class="cards">
-    <div class="card">
-        <h3>Saldo Atual</h3>
-        <p id="saldo-atual">R$ 0,00</p>
-        <button class="btn-adicionar" onclick="window.location.href='formulario-ganhos.html'">
-            <i class="fas fa-plus"></i> Adicionar Ganhos
-        </button>
-    </div>
-    <div class="card">
-        <h3>Despesas do Mês</h3>
-        <p id="despesas-mes">R$ 0,00</p>
-        <button class="btn-adicionar" onclick="window.location.href='formulario-despesas.html'">
-            <i class="fas fa-plus"></i> Adicionar Gastos
-        </button>
-    </div>
-    <div class="card">
-        <h3>Investimentos</h3>
-        <p id="investimentos">R$ 0,00</p>
-        <button class="btn-adicionar" onclick="window.location.href='formulario-investimentos.html'">
-            <i class="fas fa-plus"></i> Adicionar Investimentos
-        </button>
-    </div>
-</div>
+                <div class="card">
+                    <h3>Saldo Atual</h3>
+                    <p id="saldo-atual">R$ 0,00</p>
+                    <button class="btn-adicionar" onclick="window.location.href='formulario-ganhos.html'">
+                        <i class="fas fa-plus"></i> Adicionar Ganhos
+                    </button>
+                </div>
+                <div class="card">
+                    <h3>Despesas do Mês</h3>
+                    <p id="despesas-mes">R$ 0,00</p>
+                    <button class="btn-adicionar" onclick="window.location.href='formulario-despesas.html'">
+                        <i class="fas fa-plus"></i> Adicionar Gastos
+                    </button>
+                </div>
+                <div class="card">
+                    <h3>Investimentos</h3>
+                    <p id="investimentos">R$ 0,00</p>
+                    <button class="btn-adicionar" onclick="window.location.href='formulario-investimentos.html'">
+                        <i class="fas fa-plus"></i> Adicionar Investimentos
+                    </button>
+                </div>
+            </div>
 
             <!-- Gráficos -->
-<div class="graficos-container">
-    <div class="grafico-wrapper">
-        <canvas id="grafico-despesas"></canvas>
-    </div>
-    <div class="grafico-wrapper">
-        <canvas id="grafico-investimentos"></canvas>
-    </div>
-</div>
+            <div class="graficos-container">
+                <div class="grafico-wrapper">
+                    <canvas id="grafico-despesas"></canvas>
+                </div>
+                <div class="grafico-wrapper">
+                    <canvas id="grafico-investimentos"></canvas>
+                </div>
+            </div>
         </section>
 
         <!-- Rodapé -->
@@ -142,10 +142,11 @@
             window.location.href = 'login.html'; // Redireciona para a página de login
         });
     </script>
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Adicione o Chart.js -->
-<script type="module" src="js/dashboard.js"></script> <!-- Adicione o dashboard.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</body>
+
+    <!-- Adicione o Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Scripts do Dashboard -->
+    <script type="module" src="js/dashboard.js"></script>
 </body>
 </html>
