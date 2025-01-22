@@ -1,7 +1,5 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    build: {
-        outDir: 'dist', // Pasta de saída
-    },
+  base: '/financeiro-virtual/', // Substitua pelo nome do seu repositório
 });
