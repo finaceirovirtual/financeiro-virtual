@@ -1,8 +1,19 @@
-import { 
-    auth, 
-    signInWithEmailAndPassword, 
-    GoogleAuthProvider, 
-    signInWithPopup 
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile,
+  signOut,
+  onAuthStateChanged,
+  firestore,
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  getDocs,
+  analytics
 } from './firebase.js';
 
 // Login com email e senha
