@@ -35,7 +35,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
-// Restante do código...
 document.getElementById('form-cadastro').addEventListener('submit', function (event) {
   event.preventDefault(); // Impede o envio do formulário
 
