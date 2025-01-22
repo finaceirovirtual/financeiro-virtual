@@ -2,7 +2,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile, signOut, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, addDoc, doc, setDoc, getDocs } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
 
 // Configuração do Firebase (use apenas uma configuração)
 const firebaseConfig = {
@@ -19,23 +18,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
-const analytics = getAnalytics(app); // Firebase Analytics (opcional)
 
 // Exporte as funções necessárias
 export {
-    auth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    GoogleAuthProvider,
-    signInWithPopup,
-    updateProfile,
-    signOut,
-    onAuthStateChanged,
-    firestore,
-    collection,
-    addDoc,
-    doc,
-    setDoc,
-    getDocs,
-    analytics // Exporte o analytics se for usar
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile,
+  signOut,
+  onAuthStateChanged,
+  firestore,
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  getDocs
 };
