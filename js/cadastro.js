@@ -4,7 +4,7 @@ import {
     updateProfile, 
     GoogleAuthProvider, 
     signInWithPopup,
-    firestore, // Adicionado
+    firestore,
     doc,
     setDoc
 } from './firebase.js';

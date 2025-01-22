@@ -1,4 +1,10 @@
-import { auth, onAuthStateChanged, signOut, firestore, collection, getDocs } from './firebase.js';
+import { 
+    auth, 
+    onAuthStateChanged, 
+    firestore, 
+    collection, 
+    getDocs 
+} from './firebase.js';
 
 // Verifica se o usuário está logado
 onAuthStateChanged(auth, (user) => {

@@ -1,4 +1,9 @@
-import { auth, firestore, collection, addDoc } from './firebase.js';
+import { 
+    auth, 
+    firestore, 
+    collection, 
+    addDoc 
+} from './firebase.js';
 
 document.getElementById('form-ganhos').addEventListener('submit', function (event) {
     event.preventDefault();
