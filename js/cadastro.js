@@ -3,7 +3,10 @@ import {
     createUserWithEmailAndPassword, 
     updateProfile, 
     GoogleAuthProvider, 
-    signInWithPopup 
+    signInWithPopup,
+    firestore, // Adicionado
+    doc,
+    setDoc
 } from './firebase.js';
 
 document.getElementById('form-cadastro').addEventListener('submit', function (event) {
@@ -77,7 +80,8 @@ function criarUsuario(nome, email, senha) {
             return updateProfile(user, { displayName: nome });
         })
         .then(() => {
-            // Exibe mensagem de sucesso
+            // Salva os dados do usuário no Firestore
+            salvarUsuarioNoFirestore(auth.currentUser.uid, nome, email);
             exibirMensagemSucesso('Cadastro realizado com sucesso!');
             window.location.href = 'dashboard.html'; // Redireciona para o dashboard
         })
@@ -85,6 +89,21 @@ function criarUsuario(nome, email, senha) {
             console.error('Erro no cadastro:', error.message);
             exibirErro("erro-geral", 'Erro ao cadastrar: ' + error.message);
         });
+}
+
+// Função para salvar usuário no Firestore
+async function salvarUsuarioNoFirestore(uid, nome, email) {
+    try {
+        const userRef = doc(firestore, "usuarios", uid); // Cria uma referência para o documento do usuário
+        await setDoc(userRef, {
+            nome: nome,
+            email: email,
+            dataCadastro: new Date().toISOString()
+        });
+        console.log("Usuário salvo no Firestore com sucesso!");
+    } catch (error) {
+        console.error("Erro ao salvar usuário no Firestore:", error);
+    }
 }
 
 // Função para exibir mensagem de sucesso
@@ -108,6 +127,8 @@ document.getElementById('google-login').addEventListener('click', function () {
         .then((result) => {
             const user = result.user;
             console.log('Usuário cadastrado/logado com Google:', user);
+            // Salva os dados do usuário no Firestore
+            salvarUsuarioNoFirestore(user.uid, user.displayName, user.email);
             alert('Cadastro com Google realizado com sucesso!');
             window.location.href = 'dashboard.html'; // Redireciona para o dashboard
         })

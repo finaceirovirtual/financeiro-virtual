@@ -1,4 +1,4 @@
-import { auth, onAuthStateChanged, signOut } from './firebase.js';
+import { auth, onAuthStateChanged, signOut, firestore, collection, getDocs } from './firebase.js';
 
 // Verifica se o usuário está logado
 onAuthStateChanged(auth, (user) => {
@@ -9,33 +9,52 @@ onAuthStateChanged(auth, (user) => {
         document.querySelector('h2').textContent = `Bem-vindo, ${user.displayName || 'Usuário'}!`;
 
         // Carrega os dados financeiros do usuário
-        carregarDadosFinanceiros();
+        carregarDadosFinanceiros(user.uid);
     }
 });
 
 // Função para carregar dados financeiros
-function carregarDadosFinanceiros() {
-    // Recupera os dados do localStorage
-    const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
-    const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
-    const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
+async function carregarDadosFinanceiros(uid) {
+    try {
+        // Recupera os dados do Firestore
+        const ganhos = await recuperarDados(uid, "ganhos");
+        const despesas = await recuperarDados(uid, "despesas");
+        const investimentos = await recuperarDados(uid, "investimentos");
 
-    // Calcula os totais
-    const totalGanhos = ganhos.reduce((total, ganho) => total + ganho.valor, 0);
-    const totalDespesas = despesas.reduce((total, despesa) => total + despesa.valor, 0);
-    const totalInvestimentos = investimentos.reduce((total, investimento) => total + investimento.valor, 0);
+        // Calcula os totais
+        const totalGanhos = ganhos.reduce((total, ganho) => total + ganho.valor, 0);
+        const totalDespesas = despesas.reduce((total, despesa) => total + despesa.valor, 0);
+        const totalInvestimentos = investimentos.reduce((total, investimento) => total + investimento.valor, 0);
 
-    // Calcula o saldo atual (ganhos - despesas - investimentos)
-    const saldoAtual = totalGanhos - totalDespesas - totalInvestimentos;
+        // Calcula o saldo atual (ganhos - despesas - investimentos)
+        const saldoAtual = totalGanhos - totalDespesas - totalInvestimentos;
 
-    // Atualiza os valores na página
-    document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
-    document.getElementById('despesas-mes').textContent = `R$ ${totalDespesas.toFixed(2)}`;
-    document.getElementById('investimentos').textContent = `R$ ${totalInvestimentos.toFixed(2)}`;
+        // Atualiza os valores na página
+        document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
+        document.getElementById('despesas-mes').textContent = `R$ ${totalDespesas.toFixed(2)}`;
+        document.getElementById('investimentos').textContent = `R$ ${totalInvestimentos.toFixed(2)}`;
 
-    // Cria os gráficos
-    criarGraficoDespesas(ganhos, despesas, investimentos);
-    criarGraficoInvestimentos(investimentos);
+        // Cria os gráficos
+        criarGraficoDespesas(ganhos, despesas, investimentos);
+        criarGraficoInvestimentos(investimentos);
+    } catch (error) {
+        console.error("Erro ao carregar dados financeiros:", error);
+    }
+}
+
+// Função para recuperar dados do Firestore
+async function recuperarDados(uid, colecao) {
+    try {
+        const querySnapshot = await getDocs(collection(firestore, "usuarios", uid, colecao));
+        const dados = [];
+        querySnapshot.forEach((doc) => {
+            dados.push({ id: doc.id, ...doc.data() });
+        });
+        return dados;
+    } catch (error) {
+        console.error(`Erro ao recuperar ${colecao}:`, error);
+        return [];
+    }
 }
 
 // Função para criar o gráfico de despesas
