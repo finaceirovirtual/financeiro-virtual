@@ -13,7 +13,7 @@ import {
   doc,
   setDoc,
   getDocs
-} from './firebase.js';
+} from './firebase.js'; // Caminho relativo
 
 document.getElementById('form-cadastro').addEventListener('submit', function (event) {
   event.preventDefault(); // Impede o envio do formulário

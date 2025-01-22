@@ -1,9 +1,19 @@
 import {
   auth,
+  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup
-} from './firebase.js';
+  signInWithPopup,
+  updateProfile,
+  signOut,
+  onAuthStateChanged,
+  firestore,
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  getDocs
+} from './firebase.js'; // Caminho relativo
 
 // Login com email e senha
 document.getElementById('form-login').addEventListener('submit', function (event) {
