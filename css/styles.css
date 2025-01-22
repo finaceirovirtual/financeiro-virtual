@@ -2357,3 +2357,38 @@ canvas {
     width: 20px;
     margin-right: 10px;
 }
+
+/* Estilos para telas menores */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .formulario-cadastro, .formulario-login {
+        padding: 10px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .beneficios {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .beneficios .card {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}

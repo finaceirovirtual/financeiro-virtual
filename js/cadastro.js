@@ -6,51 +6,99 @@ import {
     signInWithPopup 
 } from './firebase.js';
 
-// Cadastro com email e senha
 document.getElementById('form-cadastro').addEventListener('submit', function (event) {
     event.preventDefault(); // Impede o envio do formulário
 
     // Captura os valores dos campos
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
-    const confirmarSenha = document.getElementById('confirmar-senha').value;
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+    const confirmarSenha = document.getElementById('confirmar-senha').value.trim();
 
-    // Validação simples
-    if (senha !== confirmarSenha) {
-        alert('As senhas não coincidem!');
-        return;
+    // Limpa mensagens de erro anteriores
+    limparErros();
+
+    // Validações
+    let valido = true;
+
+    if (nome === "") {
+        exibirErro("erro-nome", "O nome é obrigatório.");
+        valido = false;
     }
 
-    // Cadastra o usuário no Firebase
+    if (!validarEmail(email)) {
+        exibirErro("erro-email", "Por favor, insira um email válido.");
+        valido = false;
+    }
+
+    if (senha.length < 6) {
+        exibirErro("erro-senha", "A senha deve ter pelo menos 6 caracteres.");
+        valido = false;
+    }
+
+    if (senha !== confirmarSenha) {
+        exibirErro("erro-confirmar-senha", "As senhas não coincidem.");
+        valido = false;
+    }
+
+    // Se todas as validações passarem, prossegue com o cadastro
+    if (valido) {
+        criarUsuario(nome, email, senha);
+    }
+});
+
+// Função para validar o formato do email
+function validarEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+}
+
+// Função para exibir mensagens de erro
+function exibirErro(id, mensagem) {
+    const elementoErro = document.getElementById(id);
+    elementoErro.textContent = mensagem;
+    elementoErro.style.color = "red";
+}
+
+// Função para limpar mensagens de erro
+function limparErros() {
+    const erros = document.querySelectorAll('.erro');
+    erros.forEach(erro => {
+        erro.textContent = "";
+    });
+}
+
+// Função para criar usuário no Firebase
+function criarUsuario(nome, email, senha) {
     createUserWithEmailAndPassword(auth, email, senha)
         .then((userCredential) => {
-            // Usuário cadastrado com sucesso
             const user = userCredential.user;
             console.log('Usuário cadastrado:', user);
-
-            // Adiciona o nome do usuário ao perfil (opcional)
-            return updateProfile(user, {
-                displayName: nome
-            });
+            return updateProfile(user, { displayName: nome });
         })
         .then(() => {
-            alert('Cadastro realizado com sucesso!');
+            // Exibe mensagem de sucesso
+            exibirMensagemSucesso('Cadastro realizado com sucesso!');
             window.location.href = 'dashboard.html'; // Redireciona para o dashboard
         })
         .catch((error) => {
-            // Trata erros
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error('Erro no cadastro:', errorMessage);
-
-            if (errorCode === 'auth/email-already-in-use') {
-                alert('Este email já está em uso!');
-            } else {
-                alert('Erro ao cadastrar: ' + errorMessage);
-            }
+            console.error('Erro no cadastro:', error.message);
+            exibirErro("erro-geral", 'Erro ao cadastrar: ' + error.message);
         });
-});
+}
+
+// Função para exibir mensagem de sucesso
+function exibirMensagemSucesso(mensagem) {
+    const mensagemSucesso = document.createElement('div');
+    mensagemSucesso.classList.add('mensagem-sucesso');
+    mensagemSucesso.textContent = mensagem;
+    document.querySelector('.formulario-cadastro').appendChild(mensagemSucesso);
+
+    // Remove a mensagem após 5 segundos
+    setTimeout(() => {
+        mensagemSucesso.remove();
+    }, 5000);
+}
 
 // Cadastro com Google
 document.getElementById('google-login').addEventListener('click', function () {
@@ -58,17 +106,25 @@ document.getElementById('google-login').addEventListener('click', function () {
 
     signInWithPopup(auth, provider)
         .then((result) => {
-            // Cadastro/login bem-sucedido
             const user = result.user;
             console.log('Usuário cadastrado/logado com Google:', user);
             alert('Cadastro com Google realizado com sucesso!');
             window.location.href = 'dashboard.html'; // Redireciona para o dashboard
         })
         .catch((error) => {
-            // Trata erros
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error('Erro no cadastro com Google:', errorMessage);
-            alert('Erro ao cadastrar com Google: ' + errorMessage);
+            console.error('Erro no cadastro com Google:', error.message);
+            alert('Erro ao cadastrar com Google: ' + error.message);
         });
 });
+
+// Função para validar a força da senha
+function validarForcaSenha(senha) {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(senha);
+}
+
+// Atualização na função de validação do formulário
+if (!validarForcaSenha(senha)) {
+    exibirErro("erro-senha", "A senha deve conter pelo menos 8 caracteres, incluindo maiúsculas, minúsculas, números e símbolos.");
+    valido = false;
+}
