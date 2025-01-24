@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Finanças Inteligentes</title>
+    <!-- Caminho relativo para o CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Fontes do Google -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -30,35 +32,35 @@
             <div class="campo">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
+                <span class="erro" id="erro-email"></span>
             </div>
             <div class="campo">
                 <label for="senha">Senha</label>
                 <input type="password" id="senha" name="senha" required>
+                <span class="erro" id="erro-senha"></span>
             </div>
             <button type="submit" class="btn-entrar">Entrar</button>
         </form>
-        <p>Ou</p>
-        <button id="google-login" class="btn-google">Entrar com Google</button>
         <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se</a></p>
     </section>
 
     <!-- Rodapé -->
-<footer>
-  <div class="links">
-    <a href="#">Sobre</a>
-    <a href="#">Contato</a>
-    <a href="#">Termos de Uso</a>
-  </div>
-  <div class="redes-sociais">
-    <a href="#"><img src="assets/icons/facebook.png" alt="Facebook"></a>
-    <a href="#"><img src="assets/icons/instagram.png" alt="Instagram"></a>
-    <a href="#"><img src="assets/icons/tiktok.png" alt="TikTok"></a>
-  </div>
-  <p>© 2023 Finanças Inteligentes. Todos os direitos reservados.</p>
-</footer>
+    <footer>
+        <div class="links">
+            <a href="#">Sobre</a>
+            <a href="#">Contato</a>
+            <a href="#">Termos de Uso</a>
+        </div>
+        <div class="redes-sociais">
+            <a href="#"><img src="assets/icons/facebook.png" alt="Facebook"></a>
+            <a href="#"><img src="assets/icons/instagram.png" alt="Instagram"></a>
+            <a href="#"><img src="assets/icons/tiktok.png" alt="TikTok"></a>
+        </div>
+        <p>© 2023 Finanças Inteligentes. Todos os direitos reservados.</p>
+    </footer>
 
-<!-- Scripts -->
-  <script src="js/common.js"></script> <!-- Caminho relativo para o JS comum -->
+    <!-- Scripts -->
+    <script src="js/common.js"></script> <!-- Caminho relativo para o JS comum -->
     <script type="module" src="js/login.js"></script> <!-- Caminho relativo para o JS específico da página -->
 </body>
 </html>
