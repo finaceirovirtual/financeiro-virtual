@@ -19,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
+// Adiciona o evento de submit ao formulário de cadastro
 document.getElementById('form-cadastro').addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -27,17 +28,39 @@ document.getElementById('form-cadastro').addEventListener('submit', async functi
     const senha = document.getElementById('senha').value.trim();
     const confirmarSenha = document.getElementById('confirmar-senha').value.trim();
 
+    // Verifica se as senhas coincidem
     if (senha !== confirmarSenha) {
         alert("As senhas não coincidem.");
         return;
     }
 
     try {
+        // Verifica se o email já está em uso
+        const methods = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseConfig.apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: senha,
+                returnSecureToken: true,
+            }),
+        });
+
+        if (methods.ok) {
+            alert("Este email já está em uso.");
+            return;
+        }
+
+        // Cria o usuário no Firebase Authentication
         const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
         const user = userCredential.user;
 
+        // Atualiza o perfil do usuário com o nome
         await updateProfile(user, { displayName: nome });
 
+        // Salva os dados do usuário no Firestore
         await setDoc(doc(firestore, "usuarios", user.uid), {
             nome: nome,
             email: email,
