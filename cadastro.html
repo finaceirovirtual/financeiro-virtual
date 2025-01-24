@@ -4,7 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Finanças Inteligentes</title>
-    <link rel="stylesheet" href="/financeiro-virtual/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
     <!-- Conteúdo da página de cadastro -->
@@ -54,46 +94,48 @@
         const firestore = getFirestore(app);
 
         // Código de cadastro
-        const formCadastro = document.getElementById('form-cadastro');
-        if (formCadastro) {
-            formCadastro.addEventListener('submit', async function (event) {
-                event.preventDefault();
+        document.addEventListener('DOMContentLoaded', function () {
+            const formCadastro = document.getElementById('form-cadastro');
+            if (formCadastro) {
+                formCadastro.addEventListener('submit', async function (event) {
+                    event.preventDefault();
 
-                const nome = document.getElementById('nome').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const senha = document.getElementById('senha').value.trim();
-                const confirmarSenha = document.getElementById('confirmar-senha').value.trim();
+                    const nome = document.getElementById('nome').value.trim();
+                    const email = document.getElementById('email').value.trim();
+                    const senha = document.getElementById('senha').value.trim();
+                    const confirmarSenha = document.getElementById('confirmar-senha').value.trim();
 
-                if (senha !== confirmarSenha) {
-                    alert("As senhas não coincidem.");
-                    return;
-                }
+                    if (senha !== confirmarSenha) {
+                        alert("As senhas não coincidem.");
+                        return;
+                    }
 
-                try {
-                    // Cria o usuário no Firebase Authentication
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-                    const user = userCredential.user;
+                    try {
+                        // Cria o usuário no Firebase Authentication
+                        const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+                        const user = userCredential.user;
 
-                    // Atualiza o perfil do usuário com o nome
-                    await updateProfile(user, { displayName: nome });
+                        // Atualiza o perfil do usuário com o nome
+                        await updateProfile(user, { displayName: nome });
 
-                    // Salva os dados do usuário no Firestore
-                    await setDoc(doc(firestore, "usuarios", user.uid), {
-                        nome: nome,
-                        email: email,
-                        dataCadastro: new Date().toISOString()
-                    });
+                        // Salva os dados do usuário no Firestore
+                        await setDoc(doc(firestore, "usuarios", user.uid), {
+                            nome: nome,
+                            email: email,
+                            dataCadastro: new Date().toISOString()
+                        });
 
-                    alert("Cadastro realizado com sucesso!");
-                    window.location.href = "dashboard.html"; // Redireciona para o dashboard
-                } catch (error) {
-                    console.error("Erro no cadastro:", error.message);
-                    alert("Erro ao cadastrar: " + error.message);
-                }
-            });
-        } else {
-            console.error("Formulário de cadastro não encontrado!");
-        }
+                        alert("Cadastro realizado com sucesso!");
+                        window.location.href = "dashboard.html"; // Redireciona para o dashboard
+                    } catch (error) {
+                        console.error("Erro no cadastro:", error.message);
+                        alert("Erro ao cadastrar: " + error.message);
+                    }
+                });
+            } else {
+                console.error("Formulário de cadastro não encontrado!");
+            }
+        });
     </script>
 </body>
 </html>
