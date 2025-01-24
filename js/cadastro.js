@@ -16,14 +16,11 @@ document.getElementById('form-cadastro').addEventListener('submit', async functi
     }
 
     try {
-        // Cria o usuário no Firebase Authentication
         const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
         const user = userCredential.user;
 
-        // Atualiza o perfil do usuário com o nome
         await updateProfile(user, { displayName: nome });
 
-        // Salva os dados do usuário no Firestore
         await setDoc(doc(firestore, "usuarios", user.uid), {
             nome: nome,
             email: email,
@@ -31,7 +28,7 @@ document.getElementById('form-cadastro').addEventListener('submit', async functi
         });
 
         alert("Cadastro realizado com sucesso!");
-        window.location.href = "dashboard.html"; // Redireciona para o dashboard
+        window.location.href = "dashboard.html";
     } catch (error) {
         console.error("Erro no cadastro:", error.message);
         alert("Erro ao cadastrar: " + error.message);
