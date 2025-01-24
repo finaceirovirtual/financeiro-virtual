@@ -6,137 +6,73 @@
     <title>Cadastro - Finanças Inteligentes</title>
     <!-- Caminho relativo para o CSS -->
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Estilos inline temporários -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-    </style>
+    <!-- Fontes do Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Conteúdo da página de cadastro -->
-    <div class="container">
-        <h1>Cadastro</h1>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">Finanças Inteligentes</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Início</a></li>
+                <li><a href="#">Sobre</a></li>
+                <li><a href="recursos.html">Recursos</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="cadastro.html">Cadastro</a></li>
+            </ul>
+        </nav>
+        <button class="btn-comece-agora" onclick="window.location.href='cadastro.html'">Comece Agora</button>
+    </header>
+
+    <!-- Formulário de Cadastro -->
+    <section class="formulario-cadastro">
+        <h2>Crie sua Conta</h2>
         <form id="form-cadastro">
-            <div>
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" required>
+            <div class="campo">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" name="nome" required>
+                <span class="erro" id="erro-nome"></span>
             </div>
-            <div>
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" required>
+            <div class="campo">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <span class="erro" id="erro-email"></span>
             </div>
-            <div>
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" required>
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" required>
+                <span class="erro" id="erro-senha"></span>
             </div>
-            <div>
-                <label for="confirmar-senha">Confirmar Senha:</label>
-                <input type="password" id="confirmar-senha" required>
+            <div class="campo">
+                <label for="confirmar-senha">Confirmar Senha</label>
+                <input type="password" id="confirmar-senha" name="confirmar-senha" required>
+                <span class="erro" id="erro-confirmar-senha"></span>
             </div>
-            <button type="submit">Cadastrar</button>
+            <button type="submit" class="btn-cadastrar">Cadastrar</button>
         </form>
-    </div>
+        <p>Ou</p>
+        <button id="google-login" class="btn-google">Cadastre-se com Google</button>
+        <p>Já tem uma conta? <a href="login.html">Faça Login</a></p>
+    </section>
 
-    <!-- Firebase via CDN -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+    <!-- Rodapé -->
+    <footer>
+        <div class="links">
+            <a href="#">Sobre</a>
+            <a href="#">Contato</a>
+            <a href="#">Termos de Uso</a>
+        </div>
+        <div class="redes-sociais">
+            <a href="#"><img src="assets/icons/facebook.png" alt="Facebook"></a>
+            <a href="#"><img src="assets/icons/instagram.png" alt="Instagram"></a>
+            <a href="#"><img src="assets/icons/tiktok.png" alt="TikTok"></a>
+        </div>
+        <p>© 2023 Finanças Inteligentes. Todos os direitos reservados.</p>
+    </footer>
 
-        // Configuração do Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyD_K7ESDO4c9ja_mFNF2RGjx7KOxWPzuXo",
-            authDomain: "financas-8cf44.firebaseapp.com",
-            projectId: "financas-8cf44",
-            storageBucket: "financas-8cf44.firebasestorage.app",
-            messagingSenderId: "637122171830",
-            appId: "1:637122171830:web:8c42d2169f6176cb0d6717",
-            measurementId: "G-GZJSG5TMLS"
-        };
-
-        // Inicialize o Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const firestore = getFirestore(app);
-
-        // Código de cadastro
-        const formCadastro = document.getElementById('form-cadastro');
-        if (formCadastro) {
-            formCadastro.addEventListener('submit', async function (event) {
-                event.preventDefault();
-
-                const nome = document.getElementById('nome').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const senha = document.getElementById('senha').value.trim();
-                const confirmarSenha = document.getElementById('confirmar-senha').value.trim();
-
-                if (senha !== confirmarSenha) {
-                    alert("As senhas não coincidem.");
-                    return;
-                }
-
-                try {
-                    // Cria o usuário no Firebase Authentication
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
-                    const user = userCredential.user;
-
-                    // Atualiza o perfil do usuário com o nome
-                    await updateProfile(user, { displayName: nome });
-
-                    // Salva os dados do usuário no Firestore
-                    await setDoc(doc(firestore, "usuarios", user.uid), {
-                        nome: nome,
-                        email: email,
-                        dataCadastro: new Date().toISOString()
-                    });
-
-                    alert("Cadastro realizado com sucesso!");
-                    window.location.href = "dashboard.html";
-                } catch (error) {
-                    console.error("Erro no cadastro:", error.message);
-                    alert("Erro ao cadastrar: " + error.message);
-                }
-            });
-        } else {
-            console.error("Formulário de cadastro não encontrado!");
-        }
-    </script>
+    <!-- Scripts -->
+    <script type="module" src="/js/common.js"></script> <!-- Caminho para o JS comum -->
+    <script type="module" src="/js/cadastro.js"></script> <!-- Caminho para o JS específico da página -->
 </body>
 </html>
