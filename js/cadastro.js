@@ -1,6 +1,6 @@
 // Importe os módulos do Firebase via CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 // Configuração do Firebase
@@ -36,20 +36,9 @@ document.getElementById('form-cadastro').addEventListener('submit', async functi
 
     try {
         // Verifica se o email já está em uso
-        const methods = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseConfig.apiKey}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                password: senha,
-                returnSecureToken: true,
-            }),
-        });
-
-        if (methods.ok) {
-            alert("Este email já está em uso.");
+        const methods = await fetchSignInMethodsForEmail(auth, email);
+        if (methods.length > 0) {
+            alert("Este email já está em uso. Por favor, use outro email ou faça login.");
             return;
         }
 
@@ -71,6 +60,20 @@ document.getElementById('form-cadastro').addEventListener('submit', async functi
         window.location.href = "dashboard.html";
     } catch (error) {
         console.error("Erro no cadastro:", error.message);
-        alert("Erro ao cadastrar: " + error.message);
+
+        // Tratamento de erros específicos
+        switch (error.code) {
+            case "auth/email-already-in-use":
+                alert("Este email já está em uso. Por favor, use outro email ou faça login.");
+                break;
+            case "auth/invalid-email":
+                alert("O email fornecido é inválido.");
+                break;
+            case "auth/weak-password":
+                alert("A senha é muito fraca. Use uma senha com pelo menos 6 caracteres.");
+                break;
+            default:
+                alert("Erro ao cadastrar: " + error.message);
+        }
     }
 });
