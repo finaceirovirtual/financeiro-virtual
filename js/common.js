@@ -1,4 +1,4 @@
-// Script para o menu de usuário (abrir/fechar ao clicar)
+// Scripts comuns (exemplo: menu de usuário)
 document.getElementById('user-icon').addEventListener('click', function(event) {
     event.stopPropagation();
     const menuContent = document.getElementById('menu-content');
