@@ -4,7 +4,7 @@ import {
     firestore, 
     collection, 
     getDocs,
-    signOut // Adicionado signOut
+    signOut
 } from './firebase.js';
 
 // Verifica se o usuário está logado
