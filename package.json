@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chart.js": "^4.4.7",
     "firebase": "^10.14.1"
   },
   "devDependencies": {

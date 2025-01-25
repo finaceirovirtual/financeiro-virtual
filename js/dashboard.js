@@ -4,8 +4,29 @@ import {
     firestore, 
     collection, 
     getDocs,
-    signOut
+    signOut 
 } from './firebase.js';
+import { 
+    Chart, 
+    CategoryScale, 
+    LinearScale, 
+    BarController, 
+    BarElement,
+    LineController, 
+    LineElement, 
+    PointElement 
+} from 'chart.js';
+
+// Registra as escalas e componentes necessários
+Chart.register(
+    CategoryScale, 
+    LinearScale, 
+    BarController, 
+    BarElement,
+    LineController, 
+    LineElement, 
+    PointElement
+);
 
 // Verifica se o usuário está logado
 onAuthStateChanged(auth, (user) => {
@@ -119,7 +140,7 @@ function criarGraficoDespesas(ganhos, despesas, investimentos) {
     const dadosSaldo = mesesOrdenados.map(mes => meses[mes].ganhos - meses[mes].despesas - meses[mes].investimentos);
     const dadosInvestimentos = mesesOrdenados.map(mes => meses[mes].investimentos);
 
-    new window.Chart(ctx.getContext('2d'), {
+    new Chart(ctx.getContext('2d'), {
         type: 'bar',
         data: {
             labels: labels,
@@ -171,33 +192,58 @@ function criarGraficoInvestimentos(investimentos) {
         return;
     }
 
-    const categorias = {};
+    // Agrupa os dados por mês
+    const meses = {};
+    const mesesUnicos = new Set();
+
     investimentos.forEach(investimento => {
-        if (categorias[investimento.tipo]) {
-            categorias[investimento.tipo] += investimento.valor;
-        } else {
-            categorias[investimento.tipo] = investimento.valor;
+        const data = new Date(investimento.data);
+        const mesAno = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
+        mesesUnicos.add(mesAno);
+
+        if (!meses[mesAno]) {
+            meses[mesAno] = { investimentos: 0 };
         }
+        meses[mesAno].investimentos += investimento.valor;
     });
 
-    new window.Chart(ctx.getContext('2d'), {
-        type: 'pie',
+    // Ordena os meses
+    const mesesOrdenados = Array.from(mesesUnicos).sort();
+
+    // Prepara os dados para o gráfico
+    const labels = mesesOrdenados;
+    const dadosInvestimentos = mesesOrdenados.map(mes => meses[mes].investimentos);
+
+    new Chart(ctx.getContext('2d'), {
+        type: 'line',
         data: {
-            labels: Object.keys(categorias),
-            datasets: [{
-                label: 'Investimentos',
-                data: Object.values(categorias),
-                backgroundColor: ['#4CAF50', '#2196F3', '#FFD700', '#FF5722', '#9C27B0'],
-            }]
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Investimentos',
+                    data: dadosInvestimentos,
+                    borderColor: '#FFD700', // Dourado
+                    fill: false,
+                }
+            ]
         },
         options: {
             responsive: true,
             aspectRatio: 2,
             plugins: {
                 legend: {
-                    position: 'bottom',
+                    display: true,
+                    position: 'top',
                 },
             },
+            scales: {
+                x: {
+                    type: 'category',
+                },
+                y: {
+                    beginAtZero: true,
+                }
+            }
         },
     });
 }

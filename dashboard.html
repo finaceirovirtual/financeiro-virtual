@@ -6,33 +6,33 @@
     <title>Dashboard - Finanças Inteligentes</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Barra Lateral -->
     <div class="sidebar" id="sidebar">
         <a href="dashboard.html">
-            <i class="fas fa-home"></i> <!-- Ícone de casa -->
+            <i class="fas fa-home"></i>
             <span>Dashboard</span>
         </a>
         <a href="relatorios.html">
-            <i class="fas fa-chart-line"></i> <!-- Ícone de gráfico -->
+            <i class="fas fa-chart-line"></i>
             <span>Relatórios</span>
         </a>
         <a href="configuracoes.html">
-            <i class="fas fa-cog"></i> <!-- Ícone de engrenagem -->
+            <i class="fas fa-cog"></i>
             <span>Configurações</span>
         </a>
         <a href="formulario-investimentos.html">
-            <i class="fas fa-coins"></i> <!-- Ícone de moedas -->
+            <i class="fas fa-coins"></i>
             <span>Investimentos</span>
         </a>
         <a href="formulario-ganhos.html">
-            <i class="fas fa-hand-holding-usd"></i> <!-- Ícone de ganhos -->
+            <i class="fas fa-hand-holding-usd"></i>
             <span>Ganhos</span>
         </a>
         <a href="formulario-despesas.html">
-            <i class="fas fa-wallet"></i> <!-- Ícone de carteira -->
+            <i class="fas fa-wallet"></i>
             <span>Gastos</span>
         </a>
     </div>
@@ -115,39 +115,6 @@
     </div>
 
     <!-- Scripts -->
-    <script>
-        // Script para o menu de usuário (abrir/fechar ao clicar)
-        document.getElementById('user-icon').addEventListener('click', function(event) {
-            event.stopPropagation(); // Impede que o clique se propague para o documento
-            const menuContent = document.getElementById('menu-content');
-            if (menuContent.style.display === 'block') {
-                menuContent.style.display = 'none';
-            } else {
-                menuContent.style.display = 'block';
-            }
-        });
-
-        // Fechar o menu ao clicar fora dele
-        document.addEventListener('click', function(event) {
-            const menuContent = document.getElementById('menu-content');
-            const userIcon = document.getElementById('user-icon');
-            if (event.target !== userIcon && !userIcon.contains(event.target)) {
-                menuContent.style.display = 'none';
-            }
-        });
-
-        // Script para o botão "Sair"
-        document.getElementById('btn-sair').addEventListener('click', function() {
-            localStorage.removeItem('usuarioLogado'); // Remove o usuário logado
-            window.location.href = 'login.html'; // Redireciona para a página de login
-        });
-    </script>
-
-    <!-- Adicione o Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- Scripts do Dashboard -->
-    <link rel="stylesheet" href="./css/styles.css">
-<script type="module" src="./js/dashboard.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
 </body>
 </html>
