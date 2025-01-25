@@ -20,15 +20,11 @@ const auth = firebase.auth();
 
 // Verifica se o usuário está logado
 auth.onAuthStateChanged((user) => {
-    if (user) {
-        // Usuário autenticado
-        console.log("Usuário autenticado:", user);
+    if (!user) {
+        window.location.href = 'login.html';
+    } else {
         document.querySelector('h2').textContent = `Bem-vindo, ${user.displayName || 'Usuário'}!`;
         carregarDadosFinanceiros(user.uid);
-    } else {
-        // Usuário não autenticado, redireciona para a página de login
-        console.log("Usuário não autenticado, redirecionando para login...");
-        window.location.href = 'login.html';
     }
 });
 
