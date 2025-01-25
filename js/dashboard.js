@@ -1,7 +1,22 @@
-import { auth, onAuthStateChanged, firestore, collection, getDocs, signOut } from '/assets/js/firebase.js';
+// Configuração do Firebase
+const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_DOMINIO.firebaseapp.com",
+    projectId: "SEU_PROJECT_ID",
+    storageBucket: "SEU_STORAGE_BUCKET.appspot.com",
+    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+    appId: "SEU_APP_ID"
+};
+
+// Inicializa o Firebase
+const app = firebase.initializeApp(firebaseConfig);
+
+// Acessa o Firestore e o Auth
+const db = firebase.firestore();
+const auth = firebase.auth();
 
 // Verifica se o usuário está logado
-onAuthStateChanged(auth, (user) => {
+auth.onAuthStateChanged((user) => {
     if (!user) {
         window.location.href = 'login.html';
     } else {
@@ -37,7 +52,7 @@ async function carregarDadosFinanceiros(uid) {
 // Função para recuperar dados do Firestore
 async function recuperarDados(uid, colecao) {
     try {
-        const querySnapshot = await getDocs(collection(firestore, "usuarios", uid, colecao));
+        const querySnapshot = await db.collection("usuarios").doc(uid).collection(colecao).get();
         const dados = [];
         querySnapshot.forEach((doc) => {
             dados.push({ id: doc.id, ...doc.data() });
@@ -199,7 +214,7 @@ function criarGraficoInvestimentos(investimentos) {
 
 // Botão de sair
 document.getElementById('btn-sair').addEventListener('click', () => {
-    signOut(auth).then(() => {
+    auth.signOut().then(() => {
         window.location.href = 'login.html';
     }).catch((error) => {
         console.error('Erro ao sair:', error);
