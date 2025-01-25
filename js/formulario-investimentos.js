@@ -1,4 +1,7 @@
-import { auth, firestore, collection, addDoc } from './firebase.js';
+const auth = firebase.auth();
+const firestore = firebase.firestore();
+const collection = firestore.collection;
+const addDoc = firestore.addDoc;
 
 document.getElementById('form-investimentos').addEventListener('submit', async function (event) {
     event.preventDefault();
