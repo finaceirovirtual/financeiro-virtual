@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "chart.js": "^4.4.7",
-    "firebase": "^10.14.1"
+    "firebase": "^10.14.1",
+    "vite-plugin-pwa": "^0.21.1"
   },
   "devDependencies": {
     "vite": "^6.0.7"

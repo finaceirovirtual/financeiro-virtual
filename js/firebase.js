@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 
+// Configuração do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyD_K7ESDO4c9ja_mFNF2RGjx7KOxWPzuXo",
     authDomain: "financas-8cf44.firebaseapp.com",
@@ -12,10 +13,12 @@ const firebaseConfig = {
     measurementId: "G-GZJSG5TMLS"
 };
 
+// Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
+// Exporta as funcionalidades necessárias
 export { 
     auth, 
     firestore, 
