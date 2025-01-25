@@ -54,7 +54,7 @@ document.getElementById('form-ganhos').addEventListener('submit', async function
         alert("Ganho salvo com sucesso!");
         window.location.href = "dashboard.html"; // Redireciona para o dashboard
     } catch (error) {
-        console.error("Erro ao salvar ganho:", error.message);
+        console.error("Erro ao salvar ganho:", error);
         alert("Erro ao salvar ganho: " + error.message);
     }
 });
