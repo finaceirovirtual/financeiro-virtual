@@ -20,7 +20,10 @@ export default defineConfig({
         main: path.resolve(__dirname, 'index.html'), // Ponto de entrada principal
         cadastro: path.resolve(__dirname, 'cadastro.html'), // Ponto de entrada para cadastro.html
         login: path.resolve(__dirname, 'login.html'), // Ponto de entrada para login.html
-        // Adicione outros arquivos HTML aqui, se necessário
+        dashboard: path.resolve(__dirname, 'dashboard.html'), // Ponto de entrada para dashboard.html
+        formularioGanhos: path.resolve(__dirname, 'formulario-ganhos.html'), // Ponto de entrada para formulario-ganhos.html
+        formularioDespesas: path.resolve(__dirname, 'formulario-despesas.html'), // Ponto de entrada para formulario-despesas.html
+        formularioInvestimentos: path.resolve(__dirname, 'formulario-investimentos.html') // Ponto de entrada para formulario-investimentos.html
       }
     }
   }

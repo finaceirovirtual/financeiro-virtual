@@ -1,6 +1,7 @@
+// firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"; // Adicionado onAuthStateChanged e signOut
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore"; // Adicionado collection, getDocs e addDoc
 
 const firebaseConfig = {
     apiKey: "AIzaSyD_K7ESDO4c9ja_mFNF2RGjx7KOxWPzuXo",
@@ -16,4 +17,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 
-export { auth, firestore };
+// Exporte tudo o que for necessário
+export { 
+    auth, 
+    firestore, 
+    onAuthStateChanged, 
+    signOut, 
+    collection, 
+    getDocs, 
+    addDoc 
+};
