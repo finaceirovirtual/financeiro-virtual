@@ -1,8 +1,4 @@
 import { auth, onAuthStateChanged, firestore, collection, getDocs, signOut } from '/js/firebase.js';
-import { Chart, CategoryScale, LinearScale, BarController, BarElement, LineController, LineElement, PointElement } from 'chart.js';
-
-// Registra os componentes do Chart.js
-Chart.register(CategoryScale, LinearScale, BarController, BarElement, LineController, LineElement, PointElement);
 
 // Verifica se o usuário está logado
 onAuthStateChanged(auth, (user) => {
