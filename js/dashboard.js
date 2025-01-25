@@ -1,4 +1,4 @@
-import { auth, onAuthStateChanged, firestore, collection, getDocs, signOut } from './firebase.js';
+import { auth, onAuthStateChanged, firestore, collection, getDocs, signOut } from '/js/firebase.js';
 import { Chart, CategoryScale, LinearScale, BarController, BarElement, LineController, LineElement, PointElement } from 'chart.js';
 
 // Registra os componentes do Chart.js
