@@ -3,7 +3,8 @@ import {
     onAuthStateChanged, 
     firestore, 
     collection, 
-    getDocs 
+    getDocs,
+    signOut // Adicionado signOut
 } from './firebase.js';
 
 // Verifica se o usuário está logado
@@ -65,6 +66,12 @@ async function recuperarDados(uid, colecao) {
 
 // Função para criar o gráfico de despesas
 function criarGraficoDespesas(ganhos, despesas, investimentos) {
+    const ctx = document.getElementById('grafico-despesas');
+    if (!ctx) {
+        console.error("Elemento 'grafico-despesas' não encontrado.");
+        return;
+    }
+
     // Agrupa os dados por mês
     const meses = {};
     const mesesUnicos = new Set();
@@ -112,8 +119,7 @@ function criarGraficoDespesas(ganhos, despesas, investimentos) {
     const dadosSaldo = mesesOrdenados.map(mes => meses[mes].ganhos - meses[mes].despesas - meses[mes].investimentos);
     const dadosInvestimentos = mesesOrdenados.map(mes => meses[mes].investimentos);
 
-    const ctx = document.getElementById('grafico-despesas').getContext('2d');
-    new window.Chart(ctx, {
+    new window.Chart(ctx.getContext('2d'), {
         type: 'bar',
         data: {
             labels: labels,
@@ -159,6 +165,12 @@ function criarGraficoDespesas(ganhos, despesas, investimentos) {
 
 // Função para criar o gráfico de investimentos
 function criarGraficoInvestimentos(investimentos) {
+    const ctx = document.getElementById('grafico-investimentos');
+    if (!ctx) {
+        console.error("Elemento 'grafico-investimentos' não encontrado.");
+        return;
+    }
+
     const categorias = {};
     investimentos.forEach(investimento => {
         if (categorias[investimento.tipo]) {
@@ -168,8 +180,7 @@ function criarGraficoInvestimentos(investimentos) {
         }
     });
 
-    const ctx = document.getElementById('grafico-investimentos').getContext('2d');
-    new window.Chart(ctx, {
+    new window.Chart(ctx.getContext('2d'), {
         type: 'pie',
         data: {
             labels: Object.keys(categorias),
