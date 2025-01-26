@@ -2413,15 +2413,44 @@ canvas {
 
 .graficos {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
     margin-bottom: 20px;
 }
 
 .graficos canvas {
-    width: 48%;
-    height: 300px;
+    width: 100%;
+    max-width: 400px; /* Tamanho máximo dos gráficos */
+    height: 200px; /* Altura reduzida */
+    margin: 0 auto; /* Centraliza os gráficos */
 }
 
+/* Mensagens Motivacionais */
+.mensagens {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.mensagens.positivo {
+    background-color: #e8f5e9; /* Verde claro */
+    border-color: #c8e6c9;
+}
+
+.mensagens.negativo {
+    background-color: #ffebee; /* Vermelho claro */
+    border-color: #ffcdd2;
+}
+
+.mensagens.neutro {
+    background-color: #fff3e0; /* Laranja claro */
+    border-color: #ffe0b2;
+}
 .tabelas table {
     width: 100%;
     border-collapse: collapse;

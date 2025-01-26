@@ -22,6 +22,7 @@ const btnFiltrar = document.getElementById('btn-filtrar');
 const dataInicio = document.getElementById('data-inicio');
 const dataFim = document.getElementById('data-fim');
 const tabelaResumo = document.getElementById('tabela-resumo').getElementsByTagName('tbody')[0];
+const mensagensDiv = document.getElementById('mensagens');
 
 // Gráficos
 const ctxDespesasGanhos = document.getElementById('grafico-despesas-ganhos').getContext('2d');
@@ -60,10 +61,10 @@ function calcularTotais(despesas, ganhos, investimentos) {
 }
 
 // Função para atualizar gráficos
-function atualizarGraficos(despesas, ganhos, investimentos) {
+function atualizarGraficos(totalDespesas, totalGanhos, totalInvestimentos) {
     const labels = ['Despesas', 'Ganhos', 'Investimentos'];
-    const dadosDespesasGanhos = [despesas, ganhos, 0]; // Investimentos não entram aqui
-    const dadosInvestimentos = [0, 0, investimentos]; // Apenas investimentos
+    const dadosDespesasGanhos = [totalDespesas, totalGanhos, 0]; // Investimentos não entram aqui
+    const dadosInvestimentos = [0, 0, totalInvestimentos]; // Apenas investimentos
 
     if (graficoDespesasGanhos) graficoDespesasGanhos.destroy();
     if (graficoInvestimentos) graficoInvestimentos.destroy();
@@ -115,6 +116,51 @@ function atualizarTabela(totalDespesas, totalGanhos, totalInvestimentos, lucro) 
     `;
 }
 
+// Função para exibir mensagens motivacionais
+function exibirMensagem(totalDespesas, totalGanhos, totalInvestimentos, lucro) {
+    let mensagem = '';
+    let classe = 'neutro';
+
+    // Mensagens para lucro
+    if (lucro > 0) {
+        const porcentagemLucro = ((lucro / totalGanhos) * 100).toFixed(2);
+        if (porcentagemLucro > 50) {
+            mensagem = `Incrível! Seu lucro é de ${porcentagemLucro}% dos ganhos. Continue assim! 🚀`;
+            classe = 'positivo';
+        } else if (porcentagemLucro > 20) {
+            mensagem = `Bom trabalho! Seu lucro é de ${porcentagemLucro}% dos ganhos. Você está no caminho certo! 💪`;
+            classe = 'positivo';
+        } else {
+            mensagem = `Seu lucro é de ${porcentagemLucro}% dos ganhos. Pequenos passos levam a grandes resultados! 🌱`;
+            classe = 'positivo';
+        }
+    } else if (lucro === 0) {
+        mensagem = "Você está no 0 a 0. Que tal revisar suas despesas e investimentos para ver onde pode melhorar? 💡";
+        classe = 'neutro';
+    } else {
+        const porcentagemPrejuizo = ((Math.abs(lucro) / totalGanhos) * 100).toFixed(2);
+        mensagem = `Você está com um prejuízo de ${porcentagemPrejuizo}%. Não desanime! Revisar suas despesas pode ajudar. 📉`;
+        classe = 'negativo';
+    }
+
+    // Mensagens para investimentos
+    if (totalInvestimentos > 0) {
+        if (totalInvestimentos > totalGanhos * 0.5) {
+            mensagem += " E você está investindo mais de 50% dos seus ganhos! Isso é incrível! 🌟";
+        } else if (totalInvestimentos > totalGanhos * 0.2) {
+            mensagem += " E você está investindo uma boa parte dos seus ganhos. Continue assim! 💼";
+        } else {
+            mensagem += " E você está começando a investir. Todo grande investidor começou assim! 🌱";
+        }
+    } else {
+        mensagem += " Você ainda não fez investimentos. Que tal começar a investir hoje mesmo? 💰";
+    }
+
+    // Aplica a mensagem e a classe
+    mensagensDiv.innerHTML = mensagem;
+    mensagensDiv.className = `mensagens ${classe}`;
+}
+
 // Evento de filtro
 btnFiltrar.addEventListener('click', async () => {
     const usuario = auth.currentUser;
@@ -137,6 +183,7 @@ btnFiltrar.addEventListener('click', async () => {
 
     atualizarGraficos(totalDespesas, totalGanhos, totalInvestimentos);
     atualizarTabela(totalDespesas, totalGanhos, totalInvestimentos, lucro);
+    exibirMensagem(totalDespesas, totalGanhos, totalInvestimentos, lucro); // Exibe as mensagens
 });
 
 // Carregar dados ao abrir a página
