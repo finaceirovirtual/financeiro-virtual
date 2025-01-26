@@ -2538,3 +2538,34 @@ canvas {
         height: 180px;
     }
 }
+
+/* Estilos para o menu de usuário */
+.menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 50px; /* Posiciona o menu abaixo do ícone de usuário */
+    background-color: #fff; /* Fundo branco */
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    border-radius: 8px; /* Bordas arredondadas */
+    z-index: 1000; /* Garante que o menu fique acima de outros elementos */
+}
+
+.menu-content a {
+    color: #333; /* Cor do texto */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease; /* Transição suave */
+}
+
+.menu-content a:hover {
+    background-color: #f1f1f1; /* Fundo cinza ao passar o mouse */
+    border-radius: 8px; /* Bordas arredondadas */
+}
