@@ -1,3 +1,23 @@
+// Configuração do Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyD_K7ESDO4c9ja_mFNF2RGjx7KOxWPzuXo",
+    authDomain: "financas-8cf44.firebaseapp.com",
+    projectId: "financas-8cf44",
+    storageBucket: "financas-8cf44.appspot.com",
+    messagingSenderId: "637122171830",
+    appId: "1:637122171830:web:8c42d2169f6176cb0d6717",
+    measurementId: "G-GZJSG5TMLS"
+};
+
+// Inicializa o Firebase
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+// Referências globais
+const auth = firebase.auth();
+const firestore = firebase.firestore();
+
 // Variáveis globais para armazenar as instâncias dos gráficos
 let graficoGanhos = null;
 let graficoDespesas = null;
@@ -10,12 +30,34 @@ function destruirGrafico(grafico) {
     }
 }
 
-// Função para carregar os dados do localStorage
-function carregarDados() {
-    const ganhos = JSON.parse(localStorage.getItem('ganhos')) || [];
-    const despesas = JSON.parse(localStorage.getItem('despesas')) || [];
-    const investimentos = JSON.parse(localStorage.getItem('investimentos')) || [];
-    return { ganhos, despesas, investimentos };
+// Função para carregar os dados do Firestore
+async function carregarDados() {
+    const user = auth.currentUser;
+    if (!user) {
+        alert("Usuário não autenticado. Faça login novamente.");
+        window.location.href = "login.html";
+        return { ganhos: [], despesas: [], investimentos: [] };
+    }
+
+    try {
+        // Busca ganhos
+        const ganhosSnapshot = await firestore.collection("usuarios").doc(user.uid).collection("ganhos").get();
+        const ganhos = ganhosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        // Busca despesas
+        const despesasSnapshot = await firestore.collection("usuarios").doc(user.uid).collection("despesas").get();
+        const despesas = despesasSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        // Busca investimentos
+        const investimentosSnapshot = await firestore.collection("usuarios").doc(user.uid).collection("investimentos").get();
+        const investimentos = investimentosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        return { ganhos, despesas, investimentos };
+    } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+        alert("Erro ao carregar dados. Tente novamente.");
+        return { ganhos: [], despesas: [], investimentos: [] };
+    }
 }
 
 // Função para filtrar os dados com base no período
@@ -139,13 +181,13 @@ function criarGraficoInvestimentos(dados) {
 }
 
 // Função para alternar entre os gráficos
-function alternarGrafico(tipo) {
+async function alternarGrafico(tipo) {
     document.querySelectorAll('.grafico').forEach(canvas => {
         canvas.style.display = 'none';
     });
 
     const periodo = document.getElementById('periodo').value;
-    const { ganhos, despesas, investimentos } = carregarDados();
+    const { ganhos, despesas, investimentos } = await carregarDados();
 
     if (tipo === 'ganhos') {
         const ganhosFiltrados = filtrarDadosPorPeriodo(ganhos, periodo);

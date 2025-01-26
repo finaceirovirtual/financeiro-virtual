@@ -26,7 +26,6 @@ document.getElementById('form-despesa').addEventListener('submit', async functio
     const valor = parseFloat(document.getElementById('valor').value);
     const data = document.getElementById('data').value;
     const categoria = document.getElementById('categoria').value;
-    const tipoOperacao = document.getElementById('tipo-operacao').value;
 
     if (!descricao || !valor || !data || !categoria) {
         alert("Por favor, preencha todos os campos.");
@@ -41,20 +40,16 @@ document.getElementById('form-despesa').addEventListener('submit', async functio
             return;
         }
 
-        // Define o valor como negativo se a operação for "retirar"
-        const valorFinal = tipoOperacao === "retirar" ? -valor : valor;
-
         // Salva a despesa no Firestore
         await firestore.collection("usuarios").doc(user.uid).collection("despesas").add({
             descricao: descricao,
-            valor: valorFinal, // Valor positivo ou negativo
+            valor: valor,
             data: data,
             categoria: categoria,
-            dataRegistro: new Date().toISOString(),
-            tipoOperacao: tipoOperacao // Adiciona o tipo de operação
+            dataRegistro: new Date().toISOString()
         });
 
-        alert(tipoOperacao === "retirar" ? "Despesa retirada com sucesso!" : "Despesa adicionada com sucesso!");
+        alert("Despesa salva com sucesso!");
         window.location.href = "dashboard.html"; // Redireciona para o dashboard
     } catch (error) {
         console.error("Erro ao salvar despesa:", error);
