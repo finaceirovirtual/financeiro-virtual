@@ -22,6 +22,7 @@ const firestore = firebase.firestore();
 document.getElementById('form-investimentos').addEventListener('submit', async function (event) {
     event.preventDefault();
 
+    // Obtém os valores dos campos
     const valor = parseFloat(document.getElementById('valor').value);
     const descricao = document.getElementById('descricao').value.trim();
     const data = document.getElementById('data').value;
@@ -29,6 +30,7 @@ document.getElementById('form-investimentos').addEventListener('submit', async f
     const ticker = document.getElementById('ticker').value.trim();
     const quantidade = parseFloat(document.getElementById('quantidade').value);
 
+    // Validação dos campos
     if (!valor || !descricao || !data || !tipo || !ticker || !quantidade) {
         alert("Por favor, preencha todos os campos.");
         return;

@@ -80,10 +80,19 @@
                     <label for="tipo">Tipo de Investimento</label>
                     <select id="tipo" name="tipo" required>
                         <option value="acoes">Ações</option>
+                        <option value="criptomoedas">Criptomoedas</option>
                         <option value="poupanca">Poupança</option>
                         <option value="fundos">Fundos</option>
                         <option value="outros">Outros</option>
                     </select>
+                </div>
+                <div class="campo">
+                    <label for="ticker">Ticker (Código do Ativo)</label>
+                    <input type="text" id="ticker" name="ticker" required>
+                </div>
+                <div class="campo">
+                    <label for="quantidade">Quantidade</label>
+                    <input type="number" id="quantidade" name="quantidade" step="0.01" required>
                 </div>
                 <button type="submit" class="btn-salvar">Salvar</button>
             </form>
