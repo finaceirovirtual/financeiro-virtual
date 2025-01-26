@@ -67,57 +67,54 @@
             </div>
         </header>
 
-        <!-- Conteúdo da Página -->
-        <section class="dashboard">
-            <h2>Dashboard</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>Saldo Atual</h3>
-                    <p id="saldo-atual">R$ 0,00</p>
-                    <button class="btn-adicionar" onclick="window.location.href='formulario-ganhos.html'">
-                        <i class="fas fa-plus"></i> Adicionar Ganhos
-                    </button>
-                </div>
-                <div class="card">
-                    <h3>Despesas do Mês</h3>
-                    <p id="despesas-mes">R$ 0,00</p>
-                    <button class="btn-adicionar" onclick="window.location.href='formulario-despesas.html'">
-                        <i class="fas fa-plus"></i> Adicionar Gastos
-                    </button>
-                </div>
-                <div class="card">
-                    <h3>Investimentos</h3>
-                    <p id="investimentos">R$ 0,00</p>
-                    <button class="btn-adicionar" onclick="window.location.href='formulario-investimentos.html'">
-                        <i class="fas fa-plus"></i> Adicionar Investimentos
-                    </button>
-                </div>
+       <!-- Conteúdo da Página -->
+<section class="dashboard">
+    <h2>Dashboard</h2>
+    <div class="cards">
+        <div class="card">
+            <h3>Saldo Atual</h3>
+            <p id="saldo-atual">R$ 0,00</p>
+            <button class="btn-adicionar" onclick="window.location.href='formulario-ganhos.html'">
+                <i class="fas fa-plus"></i> Adicionar Ganhos
+            </button>
+        </div>
+        <div class="card">
+            <h3>Despesas do Mês</h3>
+            <p id="despesas-mes">R$ 0,00</p>
+            <button class="btn-adicionar" onclick="window.location.href='formulario-despesas.html'">
+                <i class="fas fa-plus"></i> Adicionar Gastos
+            </button>
+        </div>
+        <div class="card">
+            <h3>Investimentos</h3>
+            <p id="investimentos">R$ 0,00</p>
+            <button class="btn-adicionar" onclick="window.location.href='formulario-investimentos.html'">
+                <i class="fas fa-plus"></i> Adicionar Investimentos
+            </button>
+        </div>
+    </div>
+
+    <!-- Gráficos e Lista de Investimentos -->
+    <div class="graficos-lista-container">
+        <!-- Gráfico de Despesas -->
+        <div class="grafico-wrapper">
+            <canvas id="grafico-despesas"></canvas>
+        </div>
+
+        <!-- Gráfico de Pizza de Investimentos -->
+        <div class="grafico-wrapper">
+            <canvas id="grafico-investimentos"></canvas>
+        </div>
+
+        <!-- Lista de Investimentos -->
+        <div class="lista-investimentos-wrapper">
+            <h3>Detalhes dos Investimentos</h3>
+            <div class="lista-investimentos" id="lista-investimentos">
+                <!-- Os investimentos serão exibidos aqui -->
             </div>
-
-            <!-- Gráficos e Lista de Investimentos -->
-            <div class="graficos-lista-container">
-                <!-- Gráfico de Pizza -->
-                <div class="grafico-wrapper">
-                    <canvas id="grafico-investimentos"></canvas>
-                </div>
-
-                <!-- Lista de Investimentos -->
-                <div class="lista-investimentos-wrapper">
-                    <h3>Detalhes dos Investimentos</h3>
-                    <div class="lista-investimentos" id="lista-investimentos">
-                        <!-- Os investimentos serão exibidos aqui -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gráfico de Despesas -->
-            <div class="graficos-container">
-                <div class="grafico-wrapper">
-                    <canvas id="grafico-despesas"></canvas>
-                </div>
-            </div>
-        </section>
-
+        </div>
+    </div>
+</section>
         <!-- Rodapé -->
         <footer>
             <div class="links">
