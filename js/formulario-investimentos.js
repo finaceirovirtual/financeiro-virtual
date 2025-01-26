@@ -59,7 +59,7 @@ document.getElementById('form-investimentos').addEventListener('submit', async f
 
         // Salva o investimento no Firestore
         await firestore.collection("usuarios").doc(user.uid).collection("investimentos").add({
-            valor: valor,
+            valor: valor, // Valor inicial investido
             descricao: descricao,
             data: data,
             tipo: tipo,
