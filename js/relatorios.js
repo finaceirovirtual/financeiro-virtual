@@ -108,7 +108,7 @@ function filtrarDadosPorPeriodo(dados, periodo) {
 function criarGraficoGanhos(dados) {
     const ctx = document.getElementById('grafico-ganhos').getContext('2d');
     destruirGrafico(graficoGanhos); // Destrói o gráfico anterior, se existir
-    graficoGanhos = new window.Chart(ctx, {
+    graficoGanhos = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: dados.map(g => g.descricao),
@@ -133,7 +133,7 @@ function criarGraficoGanhos(dados) {
 function criarGraficoDespesas(dados) {
     const ctx = document.getElementById('grafico-despesas').getContext('2d');
     destruirGrafico(graficoDespesas); // Destrói o gráfico anterior, se existir
-    graficoDespesas = new window.Chart(ctx, {
+    graficoDespesas = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: dados.map(d => d.categoria),
@@ -158,7 +158,7 @@ function criarGraficoDespesas(dados) {
 function criarGraficoInvestimentos(dados) {
     const ctx = document.getElementById('grafico-investimentos').getContext('2d');
     destruirGrafico(graficoInvestimentos); // Destrói o gráfico anterior, se existir
-    graficoInvestimentos = new window.Chart(ctx, {
+    graficoInvestimentos = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dados.map(i => i.data),
@@ -224,11 +224,13 @@ document.getElementById('btn-investimentos').addEventListener('click', () => {
 });
 
 // Evento para filtrar os dados
-document.getElementById('btn-filtrar').addEventListener('click', (e) => {
+document.getElementById('btn-filtrar').addEventListener('click', async (e) => {
     e.preventDefault(); // Evita o comportamento padrão do botão
     const tipoAtivo = document.querySelector('.toggle-graficos button.active').id.replace('btn-', '');
-    alternarGrafico(tipoAtivo); // Atualiza o gráfico ativo com o novo filtro
+    await alternarGrafico(tipoAtivo); // Atualiza o gráfico ativo com o novo filtro
 });
 
 // Inicializa a página
-alternarGrafico('ganhos'); // Exibe o gráfico de ganhos por padrão
+document.addEventListener('DOMContentLoaded', async () => {
+    await alternarGrafico('ganhos'); // Exibe o gráfico de ganhos por padrão
+});
