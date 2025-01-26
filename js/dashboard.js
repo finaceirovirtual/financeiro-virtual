@@ -85,7 +85,7 @@ async function atualizarPrecosInvestimentos(investimentos) {
             // Busca o preço da ação usando Alpha Vantage
             precoAtual = await buscarPrecoAcao(investimento.ticker, apiKeyAlphaVantage);
         } else if (investimento.tipo === 'criptomoedas') {
-            // Busca o preço da criptomoeda usando CoinGecko
+            // Busca o preço da criptomoeda usando CoinGecko com AllOrigins
             precoAtual = await buscarPrecoCripto(investimento.ticker);
         } else {
             // Para outros tipos de investimento, o preço é 1 (não aplicável)
@@ -127,15 +127,40 @@ async function buscarPrecoAcao(ticker, apiKey) {
     }
 }
 
-// Função para buscar o preço de uma criptomoeda usando CoinGecko
+// Função para buscar o preço de uma criptomoeda usando CoinGecko com AllOrigins
 async function buscarPrecoCripto(ticker) {
-    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd`);
-    const data = await response.json();
+    const cacheKey = `preco-${ticker}`;
+    const cacheExpiry = 5 * 60 * 1000; // 5 minutos
 
-    if (data[ticker] && data[ticker].usd) {
-        return parseFloat(data[ticker].usd);
-    } else {
-        throw new Error("Não foi possível obter o preço da criptomoeda.");
+    // Verifica se há um cache válido
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+        const { timestamp, price } = JSON.parse(cachedData);
+        if (Date.now() - timestamp < cacheExpiry) {
+            return price; // Retorna o preço do cache
+        }
+    }
+
+    // Faz a requisição à API usando AllOrigins
+    const proxyUrl = 'https://api.allorigins.win/get?url=';
+    const apiUrl = encodeURIComponent(`https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd`);
+    
+    try {
+        const response = await fetch(proxyUrl + apiUrl);
+        const data = await response.json();
+        const parsedData = JSON.parse(data.contents); // AllOrigins retorna os dados em data.contents
+
+        if (parsedData[ticker] && parsedData[ticker].usd) {
+            const price = parseFloat(parsedData[ticker].usd);
+            // Armazena no cache
+            localStorage.setItem(cacheKey, JSON.stringify({ timestamp: Date.now(), price }));
+            return price;
+        } else {
+            throw new Error("Não foi possível obter o preço da criptomoeda.");
+        }
+    } catch (error) {
+        console.error("Erro ao buscar preço da criptomoeda:", error);
+        throw error;
     }
 }
 
