@@ -22,12 +22,14 @@ const firestore = firebase.firestore();
 document.getElementById('form-investimentos').addEventListener('submit', async function (event) {
     event.preventDefault();
 
+    // Obtém os valores dos campos
     const valor = parseFloat(document.getElementById('valor').value);
     const descricao = document.getElementById('descricao').value.trim();
     const data = document.getElementById('data').value;
     const tipo = document.getElementById('tipo').value;
-    const ticker = document.getElementById('ticker').value.trim().toLowerCase();
+    const ticker = document.getElementById('ticker').value.trim().toLowerCase(); // Converte para minúsculas
 
+    // Validação dos campos
     if (!valor || !descricao || !data || !tipo || !ticker) {
         alert("Por favor, preencha todos os campos.");
         return;
@@ -48,6 +50,7 @@ document.getElementById('form-investimentos').addEventListener('submit', async f
         } else if (tipo === "criptomoedas") {
             precoAtual = await buscarPrecoCripto(ticker);
         } else {
+            // Para outros tipos de investimento, a quantidade será 1 (não aplicável)
             precoAtual = 1;
         }
 
@@ -91,4 +94,27 @@ document.getElementById('form-investimentos').addEventListener('submit', async f
     }
 });
 
-// Funções para buscar preços de ações e criptomoedas (mantenha as mesmas)
+// Função para buscar o preço de uma ação usando Alpha Vantage
+async function buscarPrecoAcao(ticker) {
+    const apiKey = "YII36O0SMZRKNRV0"; // Sua chave da Alpha Vantage
+    const response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${apiKey}`);
+    const data = await response.json();
+
+    if (data["Global Quote"] && data["Global Quote"]["05. price"]) {
+        return parseFloat(data["Global Quote"]["05. price"]);
+    } else {
+        throw new Error("Não foi possível obter o preço da ação.");
+    }
+}
+
+// Função para buscar o preço de uma criptomoeda usando CoinGecko
+async function buscarPrecoCripto(ticker) {
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd`);
+    const data = await response.json();
+
+    if (data[ticker] && data[ticker].usd) {
+        return parseFloat(data[ticker].usd);
+    } else {
+        throw new Error("Não foi possível obter o preço da criptomoeda.");
+    }
+}
