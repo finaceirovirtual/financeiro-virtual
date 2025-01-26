@@ -2482,7 +2482,7 @@ canvas {
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    min-width: 300px; /* Define um tamanho mínimo para os gráficos */
+    min-width: 250px; /* Tamanho mínimo para os gráficos */
     max-width: calc(50% - 10px); /* Define o tamanho máximo dos gráficos */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -2493,10 +2493,17 @@ canvas {
 }
 
 .grafico-wrapper h3 {
-    font-size: 18px;
+    font-size: 16px;
     color: #333;
     margin-bottom: 15px;
     font-weight: 600;
+    text-align: center;
+}
+
+/* Ajuste do tamanho dos gráficos */
+canvas {
+    max-width: 100%;
+    height: 200px; /* Altura fixa para os gráficos (pequenos e proporcionais) */
 }
 
 /* Estilo da lista de investimentos */
@@ -2567,12 +2574,6 @@ canvas {
     font-size: 14px;
 }
 
-/* Ajuste do tamanho dos gráficos */
-canvas {
-    max-width: 100%;
-    height: 300px; /* Altura fixa para os gráficos */
-}
-
 /* Responsividade */
 @media (max-width: 768px) {
     .graficos-lista-container {
@@ -2584,6 +2585,6 @@ canvas {
     }
 
     canvas {
-        height: 250px; /* Altura menor para telas menores */
+        height: 180px; /* Altura menor para telas menores */
     }
 }
