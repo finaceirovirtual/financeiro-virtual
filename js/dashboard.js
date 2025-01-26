@@ -280,3 +280,18 @@ document.getElementById('btn-sair').addEventListener('click', () => {
         console.error('Erro ao sair:', error);
     });
 });
+
+// Adiciona um listener para o ícone do usuário
+document.getElementById('user-icon').addEventListener('click', function(event) {
+    event.stopPropagation(); // Impede que o clique se propague para outros elementos
+    const menuContent = document.getElementById('menu-content');
+    menuContent.classList.toggle('show'); // Alterna a classe 'show' no menu
+});
+
+// Fecha o menu se clicar fora dele
+document.addEventListener('click', function(event) {
+    const menuContent = document.getElementById('menu-content');
+    if (!event.target.closest('.menu-container')) {
+        menuContent.classList.remove('show');
+    }
+});
