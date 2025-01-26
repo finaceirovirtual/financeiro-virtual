@@ -14,223 +14,138 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-// Referências globais
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
-// Variáveis globais para armazenar as instâncias dos gráficos
-let graficoGanhos = null;
-let graficoDespesas = null;
-let graficoInvestimentos = null;
+// Elementos da página
+const btnFiltrar = document.getElementById('btn-filtrar');
+const dataInicio = document.getElementById('data-inicio');
+const dataFim = document.getElementById('data-fim');
+const tabelaResumo = document.getElementById('tabela-resumo').getElementsByTagName('tbody')[0];
 
-// Função para destruir um gráfico existente
-function destruirGrafico(grafico) {
-    if (grafico) {
-        grafico.destroy();
-    }
+// Gráficos
+const ctxDespesasGanhos = document.getElementById('grafico-despesas-ganhos').getContext('2d');
+const ctxInvestimentos = document.getElementById('grafico-investimentos').getContext('2d');
+
+let graficoDespesasGanhos, graficoInvestimentos;
+
+// Função para buscar dados
+async function buscarDados(usuarioId, inicio, fim) {
+    const despesas = await firestore.collection('usuarios').doc(usuarioId).collection('despesas')
+        .where('data', '>=', inicio)
+        .where('data', '<=', fim)
+        .get();
+
+    const ganhos = await firestore.collection('usuarios').doc(usuarioId).collection('ganhos')
+        .where('data', '>=', inicio)
+        .where('data', '<=', fim)
+        .get();
+
+    const investimentos = await firestore.collection('usuarios').doc(usuarioId).collection('investimentos')
+        .where('data', '>=', inicio)
+        .where('data', '<=', fim)
+        .get();
+
+    return { despesas, ganhos, investimentos };
 }
 
-// Função para carregar os dados do Firestore
-async function carregarDados() {
-    const user = auth.currentUser;
-    if (!user) {
-        alert("Usuário não autenticado. Faça login novamente.");
-        window.location.href = "login.html";
-        return { ganhos: [], despesas: [], investimentos: [] };
-    }
+// Função para calcular totais
+function calcularTotais(despesas, ganhos, investimentos) {
+    const totalDespesas = despesas.docs.reduce((total, doc) => total + doc.data().valor, 0);
+    const totalGanhos = ganhos.docs.reduce((total, doc) => total + doc.data().valor, 0);
+    const totalInvestimentos = investimentos.docs.reduce((total, doc) => total + doc.data().valor, 0);
+    const lucro = totalGanhos - totalDespesas;
 
-    try {
-        // Busca ganhos
-        const ganhosSnapshot = await firestore.collection("usuarios").doc(user.uid).collection("ganhos").get();
-        const ganhos = ganhosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        // Busca despesas
-        const despesasSnapshot = await firestore.collection("usuarios").doc(user.uid).collection("despesas").get();
-        const despesas = despesasSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        // Busca investimentos
-        const investimentosSnapshot = await firestore.collection("usuarios").doc(user.uid).collection("investimentos").get();
-        const investimentos = investimentosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        return { ganhos, despesas, investimentos };
-    } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-        alert("Erro ao carregar dados. Tente novamente.");
-        return { ganhos: [], despesas: [], investimentos: [] };
-    }
+    return { totalDespesas, totalGanhos, totalInvestimentos, lucro };
 }
 
-// Função para filtrar os dados com base no período
-function filtrarDadosPorPeriodo(dados, periodo) {
-    const hoje = new Date();
-    console.log(`Filtrando para o período: ${periodo}`);
-    console.log("Dados antes do filtro:", dados);
+// Função para atualizar gráficos
+function atualizarGraficos(despesas, ganhos, investimentos) {
+    const labels = ['Despesas', 'Ganhos', 'Investimentos'];
+    const dadosDespesasGanhos = [despesas, ganhos, 0]; // Investimentos não entram aqui
+    const dadosInvestimentos = [0, 0, investimentos]; // Apenas investimentos
 
-    const dadosFiltrados = dados.filter(item => {
-        // Converte a data do item para um objeto Date
-        const dataItem = new Date(item.data);
-        console.log("Data do item:", dataItem);
+    if (graficoDespesasGanhos) graficoDespesasGanhos.destroy();
+    if (graficoInvestimentos) graficoInvestimentos.destroy();
 
-        switch (periodo) {
-            case 'diario':
-                // Filtra por dia
-                return (
-                    dataItem.getDate() === hoje.getDate() &&
-                    dataItem.getMonth() === hoje.getMonth() &&
-                    dataItem.getFullYear() === hoje.getFullYear()
-                );
-            case 'semanal':
-                // Filtra por semana
-                const inicioSemana = new Date(hoje);
-                inicioSemana.setDate(hoje.getDate() - hoje.getDay()); // Domingo da semana atual
-                const fimSemana = new Date(inicioSemana);
-                fimSemana.setDate(inicioSemana.getDate() + 6); // Sábado da semana atual
-                return dataItem >= inicioSemana && dataItem <= fimSemana;
-            case 'mensal':
-                // Filtra por mês
-                return (
-                    dataItem.getMonth() === hoje.getMonth() &&
-                    dataItem.getFullYear() === hoje.getFullYear()
-                );
-            case 'anual':
-                // Filtra por ano
-                return dataItem.getFullYear() === hoje.getFullYear();
-            default:
-                return true; // Sem filtro
+    graficoDespesasGanhos = new Chart(ctxDespesasGanhos, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Valores',
+                data: dadosDespesasGanhos,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+            }]
         }
     });
 
-    console.log("Dados filtrados:", dadosFiltrados);
-    return dadosFiltrados;
-}
-
-// Função para criar o gráfico de ganhos
-function criarGraficoGanhos(dados) {
-    const ctx = document.getElementById('grafico-ganhos').getContext('2d');
-    destruirGrafico(graficoGanhos); // Destrói o gráfico anterior, se existir
-    graficoGanhos = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: dados.map(g => g.descricao),
-            datasets: [{
-                label: 'Ganhos',
-                data: dados.map(g => g.valor),
-                backgroundColor: '#4CAF50',
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-        },
-    });
-}
-
-// Função para criar o gráfico de despesas
-function criarGraficoDespesas(dados) {
-    const ctx = document.getElementById('grafico-despesas').getContext('2d');
-    destruirGrafico(graficoDespesas); // Destrói o gráfico anterior, se existir
-    graficoDespesas = new Chart(ctx, {
+    graficoInvestimentos = new Chart(ctxInvestimentos, {
         type: 'pie',
         data: {
-            labels: dados.map(d => d.categoria),
+            labels: ['Investimentos'],
             datasets: [{
-                label: 'Despesas',
-                data: dados.map(d => d.valor),
-                backgroundColor: ['#FF5722', '#2196F3', '#FFD700', '#9C27B0'],
+                label: 'Valores',
+                data: dadosInvestimentos,
+                backgroundColor: ['#4BC0C0']
             }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-            },
-        },
+        }
     });
 }
 
-// Função para criar o gráfico de investimentos
-function criarGraficoInvestimentos(dados) {
-    const ctx = document.getElementById('grafico-investimentos').getContext('2d');
-    destruirGrafico(graficoInvestimentos); // Destrói o gráfico anterior, se existir
-    graficoInvestimentos = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: dados.map(i => i.data),
-            datasets: [{
-                label: 'Investimentos',
-                data: dados.map(i => i.valor),
-                borderColor: '#4CAF50',
-                fill: false,
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                },
-            },
-        },
-    });
+// Função para atualizar tabela
+function atualizarTabela(totalDespesas, totalGanhos, totalInvestimentos, lucro) {
+    tabelaResumo.innerHTML = `
+        <tr>
+            <td>Despesas</td>
+            <td>R$ ${totalDespesas.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td>Ganhos</td>
+            <td>R$ ${totalGanhos.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td>Investimentos</td>
+            <td>R$ ${totalInvestimentos.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td>Lucro</td>
+            <td>R$ ${lucro.toFixed(2)}</td>
+        </tr>
+    `;
 }
 
-// Função para alternar entre os gráficos
-async function alternarGrafico(tipo) {
-    document.querySelectorAll('.grafico').forEach(canvas => {
-        canvas.style.display = 'none';
-    });
-
-    const periodo = document.getElementById('periodo').value;
-    const { ganhos, despesas, investimentos } = await carregarDados();
-
-    if (tipo === 'ganhos') {
-        const ganhosFiltrados = filtrarDadosPorPeriodo(ganhos, periodo);
-        document.getElementById('grafico-ganhos').style.display = 'block';
-        criarGraficoGanhos(ganhosFiltrados);
-    } else if (tipo === 'despesas') {
-        const despesasFiltradas = filtrarDadosPorPeriodo(despesas, periodo);
-        document.getElementById('grafico-despesas').style.display = 'block';
-        criarGraficoDespesas(despesasFiltradas);
-    } else if (tipo === 'investimentos') {
-        const investimentosFiltrados = filtrarDadosPorPeriodo(investimentos, periodo);
-        document.getElementById('grafico-investimentos').style.display = 'block';
-        criarGraficoInvestimentos(investimentosFiltrados);
+// Evento de filtro
+btnFiltrar.addEventListener('click', async () => {
+    const usuario = auth.currentUser;
+    if (!usuario) {
+        alert("Usuário não autenticado. Faça login novamente.");
+        window.location.href = "login.html";
+        return;
     }
-}
 
-// Evento para alternar entre os gráficos
-document.getElementById('btn-ganhos').addEventListener('click', () => {
-    alternarGrafico('ganhos');
-    document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('btn-ganhos').classList.add('active');
+    const inicio = dataInicio.value;
+    const fim = dataFim.value;
+
+    if (!inicio || !fim) {
+        alert("Por favor, selecione um período.");
+        return;
+    }
+
+    const { despesas, ganhos, investimentos } = await buscarDados(usuario.uid, inicio, fim);
+    const { totalDespesas, totalGanhos, totalInvestimentos, lucro } = calcularTotais(despesas, ganhos, investimentos);
+
+    atualizarGraficos(totalDespesas, totalGanhos, totalInvestimentos);
+    atualizarTabela(totalDespesas, totalGanhos, totalInvestimentos, lucro);
 });
 
-document.getElementById('btn-despesas').addEventListener('click', () => {
-    alternarGrafico('despesas');
-    document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('btn-despesas').classList.add('active');
-});
-
-document.getElementById('btn-investimentos').addEventListener('click', () => {
-    alternarGrafico('investimentos');
-    document.querySelectorAll('.toggle-graficos button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('btn-investimentos').classList.add('active');
-});
-
-// Evento para filtrar os dados
-document.getElementById('btn-filtrar').addEventListener('click', async (e) => {
-    e.preventDefault(); // Evita o comportamento padrão do botão
-    const tipoAtivo = document.querySelector('.toggle-graficos button.active').id.replace('btn-', '');
-    await alternarGrafico(tipoAtivo); // Atualiza o gráfico ativo com o novo filtro
-});
-
-// Inicializa a página
-document.addEventListener('DOMContentLoaded', async () => {
-    await alternarGrafico('ganhos'); // Exibe o gráfico de ganhos por padrão
+// Carregar dados ao abrir a página
+window.addEventListener('load', () => {
+    const usuario = auth.currentUser;
+    if (usuario) {
+        const hoje = new Date().toISOString().split('T')[0];
+        dataInicio.value = hoje;
+        dataFim.value = hoje;
+        btnFiltrar.click(); // Carrega os dados automaticamente
+    }
 });

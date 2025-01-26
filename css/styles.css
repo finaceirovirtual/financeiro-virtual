@@ -2392,3 +2392,48 @@ canvas {
         margin-bottom: 20px;
     }
 }
+
+/* Estilos Gerais */
+.relatorios {
+    padding: 20px;
+}
+
+.filtros {
+    margin-bottom: 20px;
+}
+
+.filtros label {
+    margin-right: 10px;
+}
+
+.filtros input, .filtros button {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.graficos {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.graficos canvas {
+    width: 48%;
+    height: 300px;
+}
+
+.tabelas table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabelas th, .tabelas td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabelas th {
+    background-color: #f4f4f4;
+}
