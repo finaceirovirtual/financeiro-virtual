@@ -38,7 +38,7 @@ async function carregarDadosFinanceiros(uid) {
         const totalGanhos = ganhos.reduce((total, ganho) => total + ganho.valor, 0);
         const totalDespesas = despesas.reduce((total, despesa) => total + despesa.valor, 0);
 
-        // Atualiza os preços dos investimentos
+        // Atualiza os preços dos investimentos e exibe a quantidade de cada um
         const totalInvestimentos = await atualizarPrecosInvestimentos(investimentos);
 
         const saldoAtual = totalGanhos - totalDespesas - totalInvestimentos;
@@ -69,31 +69,70 @@ async function recuperarDados(uid, colecao) {
     }
 }
 
-// Função para buscar preços atuais dos investimentos
+// Função para buscar preços atuais dos investimentos e exibir a quantidade
 async function atualizarPrecosInvestimentos(investimentos) {
     const apiKeyAlphaVantage = 'YII36O0SMZRKNRV0'; // Sua chave da Alpha Vantage
     let totalInvestimentos = 0;
+
+    // Limpa a lista de investimentos antes de exibir os novos
+    const listaInvestimentos = document.getElementById('lista-investimentos');
+    listaInvestimentos.innerHTML = "";
 
     for (const investimento of investimentos) {
         let precoAtual = 0;
 
         if (investimento.tipo === 'acoes') {
             // Busca o preço da ação usando Alpha Vantage
-            const response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${investimento.ticker}&apikey=${apiKeyAlphaVantage}`);
-            const data = await response.json();
-            precoAtual = parseFloat(data['Global Quote']['05. price']);
+            precoAtual = await buscarPrecoAcao(investimento.ticker, apiKeyAlphaVantage);
         } else if (investimento.tipo === 'criptomoedas') {
             // Busca o preço da criptomoeda usando CoinGecko
-            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${investimento.ticker}&vs_currencies=usd`);
-            const data = await response.json();
-            precoAtual = parseFloat(data[investimento.ticker].usd);
+            precoAtual = await buscarPrecoCripto(investimento.ticker);
+        } else {
+            // Para outros tipos de investimento, o preço é 1 (não aplicável)
+            precoAtual = 1;
         }
 
-        // Atualiza o valor total do investimento
-        totalInvestimentos += precoAtual * investimento.quantidade;
+        // Calcula o valor atual do investimento
+        const valorAtual = precoAtual * investimento.quantidade;
+        totalInvestimentos += valorAtual;
+
+        // Exibe o investimento na lista
+        const itemInvestimento = document.createElement('div');
+        itemInvestimento.className = 'item-investimento';
+        itemInvestimento.innerHTML = `
+            <strong>${investimento.descricao}</strong><br>
+            <span>Valor Investido: R$ ${investimento.valor.toFixed(2)}</span><br>
+            <span>Quantidade: ${investimento.quantidade.toFixed(8)} ${investimento.ticker.toUpperCase()}</span><br>
+            <span>Valor Atual: R$ ${valorAtual.toFixed(2)}</span>
+        `;
+        listaInvestimentos.appendChild(itemInvestimento);
     }
 
     return totalInvestimentos;
+}
+
+// Função para buscar o preço de uma ação usando Alpha Vantage
+async function buscarPrecoAcao(ticker, apiKey) {
+    const response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${apiKey}`);
+    const data = await response.json();
+
+    if (data["Global Quote"] && data["Global Quote"]["05. price"]) {
+        return parseFloat(data["Global Quote"]["05. price"]);
+    } else {
+        throw new Error("Não foi possível obter o preço da ação.");
+    }
+}
+
+// Função para buscar o preço de uma criptomoeda usando CoinGecko
+async function buscarPrecoCripto(ticker) {
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd`);
+    const data = await response.json();
+
+    if (data[ticker] && data[ticker].usd) {
+        return parseFloat(data[ticker].usd);
+    } else {
+        throw new Error("Não foi possível obter o preço da criptomoeda.");
+    }
 }
 
 // Função para criar o gráfico de despesas
