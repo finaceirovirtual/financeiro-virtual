@@ -39,7 +39,7 @@ async function carregarDadosFinanceiros(uid) {
         // Exibe o saldo atual
         document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
 
-        // Recupera e exibe despesas e investimentos (sem recalcular o saldo)
+        // Recupera e exibe despesas e investimentos
         const despesas = await recuperarDados(uid, "despesas");
         const investimentos = await recuperarDados(uid, "investimentos");
 
