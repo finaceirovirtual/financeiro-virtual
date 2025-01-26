@@ -49,6 +49,24 @@ document.getElementById('form-ganhos').addEventListener('submit', async function
             dataRegistro: new Date().toISOString()
         });
 
+        // Atualiza o saldo atual (adiciona o valor do ganho)
+        const saldoAtualRef = firestore.collection("usuarios").doc(user.uid).collection("saldo").doc("atual");
+        const saldoAtualDoc = await saldoAtualRef.get();
+
+        if (saldoAtualDoc.exists) {
+            const saldoAtual = saldoAtualDoc.data().valor;
+            const novoSaldo = saldoAtual + valor;
+
+            await saldoAtualRef.update({
+                valor: novoSaldo
+            });
+        } else {
+            // Se o saldo não existir, cria um novo saldo
+            await saldoAtualRef.set({
+                valor: valor
+            });
+        }
+
         alert("Ganho salvo com sucesso!");
         window.location.href = "dashboard.html"; // Redireciona para o dashboard
     } catch (error) {

@@ -31,23 +31,26 @@ auth.onAuthStateChanged((user) => {
 // Função para carregar dados financeiros
 async function carregarDadosFinanceiros(uid) {
     try {
-        const ganhos = await recuperarDados(uid, "ganhos");
+        // Recupera o saldo atual
+        const saldoAtualRef = db.collection("usuarios").doc(uid).collection("saldo").doc("atual");
+        const saldoAtualDoc = await saldoAtualRef.get();
+        const saldoAtual = saldoAtualDoc.exists ? saldoAtualDoc.data().valor : 0;
+
+        // Exibe o saldo atual
+        document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
+
+        // Recupera e exibe despesas e investimentos (sem recalcular o saldo)
         const despesas = await recuperarDados(uid, "despesas");
         const investimentos = await recuperarDados(uid, "investimentos");
 
-        const totalGanhos = ganhos.reduce((total, ganho) => total + ganho.valor, 0);
         const totalDespesas = despesas.reduce((total, despesa) => total + despesa.valor, 0);
-
-        // Atualiza os preços dos investimentos e exibe a quantidade de cada um
         const totalInvestimentos = await atualizarPrecosInvestimentos(investimentos);
 
-        const saldoAtual = totalGanhos - totalDespesas - totalInvestimentos;
-
-        document.getElementById('saldo-atual').textContent = `R$ ${saldoAtual.toFixed(2)}`;
         document.getElementById('despesas-mes').textContent = `R$ ${totalDespesas.toFixed(2)}`;
         document.getElementById('investimentos').textContent = `R$ ${totalInvestimentos.toFixed(2)}`;
 
-        criarGraficoDespesas(ganhos, despesas, investimentos);
+        // Cria os gráficos
+        criarGraficoDespesas(despesas);
         criarGraficoInvestimentos(investimentos);
     } catch (error) {
         console.error("Erro ao carregar dados financeiros:", error);
@@ -165,23 +168,12 @@ async function buscarPrecoCripto(ticker) {
 }
 
 // Função para criar o gráfico de despesas
-function criarGraficoDespesas(ganhos, despesas, investimentos) {
+function criarGraficoDespesas(despesas) {
     const ctx = document.getElementById('grafico-despesas');
     if (!ctx) return;
 
     const meses = {};
     const mesesUnicos = new Set();
-
-    ganhos.forEach(ganho => {
-        const data = new Date(ganho.data);
-        const mesAno = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
-        mesesUnicos.add(mesAno);
-
-        if (!meses[mesAno]) {
-            meses[mesAno] = { ganhos: 0, despesas: 0, investimentos: 0 };
-        }
-        meses[mesAno].ganhos += ganho.valor;
-    });
 
     despesas.forEach(despesa => {
         const data = new Date(despesa.data);
@@ -189,27 +181,14 @@ function criarGraficoDespesas(ganhos, despesas, investimentos) {
         mesesUnicos.add(mesAno);
 
         if (!meses[mesAno]) {
-            meses[mesAno] = { ganhos: 0, despesas: 0, investimentos: 0 };
+            meses[mesAno] = { despesas: 0 };
         }
         meses[mesAno].despesas += despesa.valor;
-    });
-
-    investimentos.forEach(investimento => {
-        const data = new Date(investimento.data);
-        const mesAno = `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, '0')}`;
-        mesesUnicos.add(mesAno);
-
-        if (!meses[mesAno]) {
-            meses[mesAno] = { ganhos: 0, despesas: 0, investimentos: 0 };
-        }
-        meses[mesAno].investimentos += investimento.valor;
     });
 
     const mesesOrdenados = Array.from(mesesUnicos).sort();
     const labels = mesesOrdenados;
     const dadosGastos = mesesOrdenados.map(mes => meses[mes].despesas);
-    const dadosSaldo = mesesOrdenados.map(mes => meses[mes].ganhos - meses[mes].despesas - meses[mes].investimentos);
-    const dadosInvestimentos = mesesOrdenados.map(mes => meses[mes].investimentos);
 
     new Chart(ctx.getContext('2d'), {
         type: 'bar',
@@ -220,16 +199,6 @@ function criarGraficoDespesas(ganhos, despesas, investimentos) {
                     label: 'Gastos',
                     data: dadosGastos,
                     backgroundColor: '#FF5722',
-                },
-                {
-                    label: 'Saldo Final',
-                    data: dadosSaldo,
-                    backgroundColor: '#4CAF50',
-                },
-                {
-                    label: 'Investimentos',
-                    data: dadosInvestimentos,
-                    backgroundColor: '#FFD700',
                 }
             ]
         },
