@@ -1,4 +1,3 @@
-
 // Configuração do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyD_K7ESDO4c9ja_mFNF2RGjx7KOxWPzuXo",
@@ -27,8 +26,10 @@ document.getElementById('form-investimentos').addEventListener('submit', async f
     const descricao = document.getElementById('descricao').value.trim();
     const data = document.getElementById('data').value;
     const tipo = document.getElementById('tipo').value;
+    const ticker = document.getElementById('ticker').value.trim();
+    const quantidade = parseFloat(document.getElementById('quantidade').value);
 
-    if (!valor || !descricao || !data || !tipo) {
+    if (!valor || !descricao || !data || !tipo || !ticker || !quantidade) {
         alert("Por favor, preencha todos os campos.");
         return;
     }
@@ -47,6 +48,8 @@ document.getElementById('form-investimentos').addEventListener('submit', async f
             descricao: descricao,
             data: data,
             tipo: tipo,
+            ticker: ticker,
+            quantidade: quantidade,
             dataRegistro: new Date().toISOString()
         });
 

@@ -37,7 +37,9 @@ async function carregarDadosFinanceiros(uid) {
 
         const totalGanhos = ganhos.reduce((total, ganho) => total + ganho.valor, 0);
         const totalDespesas = despesas.reduce((total, despesa) => total + despesa.valor, 0);
-        const totalInvestimentos = investimentos.reduce((total, investimento) => total + investimento.valor, 0);
+
+        // Atualiza os preços dos investimentos
+        const totalInvestimentos = await atualizarPrecosInvestimentos(investimentos);
 
         const saldoAtual = totalGanhos - totalDespesas - totalInvestimentos;
 
@@ -65,6 +67,33 @@ async function recuperarDados(uid, colecao) {
         console.error(`Erro ao recuperar ${colecao}:`, error);
         return [];
     }
+}
+
+// Função para buscar preços atuais dos investimentos
+async function atualizarPrecosInvestimentos(investimentos) {
+    const apiKeyAlphaVantage = 'YII36O0SMZRKNRV0'; // Sua chave da Alpha Vantage
+    let totalInvestimentos = 0;
+
+    for (const investimento of investimentos) {
+        let precoAtual = 0;
+
+        if (investimento.tipo === 'acoes') {
+            // Busca o preço da ação usando Alpha Vantage
+            const response = await fetch(`https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${investimento.ticker}&apikey=${apiKeyAlphaVantage}`);
+            const data = await response.json();
+            precoAtual = parseFloat(data['Global Quote']['05. price']);
+        } else if (investimento.tipo === 'criptomoedas') {
+            // Busca o preço da criptomoeda usando CoinGecko
+            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${investimento.ticker}&vs_currencies=usd`);
+            const data = await response.json();
+            precoAtual = parseFloat(data[investimento.ticker].usd);
+        }
+
+        // Atualiza o valor total do investimento
+        totalInvestimentos += precoAtual * investimento.quantidade;
+    }
+
+    return totalInvestimentos;
 }
 
 // Função para criar o gráfico de despesas
