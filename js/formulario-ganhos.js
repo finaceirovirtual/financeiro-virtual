@@ -14,11 +14,9 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-// Use o Firebase globalmente
+// Referências globais
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const collection = firestore.collection;
-const addDoc = firestore.addDoc;
 
 // Adiciona um listener para o formulário
 document.getElementById('form-ganhos').addEventListener('submit', async function (event) {
@@ -43,7 +41,7 @@ document.getElementById('form-ganhos').addEventListener('submit', async function
         }
 
         // Salva o ganho no Firestore
-        await addDoc(collection(firestore, "usuarios", user.uid, "ganhos"), {
+        await firestore.collection("usuarios").doc(user.uid).collection("ganhos").add({
             valor: valor,
             descricao: descricao,
             data: data,

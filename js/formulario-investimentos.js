@@ -14,11 +14,9 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-// Use o Firebase globalmente
+// Referências globais
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const collection = firestore.collection;
-const addDoc = firestore.addDoc;
 
 // Adiciona um listener para o formulário
 document.getElementById('form-investimentos').addEventListener('submit', async function (event) {
@@ -43,7 +41,7 @@ document.getElementById('form-investimentos').addEventListener('submit', async f
         }
 
         // Salva o investimento no Firestore
-        await addDoc(collection(firestore, "usuarios", user.uid, "investimentos"), {
+        await firestore.collection("usuarios").doc(user.uid).collection("investimentos").add({
             valor: valor,
             descricao: descricao,
             data: data,
@@ -54,7 +52,7 @@ document.getElementById('form-investimentos').addEventListener('submit', async f
         alert("Investimento salvo com sucesso!");
         window.location.href = "dashboard.html"; // Redireciona para o dashboard
     } catch (error) {
-        console.error("Erro ao salvar investimento:", error.message);
+        console.error("Erro ao salvar investimento:", error);
         alert("Erro ao salvar investimento: " + error.message);
     }
 });

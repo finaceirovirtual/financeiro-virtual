@@ -14,11 +14,9 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-// Use o Firebase globalmente
+// Referências globais
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const collection = firestore.collection;
-const addDoc = firestore.addDoc;
 
 // Adiciona um listener para o formulário
 document.getElementById('form-despesa').addEventListener('submit', async function (event) {
@@ -43,7 +41,7 @@ document.getElementById('form-despesa').addEventListener('submit', async functio
         }
 
         // Salva a despesa no Firestore
-        await addDoc(collection(firestore, "usuarios", user.uid, "despesas"), {
+        await firestore.collection("usuarios").doc(user.uid).collection("despesas").add({
             descricao: descricao,
             valor: valor,
             data: data,
@@ -54,7 +52,7 @@ document.getElementById('form-despesa').addEventListener('submit', async functio
         alert("Despesa salva com sucesso!");
         window.location.href = "dashboard.html"; // Redireciona para o dashboard
     } catch (error) {
-        console.error("Erro ao salvar despesa:", error.message);
+        console.error("Erro ao salvar despesa:", error);
         alert("Erro ao salvar despesa: " + error.message);
     }
 });
