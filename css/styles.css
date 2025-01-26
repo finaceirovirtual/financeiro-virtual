@@ -2467,29 +2467,34 @@ canvas {
     background-color: #f4f4f4;
 }
 
-/* Estilos para o layout do gráfico e lista */
+/* Container dos gráficos e lista de investimentos */
 .graficos-lista-container {
     display: flex;
     gap: 20px;
     margin-top: 20px;
+    flex-wrap: wrap; /* Permite que os elementos quebrem para a próxima linha em telas menores */
 }
 
+/* Estilo de cada gráfico */
 .grafico-wrapper {
     flex: 1;
     background: #fff;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 30%; /* Define o tamanho máximo dos gráficos */
+    min-width: 300px; /* Define um tamanho mínimo para os gráficos */
+    max-width: calc(50% - 10px); /* Define o tamanho máximo dos gráficos */
 }
 
+/* Estilo da lista de investimentos */
 .lista-investimentos-wrapper {
     flex: 1;
     background: #fff;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 30%; /* Define o tamanho máximo da lista */
+    min-width: 300px; /* Define um tamanho mínimo para a lista */
+    max-width: calc(50% - 10px); /* Define o tamanho máximo da lista */
 }
 
 .lista-investimentos-wrapper h3 {
@@ -2539,4 +2544,15 @@ canvas {
 
 .investimento-detalhes span {
     font-size: 14px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .graficos-lista-container {
+        flex-direction: column;
+    }
+
+    .grafico-wrapper, .lista-investimentos-wrapper {
+        max-width: 100%; /* Faz com que os gráficos e a lista ocupem 100% da largura em telas menores */
+    }
 }
