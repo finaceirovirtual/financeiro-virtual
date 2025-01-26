@@ -65,7 +65,7 @@
             <h2>Adicionar Investimentos</h2>
             <form id="form-investimentos">
                 <div class="campo">
-                    <label for="valor">Valor</label>
+                    <label for="valor">Valor Investido (R$)</label>
                     <input type="number" id="valor" name="valor" step="0.01" required>
                 </div>
                 <div class="campo">
@@ -90,10 +90,8 @@
                     <label for="ticker">Ticker (Código do Ativo)</label>
                     <input type="text" id="ticker" name="ticker" required>
                 </div>
-                <div class="campo">
-                    <label for="quantidade">Quantidade</label>
-                    <input type="number" id="quantidade" name="quantidade" step="0.01" required>
-                </div>
+                <!-- Campo oculto para a quantidade calculada -->
+                <input type="hidden" id="quantidade" name="quantidade">
                 <button type="submit" class="btn-salvar">Salvar</button>
             </form>
         </section>
